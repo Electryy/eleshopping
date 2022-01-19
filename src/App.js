@@ -1,19 +1,42 @@
 import logo from "./logo.svg";
 import "./App.css";
+import { Routes, Route, Outlet, Link } from "react-router-dom";
 
 function App() {
   return (
     <div className="App">
-      <div class="container mx-auto flex flex-row">
-        <a href="#jeah" class="border border-indigo-600 grow p-2">
-          Shopping
-        </a>
-        <a href="#jouh" class="border border-indigo-600 grow p-2">
-          Recepies
-        </a>
-      </div>
+      <Routes>
+        <Route path="/" element={<TopNav />}>
+          <Route index element={<Home />} />
+          <Route path="about" element={<About />} />
+        </Route>
+      </Routes>
     </div>
   );
 }
 
+function TopNav() {
+  return (
+    <div>
+      <Link to="/">Shopping</Link>
+      <Link to="/about">About</Link>
+      <Outlet />
+    </div>
+  );
+}
+function Home() {
+  return (
+    <div>
+      <h2>Home</h2>
+    </div>
+  );
+}
+
+function About() {
+  return (
+    <div>
+      <h2>About</h2>
+    </div>
+  );
+}
 export default App;
