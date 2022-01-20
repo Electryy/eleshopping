@@ -1,6 +1,6 @@
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
-import NavBar from "./NavBar";
+import MainLayout from "./MainLayout";
 import Shopping from "./Shopping";
 import Recipe from "./Recipe";
 
@@ -8,7 +8,7 @@ function App() {
   return (
     <div className="App">
       <Routes>
-        <Route path="/" element={<NavBar />}>
+        <Route path="/" element={<MainLayout />}>
           <Route index element={<Shopping />} />
           <Route path="recipes" element={<Recipe />} />
         </Route>
