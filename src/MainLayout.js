@@ -1,10 +1,10 @@
-import { Outlet, Link } from "react-router-dom";
+import { Outlet, NavLink } from "react-router-dom";
 
 function MainLayout() {
   return (
     <div>
       <Outlet />
-      <div class="fixed bottom-0 left-0 right-0 flex">
+      <div className="tabs tabs-boxed fixed bottom-0 left-0 right-0 flex">
         <MainLink to="/" label="Shopping List" />
         <MainLink to="/recipes" label="Recepies" />
       </div>
@@ -12,10 +12,11 @@ function MainLayout() {
   );
 }
 function MainLink({ to, label }) {
+  const cssClass = "tab tab-lg flex-1";
   return (
-    <Link to={to} className="border flex-1 p-2 md:p-5">
+    <NavLink to={to} className={("tab tab-lg flex-1", ({ isActive }) => (isActive ? `${cssClass} tab-active` : cssClass))}>
       {label}
-    </Link>
+    </NavLink>
   );
 }
 
