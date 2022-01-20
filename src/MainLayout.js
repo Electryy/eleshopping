@@ -2,7 +2,7 @@ import { Outlet, NavLink } from "react-router-dom";
 
 function MainLayout() {
   return (
-    <div>
+    <div className="container prose mx-auto p-2">
       <Outlet />
       <div className="tabs tabs-boxed fixed bottom-0 left-0 right-0 flex">
         <MainLink to="/" label="Shopping List" />
@@ -12,9 +12,9 @@ function MainLayout() {
   );
 }
 function MainLink({ to, label }) {
-  const cssClass = "tab tab-lg flex-1";
+  const cssClass = "tab tab-lg flex-1 no-underline";
   return (
-    <NavLink to={to} className={("tab tab-lg flex-1", ({ isActive }) => (isActive ? `${cssClass} tab-active` : cssClass))}>
+    <NavLink to={to} className={({ isActive }) => (isActive ? `${cssClass} tab-active` : cssClass)}>
       {label}
     </NavLink>
   );
