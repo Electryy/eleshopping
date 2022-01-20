@@ -7,8 +7,8 @@ function App() {
     <div className="App">
       <Routes>
         <Route path="/" element={<TopNav />}>
-          <Route index element={<Home />} />
-          <Route path="about" element={<About />} />
+          <Route index element={<Shopping />} />
+          <Route path="recepies" element={<Recepies />} />
         </Route>
       </Routes>
     </div>
@@ -18,24 +18,31 @@ function App() {
 function TopNav() {
   return (
     <div>
-      <Link to="/">Shopping</Link>
-      <Link to="/about">About</Link>
+      <MainLink to="/recepies" text="Recepies" />
+      <MainLink to="/" text="Shopping" />
       <Outlet />
     </div>
   );
 }
-function Home() {
+function MainLink({ to, text }) {
+  return (
+    <Link to={to} className="border">
+      {text}
+    </Link>
+  );
+}
+function Shopping() {
   return (
     <div>
-      <h2>Home</h2>
+      <h2>Shopping</h2>
     </div>
   );
 }
 
-function About() {
+function Recepies() {
   return (
     <div>
-      <h2>About</h2>
+      <h2>Recepies</h2>
     </div>
   );
 }
