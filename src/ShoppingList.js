@@ -1,5 +1,6 @@
 import React from "react";
 import CheckboxItem from "./CheckboxItem";
+import AddItemBtn from "./AddItemBtn";
 class ShoppingList extends React.Component {
   constructor(props) {
     super(props);
@@ -26,8 +27,10 @@ class ShoppingList extends React.Component {
         {this.state.shoppingList.map((item) => (
           <CheckboxItem key={item.id} id={item.id} label={item.label} checked={item.checked} handleChange={() => this.handleChange(item.id)} />
         ))}
+        <AddItemBtn />
       </div>
     );
   }
 }
+
 export default ShoppingList;
