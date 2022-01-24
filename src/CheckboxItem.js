@@ -4,18 +4,18 @@ import { DotsVerticalIcon } from "@heroicons/react/solid";
 class CheckboxItem extends React.Component {
   constructor(props) {
     super(props);
-    this.textChange = this.textChange.bind(this);
+    this.itemChanged = this.itemChanged.bind(this);
   }
 
-  textChange(e) {
-    this.props.textChange(e.target);
+  itemChanged(e) {
+    this.props.itemChanged(e.target);
   }
   render() {
     return (
       <label className="cursor-pointer label justify-start">
         <DragIcon />
-        <input name={this.props.id} type="checkbox" className="checkbox checkbox-lg mr-5" checked={this.props.checked} onChange={(e) => this.props.checkBoxClick(e.target)} />
-        <input name={this.props.id} value={this.props.text} type="text" placeholder="username" className="input grow input-ghost p-0 text-xl" onChange={this.textChange}></input>
+        <input name={this.props.id} type="checkbox" className="checkbox checkbox-lg mr-5" checked={this.props.checked} onChange={this.itemChanged} />
+        <input name={this.props.id} value={this.props.text} type="text" placeholder="" className="input grow input-ghost p-0 text-xl" onChange={this.itemChanged}></input>
       </label>
     );
   }

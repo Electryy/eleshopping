@@ -11,32 +11,25 @@ class ShoppingList extends React.Component {
       ],
     };
 
-    this.checkBoxClick = this.checkBoxClick.bind(this);
-    this.textChange = this.textChange.bind(this);
+    this.itemChanged = this.itemChanged.bind(this);
   }
 
-  checkBoxClick(target) {
+  itemChanged(target) {
     const id = target.name;
     let shoppingList = [...this.state.shoppingList];
-    const index = shoppingList.findIndex((item) => item.id === id);
-    shoppingList[index].checked = !shoppingList[index].checked;
-    this.setState({ shoppingList: shoppingList });
-  }
-  textChange(target) {
-    const id = target.name;
-
-    let shoppingList = [...this.state.shoppingList];
-    const index = shoppingList.findIndex((item) => item.id === id);
-
-    shoppingList[index].text = target.value;
-    console.log(shoppingList);
+    let item = shoppingList.find((item) => item.id === id);
+    if (target.type === "checkbox") {
+      item.checked = target.checked;
+    } else {
+      item.text = target.value;
+    }
     this.setState({ shoppingList: shoppingList });
   }
   render() {
     return (
       <div className="form-control">
         {this.state.shoppingList.map((item) => (
-          <CheckboxItem key={item.id} id={item.id} text={item.text} checked={item.checked} checkBoxClick={this.checkBoxClick} textChange={this.textChange} />
+          <CheckboxItem key={item.id} id={item.id} text={item.text} checked={item.checked} itemChanged={this.itemChanged} />
         ))}
         <AddItemBtn />
       </div>
