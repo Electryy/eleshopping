@@ -1,5 +1,5 @@
 import React from "react";
-
+import CheckboxItem from "./CheckboxItem";
 class ShoppingList extends React.Component {
   constructor(props) {
     super(props);
@@ -31,12 +31,3 @@ class ShoppingList extends React.Component {
   }
 }
 export default ShoppingList;
-
-function CheckboxItem(props) {
-  return (
-    <label className="cursor-pointer label">
-      <span className="label-text text-lg">{props.label}</span>
-      <input name={props.id} type="checkbox" className="checkbox checkbox-md" checked={props.checked} onChange={() => props.handleChange(props.id)} />
-    </label>
-  );
-}
