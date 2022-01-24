@@ -13,11 +13,10 @@ class ShoppingList extends React.Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
-  handleChange(event) {
-    const id = event.target.name;
-    const checked = event.target.checked;
-    let shoppingList = this.state.shoppingList;
-    shoppingList.find((item) => item.id === id).checked = checked;
+  handleChange(id) {
+    let shoppingList = [...this.state.shoppingList];
+    const index = shoppingList.findIndex((item) => item.id === id);
+    shoppingList[index].checked = !shoppingList[index].checked;
     this.setState({ shoppingList: shoppingList });
   }
 
@@ -25,13 +24,19 @@ class ShoppingList extends React.Component {
     return (
       <div className="form-control">
         {this.state.shoppingList.map((item) => (
-          <label className="cursor-pointer label">
-            <span className="label-text text-lg">{item.label}</span>
-            <input name={item.id} type="checkbox" className="checkbox checkbox-md" checked={item.checked} onChange={this.handleChange} />
-          </label>
+          <CheckboxItem key={item.id} id={item.id} label={item.label} checked={item.checked} handleChange={() => this.handleChange(item.id)} />
         ))}
       </div>
     );
   }
 }
 export default ShoppingList;
+
+function CheckboxItem(props) {
+  return (
+    <label className="cursor-pointer label">
+      <span className="label-text text-lg">{props.label}</span>
+      <input name={props.id} type="checkbox" className="checkbox checkbox-md" checked={props.checked} onChange={() => props.handleChange(props.id)} />
+    </label>
+  );
+}
