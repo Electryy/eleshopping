@@ -23,7 +23,6 @@ class ShoppingList extends React.Component {
   itemChanged(target) {
     const id = target.name;
     let shoppingList = [...this.state.shoppingList];
-    console.log(shoppingList);
     let item = shoppingList.find((item) => item.id === id);
     if (target.type === "checkbox") {
       item.checked = target.checked;
@@ -40,7 +39,6 @@ class ShoppingList extends React.Component {
   }
 
   deleteItem(id) {
-    console.log(id);
     let shoppingList = [...this.state.shoppingList];
     shoppingList = shoppingList.filter((item) => item.id !== id);
     this.setState({ shoppingList: shoppingList });
