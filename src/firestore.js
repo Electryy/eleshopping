@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, doc, getDocs, setDoc, deleteDoc } from "firebase/firestore";
 const firebaseApp = initializeApp({
   apiKey: process.env.REACT_APP_apiKey,
   authDomain: process.env.REACT_APP_authDomain,
@@ -12,12 +12,24 @@ const firebaseApp = initializeApp({
 
 const db = getFirestore();
 
-export async function dbCreate(item) {
+export async function dbPush(item) {
   try {
-    const docRef = await addDoc(collection(db, "shopping_list"), { item });
-    console.log("Document written with ID: ", docRef.id);
-    return "success";
+    await setDoc(doc(db, "shopping_list", item.id), item);
+    console.log("saved");
   } catch (e) {
     console.error("Error adding document: ", e);
   }
+}
+export async function dbPull() {
+  const querySnapshot = await getDocs(collection(db, "shopping_list"));
+  let shoppingList = [];
+  console.log(querySnapshot);
+  querySnapshot.forEach((doc) => {
+    shoppingList.push(doc.data());
+  });
+  return shoppingList;
+}
+
+export async function dbDelete(id) {
+  await deleteDoc(doc(db, "shopping_list", id));
 }

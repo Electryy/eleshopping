@@ -1,5 +1,6 @@
 import React from "react";
 import { DotsVerticalIcon, TrashIcon } from "@heroicons/react/solid";
+import { dbPush } from "./firestore";
 
 class CheckboxItem extends React.Component {
   constructor(props) {
@@ -15,10 +16,12 @@ class CheckboxItem extends React.Component {
   }
 
   toggleFocus(e) {
+    const id = e.target.name;
     if (e.type === "focus") {
       this.setState({ isEditing: true });
     } else if (e.type === "blur") {
       this.setState({ isEditing: false });
+      this.props.updateItem(id);
     }
   }
 
@@ -26,6 +29,7 @@ class CheckboxItem extends React.Component {
     const id = e.target.name;
     this.props.deleteItem(id);
   }
+
   render() {
     return (
       <label className="cursor-pointer label justify-start relative">
