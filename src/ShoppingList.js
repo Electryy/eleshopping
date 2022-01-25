@@ -30,20 +30,19 @@ class ShoppingList extends React.Component {
     this.setState({ shoppingList: shoppingList });
   }
 
-  addItem() {
+  addItem(value) {
     let shoppingList = [...this.state.shoppingList];
-    shoppingList.push({ id: uuid(), text: "", checked: false });
+    shoppingList.push({ id: uuid(), text: value, checked: false });
     this.setState({ shoppingList: shoppingList });
   }
 
   render() {
     return (
       <div className="form-control">
-        <AddItemControls />
+        <AddItemControls addItem={this.addItem} />
         {this.state.shoppingList.map((item) => (
           <CheckboxItem key={item.id} id={item.id} text={item.text} checked={item.checked} itemChanged={this.itemChanged} />
         ))}
-        <AddItemBtn addItem={this.addItem} />
       </div>
     );
   }

@@ -16,6 +16,11 @@ class AddItemControls extends React.Component {
     }
   }
   addItem() {
+    if (this.inputElement.value) {
+      this.props.addItem(this.inputElement.value);
+      this.inputElement.value = "";
+    }
+
     this.setState({ inputIsActive: true });
     this.inputElement.focus();
   }
