@@ -3,8 +3,7 @@ import CheckboxItem from "./CheckboxItem";
 import ClearCheckedBtn from "./ClearCheckedBtn";
 import AddItemControls from "./AddItemControls";
 import { v4 as uuid } from "uuid";
-import db from "./firestore";
-import { collection, addDoc } from "firebase/firestore";
+import { dbCreate } from "./firestore";
 class ShoppingList extends React.Component {
   constructor(props) {
     super(props);
@@ -34,19 +33,17 @@ class ShoppingList extends React.Component {
     this.setState({ shoppingList: shoppingList });
   }
 
-  async addItem(value) {
+  addItem(value) {
     let shoppingList = [...this.state.shoppingList];
+    const shoppingListHistory = [...this.state.shoppingList];
     const newItem = { id: uuid(), text: value, checked: false, isCleared: false };
-    shoppingList.unshift({ newItem });
-    try {
-      const docRef = await addDoc(collection(db, "shopping_list"), {
-        newItem,
-      });
-      console.log("Document written with ID: ", docRef.id);
-    } catch (e) {
-      console.error("Error adding document: ", e);
-    }
+    shoppingList.unshift(newItem);
     this.setState({ shoppingList: shoppingList });
+    dbCreate(newItem).then((result) => {
+      if (result !== "sucess") {
+        this.setState({ shoppingList: shoppingListHistory });
+      }
+    });
   }
 
   deleteItem(id) {
