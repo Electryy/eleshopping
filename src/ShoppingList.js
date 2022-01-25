@@ -11,11 +11,12 @@ class ShoppingList extends React.Component {
       shoppingList: [],
     };
 
-    this.itemChanged = this.itemChanged.bind(this);
+    this.inputChanged = this.inputChanged.bind(this);
     this.addItem = this.addItem.bind(this);
     this.clearChecked = this.clearChecked.bind(this);
     this.deleteItem = this.deleteItem.bind(this);
     this.updateItem = this.updateItem.bind(this);
+    this.checkboxClicked = this.checkboxClicked.bind(this);
   }
 
   async componentDidMount() {
@@ -24,16 +25,19 @@ class ShoppingList extends React.Component {
     this.setState({ shoppingList: shoppingList });
   }
 
-  itemChanged(target) {
+  inputChanged(target) {
     const id = target.name;
     let shoppingList = [...this.state.shoppingList];
     let item = shoppingList.find((item) => item.id === id);
-    if (target.type === "checkbox") {
-      item.checked = target.checked;
-    } else {
-      item.text = target.value;
-    }
+    item.text = target.value;
     this.setState({ shoppingList: shoppingList });
+  }
+  checkboxClicked(id) {
+    let shoppingList = [...this.state.shoppingList];
+    let item = shoppingList.find((item) => item.id === id);
+    item.checked = !item.checked;
+    this.setState({ shoppingList: shoppingList });
+    dbPush(item);
   }
 
   async addItem(value) {
@@ -79,7 +83,8 @@ class ShoppingList extends React.Component {
               id={item.id}
               text={item.text}
               checked={item.checked}
-              itemChanged={this.itemChanged}
+              inputChanged={this.inputChanged}
+              checkboxClicked={this.checkboxClicked}
               deleteItem={this.deleteItem}
               updateItem={this.updateItem}
             />

@@ -5,14 +5,20 @@ import { dbPush } from "./firestore";
 class CheckboxItem extends React.Component {
   constructor(props) {
     super(props);
-    this.itemChanged = this.itemChanged.bind(this);
+    this.inputChanged = this.inputChanged.bind(this);
     this.toggleFocus = this.toggleFocus.bind(this);
     this.deleteItem = this.deleteItem.bind(this);
+    this.checkboxClicked = this.checkboxClicked.bind(this);
     this.state = { isEditing: false };
   }
 
-  itemChanged(e) {
-    this.props.itemChanged(e.target);
+  inputChanged(e) {
+    this.props.inputChanged(e.target);
+  }
+
+  checkboxClicked(e) {
+    const id = e.target.name;
+    this.props.checkboxClicked(id);
   }
 
   toggleFocus(e) {
@@ -34,14 +40,14 @@ class CheckboxItem extends React.Component {
     return (
       <label className="cursor-pointer label justify-start relative">
         <DragIcon />
-        <input name={this.props.id} type="checkbox" className="checkbox checkbox-lg mr-5" checked={this.props.checked} onChange={this.itemChanged} />
+        <input name={this.props.id} type="checkbox" className="checkbox checkbox-lg mr-5" checked={this.props.checked} onChange={this.checkboxClicked} />
         <input
           name={this.props.id}
           value={this.props.text}
           type="text"
           placeholder=""
           className="input grow input-ghost p-0 text-xl"
-          onChange={this.itemChanged}
+          onChange={this.inputChanged}
           onFocus={this.toggleFocus}
           onBlur={this.toggleFocus}
         ></input>
