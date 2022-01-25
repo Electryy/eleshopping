@@ -4,15 +4,15 @@ import { PlusIcon } from "@heroicons/react/solid";
 class AddItemControls extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { inputIsActive: false };
+    this.state = { isEditing: false };
     this.toggleFocus = this.toggleFocus.bind(this);
     this.addItem = this.addItem.bind(this);
   }
   toggleFocus(e) {
     if (e.type === "focus") {
-      this.setState({ inputIsActive: true });
+      this.setState({ isEditing: true });
     } else if (e.type === "blur") {
-      this.setState({ inputIsActive: false });
+      this.setState({ isEditing: false });
     }
   }
   addItem() {
@@ -21,7 +21,7 @@ class AddItemControls extends React.Component {
       this.inputElement.value = "";
     }
 
-    this.setState({ inputIsActive: true });
+    this.setState({ isEditing: true });
     this.inputElement.focus();
   }
   render() {
@@ -35,7 +35,7 @@ class AddItemControls extends React.Component {
           onFocus={this.toggleFocus}
           onBlur={this.toggleFocus}
         ></input>
-        <button className={`btn btn-square btn-primary absolute right-2 top-2 ${this.state.inputIsActive ? "" : "opacity-0"}`} onClick={this.addItem}>
+        <button className={`btn btn-square btn-primary absolute right-2 top-2 ${this.state.isEditing ? "" : "opacity-0"}`} onClick={this.addItem}>
           <PlusIcon className="w-5" />
         </button>
       </div>

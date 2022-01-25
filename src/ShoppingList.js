@@ -1,6 +1,6 @@
 import React from "react";
 import CheckboxItem from "./CheckboxItem";
-import AddItemBtn from "./AddItemBtn";
+import ClearCheckedBtn from "./ClearCheckedBtn";
 import AddItemControls from "./AddItemControls";
 import { v4 as uuid } from "uuid";
 class ShoppingList extends React.Component {
@@ -8,13 +8,16 @@ class ShoppingList extends React.Component {
     super(props);
     this.state = {
       shoppingList: [
-        { id: "c7b2f6f4-9a76-4508-8dd3-c99d0f8acbcd", text: "kikkelis kokkelis", checked: true },
-        { id: "8d9d6964-fad9-44e9-a968-9c1206f01f98", text: "pissiäjakakkaa", checked: false },
+        { id: "c7b2f6f4-9a76-4508-8dd3-1", text: "kikkelis kokkelis", checked: true, isCleared: false },
+        { id: "8d9d6964-fad9-44e9-a968-2", text: "pissiäjakakkaa", checked: false, isCleared: false },
+        { id: "8d9d6964-fad9-44e9-a968-3", text: "filtterii", checked: false, isCleared: true },
       ],
     };
 
     this.itemChanged = this.itemChanged.bind(this);
     this.addItem = this.addItem.bind(this);
+    this.clearChecked = this.clearChecked.bind(this);
+    this.deleteItem = this.deleteItem.bind(this);
   }
 
   itemChanged(target) {
@@ -32,7 +35,24 @@ class ShoppingList extends React.Component {
 
   addItem(value) {
     let shoppingList = [...this.state.shoppingList];
-    shoppingList.push({ id: uuid(), text: value, checked: false });
+    shoppingList.push({ id: uuid(), text: value, checked: false, isCleared: false });
+    this.setState({ shoppingList: shoppingList });
+  }
+
+  deleteItem(id) {
+    console.log(id);
+    let shoppingList = [...this.state.shoppingList];
+    shoppingList = shoppingList.filter((item) => item.id !== id);
+    this.setState({ shoppingList: shoppingList });
+  }
+
+  clearChecked() {
+    let shoppingList = [...this.state.shoppingList];
+    shoppingList.forEach((item) => {
+      if (item.checked === true) {
+        item.isCleared = true;
+      }
+    });
     this.setState({ shoppingList: shoppingList });
   }
 
@@ -40,9 +60,12 @@ class ShoppingList extends React.Component {
     return (
       <div className="form-control">
         <AddItemControls addItem={this.addItem} />
-        {this.state.shoppingList.map((item) => (
-          <CheckboxItem key={item.id} id={item.id} text={item.text} checked={item.checked} itemChanged={this.itemChanged} />
-        ))}
+        <ClearCheckedBtn clearChecked={this.clearChecked} />
+        {this.state.shoppingList
+          .filter((item) => item.isCleared === false)
+          .map((item) => (
+            <CheckboxItem key={item.id} id={item.id} text={item.text} checked={item.checked} itemChanged={this.itemChanged} deleteItem={this.deleteItem} />
+          ))}
       </div>
     );
   }
