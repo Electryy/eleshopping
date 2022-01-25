@@ -35,7 +35,7 @@ class ShoppingList extends React.Component {
 
   addItem(value) {
     let shoppingList = [...this.state.shoppingList];
-    shoppingList.push({ id: uuid(), text: value, checked: false, isCleared: false });
+    shoppingList.unshift({ id: uuid(), text: value, checked: false, isCleared: false });
     this.setState({ shoppingList: shoppingList });
   }
 
