@@ -42,7 +42,7 @@ class ShoppingList extends React.Component {
 
   async addItem(value) {
     let shoppingList = [...this.state.shoppingList];
-    const newItem = { id: uuid(), text: value, checked: false, isCleared: false };
+    const newItem = { id: uuid(), text: value, checked: false };
     shoppingList.unshift(newItem);
     this.setState({ shoppingList: shoppingList });
     dbPush(newItem);
@@ -74,20 +74,18 @@ class ShoppingList extends React.Component {
       <div className="form-control">
         <AddItemControls addItem={this.addItem} />
         <ClearCheckedBtn clearChecked={this.clearChecked} />
-        {this.state.shoppingList
-          .filter((item) => item.isCleared === false)
-          .map((item) => (
-            <CheckboxItem
-              key={item.id}
-              id={item.id}
-              text={item.text}
-              checked={item.checked}
-              inputChanged={this.inputChanged}
-              checkboxClicked={this.checkboxClicked}
-              deleteItem={this.deleteItem}
-              updateItem={this.updateItem}
-            />
-          ))}
+        {this.state.shoppingList.map((item) => (
+          <CheckboxItem
+            key={item.id}
+            id={item.id}
+            text={item.text}
+            checked={item.checked}
+            inputChanged={this.inputChanged}
+            checkboxClicked={this.checkboxClicked}
+            deleteItem={this.deleteItem}
+            updateItem={this.updateItem}
+          />
+        ))}
       </div>
     );
   }
