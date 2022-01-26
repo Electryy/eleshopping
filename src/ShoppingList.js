@@ -9,6 +9,7 @@ class ShoppingList extends React.Component {
     super(props);
     this.state = {
       shoppingList: [],
+      dataIsUpdating: true,
     };
 
     this.inputChanged = this.inputChanged.bind(this);
@@ -17,12 +18,21 @@ class ShoppingList extends React.Component {
     this.deleteItem = this.deleteItem.bind(this);
     this.updateItem = this.updateItem.bind(this);
     this.checkboxClicked = this.checkboxClicked.bind(this);
+    this.refresh = this.refresh.bind(this);
   }
 
   async componentDidMount() {
-    const shoppingList = await dbPull();
+    this.props.dataLoadingStarted();
+    this.refresh().then((res) => {
+      this.props.dataLoadingEnded();
+    });
+  }
 
+  async refresh() {
+    console.log("refreshing data");
+    const shoppingList = await dbPull();
     this.setState({ shoppingList: shoppingList });
+    //setTimeout(this.refresh, 2000);
   }
 
   inputChanged(target) {
