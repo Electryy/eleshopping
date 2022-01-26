@@ -30,6 +30,14 @@ export async function dbPull() {
   return shoppingList;
 }
 
-export async function dbDelete(id) {
-  await deleteDoc(doc(db, "shopping_list", id));
+export function dbDelete(items) {
+  let itemsArray = [];
+  if (Array.isArray(items)) {
+    itemsArray = items;
+  } else {
+    itemsArray.push(items);
+  }
+  itemsArray.forEach((item) => {
+    deleteDoc(doc(db, "shopping_list", item.id));
+  });
 }

@@ -51,8 +51,9 @@ class ShoppingList extends React.Component {
   deleteItem(id) {
     let shoppingList = [...this.state.shoppingList];
     shoppingList = shoppingList.filter((item) => item.id !== id);
+    const item = this.state.shoppingList.find((item) => item.id === id);
     this.setState({ shoppingList: shoppingList });
-    dbDelete(id);
+    dbDelete(item);
   }
 
   updateItem(id) {
@@ -62,12 +63,10 @@ class ShoppingList extends React.Component {
 
   clearChecked() {
     let shoppingList = [...this.state.shoppingList];
-    shoppingList.forEach((item) => {
-      if (item.checked === true) {
-        item.isCleared = true;
-      }
-    });
-    this.setState({ shoppingList: shoppingList });
+    let deletedItems = shoppingList.filter((item) => item.checked === true);
+    let remainingItems = shoppingList.filter((item) => item.checked === false);
+    this.setState({ shoppingList: remainingItems });
+    dbDelete(deletedItems);
   }
 
   render() {
