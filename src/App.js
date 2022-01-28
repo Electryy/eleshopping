@@ -5,15 +5,84 @@ import Shopping from "./Shopping";
 import Recipe from "./Recipe";
 import LoadingScreen from "./LoadingScreen";
 import React from "react";
+import { v4 as uuid } from "uuid";
+import { dbPush, dbPull, dbDelete } from "./firestore";
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      shoppingList: [],
       dataIsLoading: true,
     };
-    this.dataLoadingStarted = this.dataLoadingStarted.bind(this);
-    this.dataLoadingEnded = this.dataLoadingEnded.bind(this);
+
+    this.shoppingProps = {
+      dataLoadingStarted: this.dataLoadingStarted.bind(this),
+      dataLoadingEnded: this.dataLoadingEnded.bind(this),
+      inputChanged: this.inputChanged.bind(this),
+      addItem: this.addItem.bind(this),
+      clearChecked: this.clearChecked.bind(this),
+      deleteItem: this.deleteItem.bind(this),
+      updateItem: this.updateItem.bind(this),
+      checkboxClicked: this.checkboxClicked.bind(this),
+      refresh: this.refresh.bind(this),
+    };
+  }
+  async componentDidMount() {
+    this.dataLoadingStarted();
+    this.refresh().then((res) => {
+      this.dataLoadingEnded();
+    });
+  }
+  async refresh() {
+    console.log("refreshing data");
+    const shoppingList = await dbPull();
+    this.setState({ shoppingList: shoppingList });
+    console.log(this.state);
+    //setTimeout(this.refresh, 2000);
+  }
+  inputChanged(target) {
+    const id = target.name;
+    let shoppingList = [...this.state.shoppingList];
+    let item = shoppingList.find((item) => item.id === id);
+    item.text = target.value;
+    this.setState({ shoppingList: shoppingList });
+  }
+  checkboxClicked(id) {
+    let shoppingList = [...this.state.shoppingList];
+    let item = shoppingList.find((item) => item.id === id);
+    item.checked = !item.checked;
+    this.setState({ shoppingList: shoppingList });
+    dbPush(item);
+  }
+
+  async addItem(value) {
+    let shoppingList = [...this.state.shoppingList];
+    const newItem = { id: uuid(), text: value, checked: false };
+    shoppingList.unshift(newItem);
+    this.setState({ shoppingList: shoppingList });
+    dbPush(newItem);
+  }
+
+  deleteItem(id) {
+    let shoppingList = [...this.state.shoppingList];
+    shoppingList = shoppingList.filter((item) => item.id !== id);
+    const item = this.state.shoppingList.find((item) => item.id === id);
+    this.setState({ shoppingList: shoppingList });
+    dbDelete(item);
+  }
+
+  updateItem(id) {
+    const item = this.state.shoppingList.find((item) => item.id === id);
+    dbPush(item);
+  }
+
+  clearChecked() {
+    let shoppingList = [...this.state.shoppingList];
+    let deletedItems = shoppingList.filter((item) => item.checked === true);
+    let remainingItems = shoppingList.filter((item) => item.checked === false);
+    this.setState({ shoppingList: remainingItems });
+    dbDelete(deletedItems);
   }
   dataLoadingStarted() {
     this.setState({ dataIsLoading: true });
@@ -28,7 +97,7 @@ class App extends React.Component {
       <div className="App">
         <Routes>
           <Route path="/" element={<MainLayout />}>
-            <Route index element={<Shopping dataLoadingStarted={this.dataLoadingStarted} dataLoadingEnded={this.dataLoadingEnded} />} />
+            <Route index element={<Shopping {...this.shoppingProps} shoppingList={this.state.shoppingList} />} />
             <Route path="recipes" element={<Recipe />} />
           </Route>
         </Routes>

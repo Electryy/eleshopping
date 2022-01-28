@@ -5,7 +5,7 @@ class Shopping extends React.Component {
   render() {
     return (
       <div className="w-full">
-        <ShoppingList dataLoadingStarted={() => this.props.dataLoadingStarted()} dataLoadingEnded={() => this.props.dataLoadingEnded()} />
+        <ShoppingList {...this.props} />
       </div>
     );
   }

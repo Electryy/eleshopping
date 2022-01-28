@@ -7,93 +7,32 @@ import { dbPush, dbPull, dbDelete } from "./firestore";
 class ShoppingList extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      shoppingList: [],
-      dataIsUpdating: true,
-    };
-
-    this.inputChanged = this.inputChanged.bind(this);
-    this.addItem = this.addItem.bind(this);
-    this.clearChecked = this.clearChecked.bind(this);
-    this.deleteItem = this.deleteItem.bind(this);
-    this.updateItem = this.updateItem.bind(this);
-    this.checkboxClicked = this.checkboxClicked.bind(this);
-    this.refresh = this.refresh.bind(this);
+    this.state = {};
   }
-
+  /*
   async componentDidMount() {
     this.props.dataLoadingStarted();
     this.refresh().then((res) => {
       this.props.dataLoadingEnded();
     });
   }
-
-  async refresh() {
-    console.log("refreshing data");
-    const shoppingList = await dbPull();
-    this.setState({ shoppingList: shoppingList });
-    //setTimeout(this.refresh, 2000);
-  }
-
-  inputChanged(target) {
-    const id = target.name;
-    let shoppingList = [...this.state.shoppingList];
-    let item = shoppingList.find((item) => item.id === id);
-    item.text = target.value;
-    this.setState({ shoppingList: shoppingList });
-  }
-  checkboxClicked(id) {
-    let shoppingList = [...this.state.shoppingList];
-    let item = shoppingList.find((item) => item.id === id);
-    item.checked = !item.checked;
-    this.setState({ shoppingList: shoppingList });
-    dbPush(item);
-  }
-
-  async addItem(value) {
-    let shoppingList = [...this.state.shoppingList];
-    const newItem = { id: uuid(), text: value, checked: false };
-    shoppingList.unshift(newItem);
-    this.setState({ shoppingList: shoppingList });
-    dbPush(newItem);
-  }
-
-  deleteItem(id) {
-    let shoppingList = [...this.state.shoppingList];
-    shoppingList = shoppingList.filter((item) => item.id !== id);
-    const item = this.state.shoppingList.find((item) => item.id === id);
-    this.setState({ shoppingList: shoppingList });
-    dbDelete(item);
-  }
-
-  updateItem(id) {
-    const item = this.state.shoppingList.find((item) => item.id === id);
-    dbPush(item);
-  }
-
-  clearChecked() {
-    let shoppingList = [...this.state.shoppingList];
-    let deletedItems = shoppingList.filter((item) => item.checked === true);
-    let remainingItems = shoppingList.filter((item) => item.checked === false);
-    this.setState({ shoppingList: remainingItems });
-    dbDelete(deletedItems);
-  }
+*/
 
   render() {
     return (
       <div className="form-control">
-        <AddItemControls addItem={this.addItem} />
-        <ClearCheckedBtn clearChecked={this.clearChecked} />
-        {this.state.shoppingList.map((item) => (
+        <AddItemControls addItem={this.props.addItem} />
+        <ClearCheckedBtn clearChecked={this.props.clearChecked} />
+        {this.props.shoppingList.map((item) => (
           <CheckboxItem
             key={item.id}
             id={item.id}
             text={item.text}
             checked={item.checked}
-            inputChanged={this.inputChanged}
-            checkboxClicked={this.checkboxClicked}
-            deleteItem={this.deleteItem}
-            updateItem={this.updateItem}
+            inputChanged={this.props.inputChanged}
+            checkboxClicked={this.props.checkboxClicked}
+            deleteItem={this.props.deleteItem}
+            updateItem={this.props.updateItem}
           />
         ))}
       </div>
