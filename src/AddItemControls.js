@@ -1,46 +1,36 @@
-import React from "react";
+import React, { useState } from "react";
 import { PlusIcon } from "@heroicons/react/solid";
 
-class AddItemControls extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { isEditing: false };
-    this.toggleFocus = this.toggleFocus.bind(this);
-    this.addItem = this.addItem.bind(this);
-  }
-  toggleFocus(e) {
-    if (e.type === "focus") {
-      this.setState({ isEditing: true });
-    } else if (e.type === "blur") {
-      this.setState({ isEditing: false });
-    }
-  }
-  addItem() {
-    if (this.inputElement.value) {
-      this.props.addItem(this.inputElement.value);
-      this.inputElement.value = "";
-    }
+function AddItemControls(props) {
+  const [isEditing, setEditing] = useState(false);
 
-    this.setState({ isEditing: true });
-    this.inputElement.focus();
+  const textInputRef = React.createRef();
+
+  function toggleFocus(e) {
+    if (e.type === "focus") {
+      setEditing(true);
+    } else if (e.type === "blur") {
+      setEditing(false);
+    }
   }
-  render() {
-    return (
-      <div className="flex relative">
-        <input
-          type="text"
-          ref={(input) => (this.inputElement = input)}
-          placeholder="Add item"
-          className="input input-lg input-bordered grow"
-          onFocus={this.toggleFocus}
-          onBlur={this.toggleFocus}
-        ></input>
-        <button className={`btn btn-square btn-primary absolute right-2 top-2 ${this.state.isEditing ? "" : "opacity-0"}`} onClick={this.addItem}>
-          <PlusIcon className="w-5" />
-        </button>
-      </div>
-    );
+  function addItem() {
+    const input = textInputRef.current;
+    if (input.value) {
+      props.addItem(input.value);
+      input.value = "";
+    }
+    setEditing(true);
+    input.focus();
   }
+
+  return (
+    <div className="flex relative">
+      <input type="text" ref={textInputRef} placeholder="Add item" className="input input-lg input-bordered grow" onFocus={toggleFocus} onBlur={toggleFocus}></input>
+      <button className={`btn btn-square btn-primary absolute right-2 top-2 ${isEditing ? "" : "opacity-0"}`} onClick={addItem}>
+        <PlusIcon className="w-5" />
+      </button>
+    </div>
+  );
 }
 
 export default AddItemControls;

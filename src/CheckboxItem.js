@@ -12,6 +12,7 @@ function CheckboxItem(props) {
     transition,
   };
   const textInputRef = React.createRef();
+
   function checkboxClicked(e) {
     console.log("höh");
     const id = e.target.name;

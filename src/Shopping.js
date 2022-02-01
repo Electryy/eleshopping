@@ -1,14 +1,12 @@
 import React from "react";
 import ShoppingList from "./ShoppingList";
 
-class Shopping extends React.Component {
-  render() {
-    return (
-      <div className="w-full">
-        <ShoppingList {...this.props} />
-      </div>
-    );
-  }
+function Shopping(props) {
+  return (
+    <div className="w-full">
+      <ShoppingList {...props} />
+    </div>
+  );
 }
 
 export default Shopping;
