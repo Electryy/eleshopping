@@ -43,7 +43,7 @@ export function dbDelete(items) {
   });
 }
 
-export async function updateEverything(items) {
+export async function dbUpdate(items) {
   const batch = writeBatch(db);
   const querySnapshot = await getDocs(collection(db, "shopping_list"));
   querySnapshot.forEach((item) => {

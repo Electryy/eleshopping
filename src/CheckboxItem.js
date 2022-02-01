@@ -11,11 +11,7 @@ function CheckboxItem(props) {
     transform: CSS.Transform.toString(transform),
     transition,
   };
-
-  function inputChanged(e) {
-    props.inputChanged(e.target);
-  }
-
+  const textInputRef = React.createRef();
   function checkboxClicked(e) {
     console.log("höh");
     const id = e.target.name;
@@ -28,7 +24,7 @@ function CheckboxItem(props) {
       setEditing(true);
     } else if (e.type === "blur") {
       setEditing(false);
-      props.updateItem(id);
+      props.inputChanged(textInputRef.current);
     }
   }
 
@@ -42,12 +38,12 @@ function CheckboxItem(props) {
       <DragIcon attributes={attributes} listeners={listeners} />
       <input name={props.id} type="checkbox" className="checkbox checkbox-lg mr-5" checked={props.checked} onChange={checkboxClicked} />
       <input
+        ref={textInputRef}
         name={props.id}
-        value={props.text}
+        defaultValue={props.text}
         type="text"
         placeholder=""
         className="input grow input-ghost p-0 text-xl"
-        onChange={inputChanged}
         onFocus={toggleFocus}
         onBlur={toggleFocus}
       ></input>

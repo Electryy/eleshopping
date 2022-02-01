@@ -31,7 +31,6 @@ function ShoppingList(props) {
               inputChanged={props.inputChanged}
               checkboxClicked={props.checkboxClicked}
               deleteItem={props.deleteItem}
-              updateItem={props.updateItem}
             />
           ))}
         </SortableContext>
