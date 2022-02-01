@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
-import { collection, addDoc, doc, getDocs, setDoc, deleteDoc } from "firebase/firestore";
+import { collection, addDoc, doc, getDocs, setDoc, deleteDoc, writeBatch } from "firebase/firestore";
 const firebaseApp = initializeApp({
   apiKey: process.env.REACT_APP_apiKey,
   authDomain: process.env.REACT_APP_authDomain,
@@ -27,6 +27,7 @@ export async function dbPull() {
   querySnapshot.forEach((doc) => {
     shoppingList.push(doc.data());
   });
+  shoppingList.sort((a, b) => (a.order > b.order ? 1 : -1));
   return shoppingList;
 }
 
@@ -40,4 +41,17 @@ export function dbDelete(items) {
   itemsArray.forEach((item) => {
     deleteDoc(doc(db, "shopping_list", item.id));
   });
+}
+
+export async function updateEverything(items) {
+  const batch = writeBatch(db);
+  const querySnapshot = await getDocs(collection(db, "shopping_list"));
+  querySnapshot.forEach((item) => {
+    batch.delete(doc(db, "shopping_list", item.id));
+  });
+
+  items.forEach((item) => {
+    batch.set(doc(db, "shopping_list", item.id), item);
+  });
+  await batch.commit();
 }

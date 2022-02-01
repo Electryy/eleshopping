@@ -7,7 +7,7 @@ import Recipe from "./Recipe";
 import LoadingScreen from "./LoadingScreen";
 import React from "react";
 import { v4 as uuid } from "uuid";
-import { dbPush, dbPull, dbDelete } from "./firestore";
+import { dbPush, dbPull, dbDelete, updateEverything } from "./firestore";
 
 class App extends React.Component {
   constructor(props) {
@@ -105,9 +105,16 @@ class App extends React.Component {
 
       shoppingList = arrayMove(this.state.shoppingList, oldIndex, newIndex);
 
-      console.log(shoppingList);
-      this.setState({ shoppingList: shoppingList });
+      this.setState({ shoppingList: shoppingList }, this.updateOrder);
     }
+  }
+  async updateOrder() {
+    let shoppingList = [...this.state.shoppingList];
+    shoppingList.forEach((item, index) => {
+      item.order = index;
+    });
+    this.setState({ shoppingList: shoppingList }, console.log(this.state.shoppingList));
+    await updateEverything(shoppingList);
   }
   render() {
     return (

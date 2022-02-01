@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
-import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from "@dnd-kit/sortable";
+import { SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import CheckboxItem from "./CheckboxItem";
 import ClearCheckedBtn from "./ClearCheckedBtn";
 import AddItemControls from "./AddItemControls";
-import SortableItem from "./SortableItem";
 
 function ShoppingList(props) {
   const sensors = useSensors(
@@ -13,7 +12,6 @@ function ShoppingList(props) {
       coordinateGetter: sortableKeyboardCoordinates,
     })
   );
-  const [items, setItems] = useState(["1faa", "fff2", "aaa3"]);
 
   function handleDragEnd(event) {
     props.handleDragEnd(event);
