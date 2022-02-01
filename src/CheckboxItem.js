@@ -1,6 +1,7 @@
 import React from "react";
 import { DotsVerticalIcon, TrashIcon } from "@heroicons/react/solid";
-import { dbPush } from "./firestore";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
 class CheckboxItem extends React.Component {
   constructor(props) {
