@@ -1,5 +1,6 @@
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
+import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import MainLayout from "./MainLayout";
 import Shopping from "./Shopping";
 import Recipe from "./Recipe";
@@ -26,6 +27,7 @@ class App extends React.Component {
       updateItem: this.updateItem.bind(this),
       checkboxClicked: this.checkboxClicked.bind(this),
       refresh: this.refresh.bind(this),
+      handleDragEnd: this.handleDragEnd.bind(this),
     };
   }
   async componentDidMount() {
@@ -53,12 +55,13 @@ class App extends React.Component {
     let item = shoppingList.find((item) => item.id === id);
     item.checked = !item.checked;
     this.setState({ shoppingList: shoppingList });
+    console.log("wat");
     dbPush(item);
   }
 
   async addItem(value) {
     let shoppingList = [...this.state.shoppingList];
-    const newItem = { id: uuid(), text: value, checked: false };
+    const newItem = { id: uuid(), text: value, checked: false, order: shoppingList.length };
     shoppingList.unshift(newItem);
     this.setState({ shoppingList: shoppingList });
     dbPush(newItem);
@@ -91,6 +94,20 @@ class App extends React.Component {
   dataLoadingEnded() {
     this.setState({ dataIsLoading: false });
     console.log("ended");
+  }
+  handleDragEnd(event) {
+    const { active, over } = event;
+
+    if (active.id !== over.id) {
+      let shoppingList = [];
+      const oldIndex = this.state.shoppingList.findIndex((item) => item.id === active.id);
+      const newIndex = this.state.shoppingList.findIndex((item) => item.id === over.id);
+
+      shoppingList = arrayMove(this.state.shoppingList, oldIndex, newIndex);
+
+      console.log(shoppingList);
+      this.setState({ shoppingList: shoppingList });
+    }
   }
   render() {
     return (

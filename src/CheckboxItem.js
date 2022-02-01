@@ -1,68 +1,66 @@
-import React from "react";
+import React, { useState } from "react";
 import { DotsVerticalIcon, TrashIcon } from "@heroicons/react/solid";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
-class CheckboxItem extends React.Component {
-  constructor(props) {
-    super(props);
-    this.inputChanged = this.inputChanged.bind(this);
-    this.toggleFocus = this.toggleFocus.bind(this);
-    this.deleteItem = this.deleteItem.bind(this);
-    this.checkboxClicked = this.checkboxClicked.bind(this);
-    this.state = { isEditing: false };
+function CheckboxItem(props) {
+  const [isEditing, setEditing] = useState(false);
+  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: props.id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
+
+  function inputChanged(e) {
+    props.inputChanged(e.target);
   }
 
-  inputChanged(e) {
-    this.props.inputChanged(e.target);
-  }
-
-  checkboxClicked(e) {
+  function checkboxClicked(e) {
+    console.log("höh");
     const id = e.target.name;
-    this.props.checkboxClicked(id);
+    props.checkboxClicked(id);
   }
 
-  toggleFocus(e) {
+  function toggleFocus(e) {
     const id = e.target.name;
     if (e.type === "focus") {
-      this.setState({ isEditing: true });
+      setEditing(true);
     } else if (e.type === "blur") {
-      this.setState({ isEditing: false });
-      this.props.updateItem(id);
+      setEditing(false);
+      props.updateItem(id);
     }
   }
 
-  deleteItem(e) {
+  function deleteItem(e) {
     const id = e.target.name;
-    this.props.deleteItem(id);
+    props.deleteItem(id);
   }
 
-  render() {
-    return (
-      <label className="cursor-pointer label justify-start relative">
-        <DragIcon />
-        <input name={this.props.id} type="checkbox" className="checkbox checkbox-lg mr-5" checked={this.props.checked} onChange={this.checkboxClicked} />
-        <input
-          name={this.props.id}
-          value={this.props.text}
-          type="text"
-          placeholder=""
-          className="input grow input-ghost p-0 text-xl"
-          onChange={this.inputChanged}
-          onFocus={this.toggleFocus}
-          onBlur={this.toggleFocus}
-        ></input>
-        <button name={this.props.id} className={`btn btn text-white absolute top-2 right-0 ${this.state.isEditing ? "" : "opacity-0"}`} onClick={this.deleteItem}>
-          <TrashIcon className="w-5 pointer-events-none" />
-        </button>
-      </label>
-    );
-  }
+  return (
+    <div className="cursor-pointer label justify-start relative" ref={setNodeRef} style={style}>
+      <DragIcon attributes={attributes} listeners={listeners} />
+      <input name={props.id} type="checkbox" className="checkbox checkbox-lg mr-5" checked={props.checked} onChange={checkboxClicked} />
+      <input
+        name={props.id}
+        value={props.text}
+        type="text"
+        placeholder=""
+        className="input grow input-ghost p-0 text-xl"
+        onChange={inputChanged}
+        onFocus={toggleFocus}
+        onBlur={toggleFocus}
+      ></input>
+      <button name={props.id} className={`btn btn text-white absolute top-2 right-0 ${isEditing ? "" : "opacity-0"}`} onClick={deleteItem}>
+        <TrashIcon className="w-5 pointer-events-none" />
+      </button>
+    </div>
+  );
 }
 
-function DragIcon() {
+function DragIcon(props) {
   return (
-    <div className="mr-5 flex">
+    <div className="mr-5 flex" {...props.attributes} {...props.listeners}>
       <DotsVerticalIcon className="h-9 w-9 -mr-6" />
       <DotsVerticalIcon className="h-9 w-9" />
     </div>

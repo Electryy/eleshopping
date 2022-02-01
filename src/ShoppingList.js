@@ -13,44 +13,31 @@ function ShoppingList(props) {
       coordinateGetter: sortableKeyboardCoordinates,
     })
   );
-  const [items, setItems] = useState(["1", "2", "3"]);
+  const [items, setItems] = useState(["1faa", "fff2", "aaa3"]);
 
   function handleDragEnd(event) {
-    const { active, over } = event;
-
-    if (active.id !== over.id) {
-      setItems((items) => {
-        const oldIndex = items.indexOf(active.id);
-        const newIndex = items.indexOf(over.id);
-
-        return arrayMove(items, oldIndex, newIndex);
-      });
-    }
+    props.handleDragEnd(event);
   }
-
   return (
     <div className="form-control">
       <AddItemControls addItem={props.addItem} />
       <ClearCheckedBtn clearChecked={props.clearChecked} />
       <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-        <SortableContext items={items} strategy={verticalListSortingStrategy}>
-          {items.map((id) => (
-            <SortableItem key={id} id={id} />
+        <SortableContext items={props.shoppingList} strategy={verticalListSortingStrategy}>
+          {props.shoppingList.map((item) => (
+            <CheckboxItem
+              key={item.id}
+              id={item.id}
+              text={item.text}
+              checked={item.checked}
+              inputChanged={props.inputChanged}
+              checkboxClicked={props.checkboxClicked}
+              deleteItem={props.deleteItem}
+              updateItem={props.updateItem}
+            />
           ))}
         </SortableContext>
       </DndContext>
-      {props.shoppingList.map((item) => (
-        <CheckboxItem
-          key={item.id}
-          id={item.id}
-          text={item.text}
-          checked={item.checked}
-          inputChanged={props.inputChanged}
-          checkboxClicked={props.checkboxClicked}
-          deleteItem={props.deleteItem}
-          updateItem={props.updateItem}
-        />
-      ))}
     </div>
   );
 }
