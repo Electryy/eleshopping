@@ -22,10 +22,23 @@ function AddItemControls(props) {
     setEditing(true);
     input.focus();
   }
+  function handleKeyPress(e) {
+    if (e.key === "Enter") {
+      addItem();
+    }
+  }
 
   return (
     <div className="flex relative">
-      <input type="text" ref={textInputRef} placeholder="Add item" className="input input-lg input-bordered grow" onFocus={toggleFocus} onBlur={toggleFocus}></input>
+      <input
+        type="text"
+        ref={textInputRef}
+        placeholder="Add item"
+        className="input input-lg input-bordered grow"
+        onFocus={toggleFocus}
+        onBlur={toggleFocus}
+        onKeyPress={handleKeyPress}
+      ></input>
       <button className={`btn btn-square btn-primary absolute right-2 top-2 ${isEditing ? "" : "opacity-0"}`} onClick={addItem}>
         <PlusIcon className="w-5" />
       </button>
