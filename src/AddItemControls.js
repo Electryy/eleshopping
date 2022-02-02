@@ -23,7 +23,7 @@ function AddItemControls(props) {
     setEditing(true);
     input.focus();
   }
-  function handleKeyPress(e) {
+  function handleKey(e) {
     setKeyDebug(e.key);
     if (e.key === "Enter") {
       addItem();
@@ -39,7 +39,7 @@ function AddItemControls(props) {
         className="input input-lg input-bordered grow w-full"
         onFocus={toggleFocus}
         onBlur={toggleFocus}
-        onKeyPress={handleKeyPress}
+        onKeyDown={handleKey}
       ></input>
       <button className={`btn btn-square btn-primary absolute right-2 top-2 ${isEditing ? "" : "opacity-0"}`} onClick={addItem}>
         <PlusIcon className="w-5" />
