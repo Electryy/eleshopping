@@ -3,6 +3,7 @@ import { PlusIcon } from "@heroicons/react/solid";
 
 function AddItemControls(props) {
   const [isEditing, setEditing] = useState(false);
+  const [keyDebug, setKeyDebug] = useState();
 
   const textInputRef = React.createRef();
 
@@ -23,18 +24,19 @@ function AddItemControls(props) {
     input.focus();
   }
   function handleKeyPress(e) {
+    setKeyDebug(e.key);
     if (e.key === "Enter") {
       addItem();
     }
   }
 
   return (
-    <div className="flex relative">
+    <div className="relative">
       <input
         type="text"
         ref={textInputRef}
         placeholder="Add item"
-        className="input input-lg input-bordered grow"
+        className="input input-lg input-bordered grow w-full"
         onFocus={toggleFocus}
         onBlur={toggleFocus}
         onKeyPress={handleKeyPress}
@@ -42,6 +44,7 @@ function AddItemControls(props) {
       <button className={`btn btn-square btn-primary absolute right-2 top-2 ${isEditing ? "" : "opacity-0"}`} onClick={addItem}>
         <PlusIcon className="w-5" />
       </button>
+      <div className="">{keyDebug}</div>
     </div>
   );
 }
