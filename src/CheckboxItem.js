@@ -44,7 +44,7 @@ function CheckboxItem(props) {
         defaultValue={props.text}
         type="text"
         placeholder=""
-        className="input grow input-ghost p-0 text-xl shrink-1 pr-5"
+        className="input input-ghost p-0 text-xl pr-5 w-0 grow"
         onFocus={toggleFocus}
         onBlur={toggleFocus}
       ></input>
