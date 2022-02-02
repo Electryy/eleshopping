@@ -37,18 +37,19 @@ function CheckboxItem(props) {
   return (
     <div className="cursor-pointer label justify-start relative" ref={setNodeRef} style={style}>
       <DragIcon attributes={attributes} listeners={listeners} />
-      <input name={props.id} type="checkbox" className="checkbox checkbox-lg mr-5" checked={props.checked} onChange={checkboxClicked} />
+
       <input
         ref={textInputRef}
         name={props.id}
         defaultValue={props.text}
         type="text"
         placeholder=""
-        className="input grow input-ghost p-0 text-xl"
+        className="input grow input-ghost p-0 text-xl shrink-1 pr-5"
         onFocus={toggleFocus}
         onBlur={toggleFocus}
       ></input>
-      <button name={props.id} className={`btn btn text-white absolute top-2 right-0 ${isEditing ? "" : "opacity-0"}`} onClick={deleteItem}>
+      <input name={props.id} type="checkbox" className="checkbox checkbox-lg shrink-0" checked={props.checked} onChange={checkboxClicked} />
+      <button name={props.id} className={`btn btn text-white absolute top-2 -right-2 ${isEditing ? "" : "opacity-0"}`} onClick={deleteItem}>
         <TrashIcon className="w-5 pointer-events-none" />
       </button>
     </div>
@@ -57,7 +58,7 @@ function CheckboxItem(props) {
 
 function DragIcon(props) {
   return (
-    <div className="mr-5 flex" {...props.attributes} {...props.listeners}>
+    <div className="mr-3 flex -ml-3" {...props.attributes} {...props.listeners}>
       <DotsVerticalIcon className="h-9 w-9 -mr-6" />
       <DotsVerticalIcon className="h-9 w-9" />
     </div>

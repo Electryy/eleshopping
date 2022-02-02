@@ -2,7 +2,7 @@ import { Outlet, NavLink } from "react-router-dom";
 
 function MainLayout() {
   return (
-    <div className="container max-w-xl mx-auto p-2">
+    <div className="container max-w-xl mx-auto p-5">
       <Outlet />
       <div className="tabs tabs-boxed fixed bottom-0 left-0 right-0 flex">
         <MainLink to="/" label="Shopping List" />

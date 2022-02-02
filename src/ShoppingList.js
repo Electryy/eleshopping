@@ -21,19 +21,21 @@ function ShoppingList(props) {
       <AddItemControls addItem={props.addItem} />
       <ClearCheckedBtn clearChecked={props.clearChecked} />
       <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-        <SortableContext items={props.shoppingList} strategy={verticalListSortingStrategy}>
-          {props.shoppingList.map((item) => (
-            <CheckboxItem
-              key={item.id}
-              id={item.id}
-              text={item.text}
-              checked={item.checked}
-              inputChanged={props.inputChanged}
-              checkboxClicked={props.checkboxClicked}
-              deleteItem={props.deleteItem}
-            />
-          ))}
-        </SortableContext>
+        <div className="stripes -mr-5 -ml-5 px-5">
+          <SortableContext items={props.shoppingList} strategy={verticalListSortingStrategy}>
+            {props.shoppingList.map((item) => (
+              <CheckboxItem
+                key={item.id}
+                id={item.id}
+                text={item.text}
+                checked={item.checked}
+                inputChanged={props.inputChanged}
+                checkboxClicked={props.checkboxClicked}
+                deleteItem={props.deleteItem}
+              />
+            ))}
+          </SortableContext>
+        </div>
       </DndContext>
     </div>
   );
