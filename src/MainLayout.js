@@ -4,7 +4,7 @@ function MainLayout() {
   return (
     <div className="container max-w-xl mx-auto p-5">
       <Outlet />
-      <div className="tabs tabs-boxed fixed bottom-0 left-0 right-0 flex">
+      <div className="tabs tabs-boxed fixed top-0 left-0 right-0 flex">
         <MainLink to="/" label="Shopping List" />
         <MainLink to="/recipes" label="Recepies" />
       </div>

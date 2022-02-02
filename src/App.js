@@ -49,8 +49,10 @@ class App extends React.Component {
     const id = target.name;
     let shoppingList = [...this.state.shoppingList];
     let item = shoppingList.find((item) => item.id === id);
-    item.text = target.value;
-    this.setState({ shoppingList: shoppingList });
+    if (item.text !== target.value) {
+      item.text = target.value;
+      this.setState({ shoppingList: shoppingList });
+    }
   }
   checkboxClicked(id) {
     let shoppingList = [...this.state.shoppingList];
@@ -110,7 +112,7 @@ class App extends React.Component {
   }
   render() {
     return (
-      <div className="App">
+      <div className="App pb-5 relative">
         <Routes>
           <Route path="/" element={<MainLayout />}>
             <Route index element={<Shopping {...this.shoppingProps} shoppingList={this.state.shoppingList} />} />
