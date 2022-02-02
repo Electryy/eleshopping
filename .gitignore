@@ -29,3 +29,4 @@ credentials/*
 .netlify
 
 gulpfile.js
+hiddenNotes.txt

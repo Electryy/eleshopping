@@ -5,6 +5,7 @@ import { CSS } from "@dnd-kit/utilities";
 
 function CheckboxItem(props) {
   const [isEditing, setEditing] = useState(false);
+  const [isDelButtonVisible, setDelButton] = useState(false);
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: props.id });
 
   const style = {
@@ -20,7 +21,6 @@ function CheckboxItem(props) {
   }
 
   function toggleFocus(e) {
-    const id = e.target.name;
     if (e.type === "focus") {
       setEditing(true);
     } else if (e.type === "blur") {
@@ -43,13 +43,12 @@ function CheckboxItem(props) {
         name={props.id}
         defaultValue={props.text}
         type="text"
-        placeholder=""
         className="input input-ghost p-0 text-xl pr-5 w-0 grow"
         onFocus={toggleFocus}
         onBlur={toggleFocus}
       ></input>
       <input name={props.id} type="checkbox" className="checkbox checkbox-lg shrink-0" checked={props.checked} onChange={checkboxClicked} />
-      <button name={props.id} className={`btn btn text-white absolute top-2 -right-2 ${isEditing ? "" : "opacity-0"}`} onClick={deleteItem}>
+      <button name={props.id} className={`btn btn text-white absolute top-2 -right-2 ${isEditing ? "" : "hidden"}`} onMouseDown={deleteItem}>
         <TrashIcon className="w-5 pointer-events-none" />
       </button>
     </div>
