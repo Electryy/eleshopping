@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
-import { collection, addDoc, doc, getDocs, setDoc, deleteDoc, writeBatch } from "firebase/firestore";
+import { collection, addDoc, doc, getDocs, setDoc, deleteDoc, writeBatch, updateDoc } from "firebase/firestore";
 const firebaseApp = initializeApp({
   apiKey: process.env.REACT_APP_apiKey,
   authDomain: process.env.REACT_APP_authDomain,
@@ -12,7 +12,7 @@ const firebaseApp = initializeApp({
 
 const db = getFirestore();
 
-export async function dbPush(item) {
+export async function dbAdd(item) {
   try {
     await setDoc(doc(db, "shopping_list", item.id), item);
     console.log("saved");
@@ -31,27 +31,27 @@ export async function dbPull() {
   return shoppingList;
 }
 
-export function dbDelete(items) {
-  let itemsArray = [];
-  if (Array.isArray(items)) {
-    itemsArray = items;
-  } else {
-    itemsArray.push(items);
-  }
-  itemsArray.forEach((item) => {
-    deleteDoc(doc(db, "shopping_list", item.id));
-  });
+export function dbDelete(item) {
+  deleteDoc(doc(db, "shopping_list", item.id));
 }
 
-export async function dbUpdate(items) {
+export async function dbUpdateBatch(items) {
   const batch = writeBatch(db);
-  const querySnapshot = await getDocs(collection(db, "shopping_list"));
-  querySnapshot.forEach((item) => {
-    batch.delete(doc(db, "shopping_list", item.id));
-  });
-
   items.forEach((item) => {
-    batch.set(doc(db, "shopping_list", item.id), item);
+    batch.update(doc(db, "shopping_list", item.id), item);
   });
   await batch.commit();
+}
+
+export async function dbDeleteBatch(items) {
+  const batch = writeBatch(db);
+  items.forEach((item) => {
+    batch.delete(doc(db, "shopping_list", item.id), item);
+  });
+  await batch.commit();
+}
+
+export async function dbUpdate(item, data) {
+  const itemRef = doc(db, "shopping_list", item.id);
+  updateDoc(itemRef, data);
 }

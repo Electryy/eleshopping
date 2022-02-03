@@ -7,7 +7,7 @@ import Recipe from "./Recipe";
 import LoadingScreen from "./LoadingScreen";
 import React from "react";
 import { v4 as uuid } from "uuid";
-import { dbUpdate, dbPull } from "./firestore";
+import { dbUpdate, dbPull, dbAdd, dbDelete, dbDeleteBatch, dbUpdateBatch } from "./firestore";
 
 class App extends React.Component {
   constructor(props) {
@@ -35,9 +35,7 @@ class App extends React.Component {
       this.dataLoadingEnded();
     });
   }
-  componentDidUpdate() {
-    dbUpdate(this.state.shoppingList);
-  }
+  async componentDidUpdate() {}
   async refresh() {
     console.log("refreshing data");
     const shoppingList = await dbPull();
@@ -52,6 +50,7 @@ class App extends React.Component {
     if (item.text !== target.value) {
       item.text = target.value;
       this.setState({ shoppingList: shoppingList });
+      dbUpdate(item, { text: item.text });
     }
   }
   checkboxClicked(id) {
@@ -59,6 +58,7 @@ class App extends React.Component {
     let item = shoppingList.find((item) => item.id === id);
     item.checked = !item.checked;
     this.setState({ shoppingList: shoppingList });
+    dbUpdate(item, { checked: item.checked });
   }
 
   async addItem(value) {
@@ -66,12 +66,15 @@ class App extends React.Component {
     const newItem = { id: uuid(), text: value, checked: false, order: shoppingList.length };
     shoppingList.unshift(newItem);
     this.setState({ shoppingList: shoppingList }, this.refreshListOrders);
+    dbAdd(newItem);
   }
 
   deleteItem(id) {
     let shoppingList = [...this.state.shoppingList];
+    let item = shoppingList.find((item) => item.id === id);
     shoppingList = shoppingList.filter((item) => item.id !== id);
     this.setState({ shoppingList: shoppingList });
+    dbDelete(item);
   }
 
   clearChecked() {
@@ -79,7 +82,7 @@ class App extends React.Component {
     let deletedItems = shoppingList.filter((item) => item.checked === true);
     let remainingItems = shoppingList.filter((item) => item.checked === false);
     this.setState({ shoppingList: remainingItems });
-    //updateEverything(this.state.shoppingList);
+    dbDeleteBatch(deletedItems);
   }
   dataLoadingStarted() {
     this.setState({ dataIsLoading: true });
@@ -107,8 +110,16 @@ class App extends React.Component {
     shoppingList.forEach((item, index) => {
       item.order = index;
     });
-    this.setState({ shoppingList: shoppingList }, console.log(this.state.shoppingList));
-    //updateEverything(shoppingList);
+    this.setState({ shoppingList: shoppingList });
+
+    let dbObject = [];
+    shoppingList.forEach((item) => {
+      dbObject.push({
+        id: item.id,
+        order: item.order,
+      });
+    });
+    dbUpdateBatch(dbObject);
   }
   render() {
     return (
