@@ -43,7 +43,7 @@ class App extends React.Component {
     const shoppingList = await dbPull();
     this.setState({ shoppingList: shoppingList });
     console.log(this.state);
-    setTimeout(this.refresh.bind(this), 2000);
+    //setTimeout(this.refresh.bind(this), 2000);
   }
   inputChanged(target) {
     const id = target.name;

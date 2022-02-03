@@ -3,7 +3,6 @@ import { PlusIcon } from "@heroicons/react/solid";
 
 function AddItemControls(props) {
   const [isEditing, setEditing] = useState(false);
-  const [keyDebug, setKeyDebug] = useState();
 
   const textInputRef = React.createRef();
 
@@ -24,7 +23,6 @@ function AddItemControls(props) {
     input.focus();
   }
   function handleKey(e) {
-    setKeyDebug(e.key);
     if (e.key === "Enter") {
       addItem();
     }
@@ -44,7 +42,6 @@ function AddItemControls(props) {
       <button className={`btn btn-square btn-primary absolute right-2 top-2 ${isEditing ? "" : "opacity-0"}`} onClick={addItem}>
         <PlusIcon className="w-5" />
       </button>
-      <div className="">{keyDebug}</div>
     </div>
   );
 }
