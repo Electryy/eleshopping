@@ -20,8 +20,17 @@ function ShoppingList(props) {
               {props.shoppingList.map((item, index) => (
                 <Draggable key={item.id} draggableId={item.id} index={index}>
                   {(provided, snapshot) => (
-                    <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                      <div className="perkele">perrkele</div>
+                    <div ref={provided.innerRef} {...provided.draggableProps}>
+                      <CheckboxItem
+                        key={item.id}
+                        id={item.id}
+                        text={item.text}
+                        checked={item.checked}
+                        inputChanged={props.inputChanged}
+                        checkboxClicked={props.checkboxClicked}
+                        deleteItem={props.deleteItem}
+                        dragHandleProps={provided.dragHandleProps}
+                      />
                     </div>
                   )}
                 </Draggable>
