@@ -1,17 +1,9 @@
 import React, { useState } from "react";
 import { DotsVerticalIcon, TrashIcon } from "@heroicons/react/solid";
-import { useSortable } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
 
 function CheckboxItem(props) {
   const [isEditing, setEditing] = useState(false);
-  const [isDelButtonVisible, setDelButton] = useState(false);
-  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: props.id });
 
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-  };
   const textInputRef = React.createRef();
 
   function checkboxClicked(e) {
@@ -41,8 +33,8 @@ function CheckboxItem(props) {
   }
 
   return (
-    <div className="cursor-pointer label justify-start relative" ref={setNodeRef} style={style}>
-      <DragIcon attributes={attributes} listeners={listeners} />
+    <div className="cursor-pointer label justify-start relative">
+      <DragIcon />
 
       <input
         ref={textInputRef}
@@ -64,7 +56,7 @@ function CheckboxItem(props) {
 
 function DragIcon(props) {
   return (
-    <div className="mr-3 flex -ml-3" {...props.attributes} {...props.listeners}>
+    <div className="mr-3 flex -ml-3">
       <DotsVerticalIcon className="h-9 w-9 -mr-6" />
       <DotsVerticalIcon className="h-9 w-9" />
     </div>
