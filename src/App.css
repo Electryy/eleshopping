@@ -16,3 +16,8 @@
   );
   background-size: 256px 256px;
 }
+.perkele {
+  height: 50px;
+  width: 100%;
+  background-color: blueviolet;
+}
