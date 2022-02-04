@@ -35,7 +35,7 @@ function CheckboxItem(props) {
   }
 
   return (
-    <div className="cursor-pointer label justify-start relative" {...props.dragHandleProps}>
+    <div className={`cursor-pointer py-3 px-2 rounded-md label justify-start relative ${props.snapshot.isDragging ? "bg-slate-800" : ""}`} {...props.dragHandleProps}>
       <input
         ref={textInputRef}
         name={props.id}

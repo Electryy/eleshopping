@@ -4,6 +4,7 @@
 
 .stripes {
   --stripe-color: #363c47;
+  --stripeHeight: 56px;
   background-image: linear-gradient(
     0deg,
     var(--stripe-color) 25%,
@@ -14,7 +15,8 @@
     transparent 75%,
     transparent 100%
   );
-  background-size: 256px 256px;
+  background-image: repeating-linear-gradient(to bottom, var(--stripe-color), var(--stripe-color) 50%, transparent 50%, transparent 100%);
+  background-size: calc(2 * var(--stripeHeight)) calc(2 * var(--stripeHeight));
 }
 .perkele {
   height: 50px;

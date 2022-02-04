@@ -18,7 +18,7 @@ function ShoppingList(props) {
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="fix">
           {(provided) => (
-            <div ref={provided.innerRef} {...provided.droppableProps}>
+            <div className="stripes" ref={provided.innerRef} {...provided.droppableProps}>
               {props.shoppingList.map((item, index) => (
                 <Draggable key={item.id} draggableId={item.id} index={index}>
                   {(provided, snapshot) => (
@@ -32,6 +32,7 @@ function ShoppingList(props) {
                         checkboxClicked={props.checkboxClicked}
                         deleteItem={props.deleteItem}
                         dragHandleProps={provided.dragHandleProps}
+                        snapshot={snapshot}
                       />
                     </div>
                   )}
