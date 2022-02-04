@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { DotsVerticalIcon, TrashIcon } from "@heroicons/react/solid";
+import { DotsVerticalIcon, TrashIcon, PencilIcon } from "@heroicons/react/solid";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
@@ -34,29 +34,24 @@ function CheckboxItem(props) {
     props.deleteItem(id);
   }
 
-  function DragIcon(props) {
-    return (
-      <div className="mr-3 flex -ml-3 cursor-grab" {...props.dragHandleProps}>
-        <DotsVerticalIcon className="h-9 w-9 -mr-6" />
-        <DotsVerticalIcon className="h-9 w-9" />
-      </div>
-    );
-  }
   return (
-    <div className="cursor-pointer label justify-start relative">
-      <DragIcon dragHandleProps={props.dragHandleProps} />
-
+    <div className="cursor-pointer label justify-start relative" {...props.dragHandleProps}>
       <input
         ref={textInputRef}
         name={props.id}
         defaultValue={props.text}
         type="text"
-        className="input input-ghost p-0 text-xl pr-5 w-0 grow focus:bg-transparent"
+        className="input input-ghost p-0 text-xl pr-5 w-0 grow focus:bg-transparen hidden"
         onFocus={toggleFocus}
         onBlur={toggleFocus}
         onKeyPress={handleKeyPress}
       ></input>
+      <p className="grow text-xl">{props.text}</p>
+      <button name={props.id} className={`btn btn text-white btn-sm btn-ghost`} onMouseDown={deleteItem}>
+        <PencilIcon className="w-6 " />
+      </button>
       <input name={props.id} type="checkbox" className="checkbox checkbox-lg shrink-0" checked={props.checked} onChange={checkboxClicked} />
+
       <button name={props.id} className={`btn btn text-white absolute top-2 -right-2 ${isEditing ? "" : "hidden"}`} onMouseDown={deleteItem}>
         <TrashIcon className="w-5 pointer-events-none" />
       </button>

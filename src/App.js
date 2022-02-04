@@ -26,7 +26,7 @@ class App extends React.Component {
       deleteItem: this.deleteItem.bind(this),
       checkboxClicked: this.checkboxClicked.bind(this),
       refresh: this.refresh.bind(this),
-      handleDragEnd: this.handleDragEnd.bind(this),
+      onDragEnd: this.onDragEnd.bind(this),
     };
   }
   async componentDidMount() {
@@ -92,18 +92,8 @@ class App extends React.Component {
     this.setState({ dataIsLoading: false });
     console.log("ended");
   }
-  handleDragEnd(event) {
-    const { active, over } = event;
-
-    if (active.id !== over.id) {
-      let shoppingList = [];
-      const oldIndex = this.state.shoppingList.findIndex((item) => item.id === active.id);
-      const newIndex = this.state.shoppingList.findIndex((item) => item.id === over.id);
-
-      shoppingList = arrayMove(this.state.shoppingList, oldIndex, newIndex);
-
-      this.setState({ shoppingList: shoppingList }, this.refreshListOrders);
-    }
+  onDragEnd(event) {
+    console.log("jeps");
   }
   refreshListOrders() {
     let shoppingList = [...this.state.shoppingList];
