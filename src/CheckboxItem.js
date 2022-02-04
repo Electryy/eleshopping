@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import { DotsVerticalIcon, TrashIcon, PencilIcon } from "@heroicons/react/solid";
-import { useSortable } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
 
 function CheckboxItem(props) {
   const [isEditing, setEditing] = useState(false);
