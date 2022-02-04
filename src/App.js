@@ -9,6 +9,13 @@ import React from "react";
 import { v4 as uuid } from "uuid";
 import { dbUpdate, dbPull, dbAdd, dbDelete, dbDeleteBatch, dbUpdateBatch } from "./firestore";
 
+const reorder = (list, startIndex, endIndex) => {
+  const result = Array.from(list);
+  const [removed] = result.splice(startIndex, 1);
+  result.splice(endIndex, 0, removed);
+
+  return result;
+};
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -29,6 +36,7 @@ class App extends React.Component {
       onDragEnd: this.onDragEnd.bind(this),
     };
   }
+
   async componentDidMount() {
     this.dataLoadingStarted();
     this.refresh().then((res) => {
@@ -92,8 +100,13 @@ class App extends React.Component {
     this.setState({ dataIsLoading: false });
     console.log("ended");
   }
-  onDragEnd(event) {
-    console.log("jeps");
+  onDragEnd(result) {
+    if (!result.destination) {
+      return;
+    }
+    const shoppingList = reorder(this.state.shoppingList, result.source.index, result.destination.index);
+
+    this.setState({ shoppingList }, this.refreshListOrders());
   }
   refreshListOrders() {
     let shoppingList = [...this.state.shoppingList];

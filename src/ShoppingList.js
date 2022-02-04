@@ -8,8 +8,8 @@ function ShoppingList(props) {
   function handleDragEnd(event) {
     props.handleDragEnd(event);
   }
-  function onDragEnd() {
-    props.onDragEnd();
+  function onDragEnd(result) {
+    props.onDragEnd(result);
   }
   return (
     <div className="form-control">
