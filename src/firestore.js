@@ -14,8 +14,8 @@ const db = getFirestore();
 
 export async function dbAdd(item) {
   try {
+    console.log("dbAdd", item);
     await setDoc(doc(db, "shopping_list", item.id), item);
-    console.log("saved");
   } catch (e) {
     console.error("Error adding document: ", e);
   }
@@ -23,16 +23,14 @@ export async function dbAdd(item) {
 export async function dbPull() {
   const querySnapshot = await getDocs(collection(db, "shopping_list"));
   let shoppingList = [];
-  console.log(querySnapshot);
   querySnapshot.forEach((doc) => {
     shoppingList.push(doc.data());
   });
-  shoppingList.sort((a, b) => (a.order > b.order ? 1 : -1));
   return shoppingList;
 }
 
-export function dbDelete(item) {
-  deleteDoc(doc(db, "shopping_list", item.id));
+export function dbDelete(id) {
+  deleteDoc(doc(db, "shopping_list", id));
 }
 
 export async function dbUpdateBatch(items) {
