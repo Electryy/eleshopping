@@ -66,6 +66,7 @@ class App extends React.Component {
     item.checked = !item.checked;
     this.setState({ shoppingList: shoppingList });
     storeUpdate(item, "checked");
+    storeDelete(item);
   }
 
   async addItem(value) {

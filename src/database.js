@@ -13,10 +13,11 @@ export async function storeGetAll() {
 }
 
 export async function storeDelete(item) {
-  await dbDelete(item.id);
+  let items = Array.isArray(item) ? item : [item];
+  await dbDeleteBatch(cleanLocalFields(items));
 }
 
-export async function storeUpdate(item, propertyName) {
+export async function storeUpdate(item, propertyName = null) {
   dbUpdate(item, { [propertyName]: item[propertyName] });
 }
 
