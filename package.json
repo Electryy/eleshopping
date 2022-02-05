@@ -25,7 +25,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "bundle": "gulp bundle"
+    "netlify": "react-scripts build && node beforeGulp.js && gulp bundle && gulp clean"
   },
   "eslintConfig": {
     "extends": [
