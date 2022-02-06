@@ -23,7 +23,7 @@ class App extends React.Component {
       dataIsLoading: true,
     };
 
-    this.shoppingProps = {
+    this.parentCall = {
       dataLoadingStarted: this.dataLoadingStarted.bind(this),
       dataLoadingEnded: this.dataLoadingEnded.bind(this),
       inputChanged: this.inputChanged.bind(this),
@@ -129,7 +129,7 @@ class App extends React.Component {
       <div className="App pb-5 relative">
         <Routes>
           <Route path="/" element={<MainLayout />}>
-            <Route index element={<Shopping {...this.shoppingProps} shoppingList={this.state.shoppingList} />} />
+            <Route index element={<Shopping parentCall={this.parentCall} shoppingList={this.state.shoppingList} />} />
             <Route path="recipes" element={<Recipe />} />
           </Route>
         </Routes>

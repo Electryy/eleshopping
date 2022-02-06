@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { PlusIcon } from "@heroicons/react/solid";
 
 function AddItemControls(props) {
+  const { parentCall } = { ...props };
   const [isEditing, setEditing] = useState(false);
 
   const textInputRef = React.createRef();
@@ -16,7 +17,7 @@ function AddItemControls(props) {
   function addItem() {
     const input = textInputRef.current;
     if (input.value) {
-      props.addItem(input.value);
+      parentCall.addItem(input.value);
       input.value = "";
     }
     setEditing(true);

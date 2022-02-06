@@ -33,7 +33,6 @@ export async function dbUpdateBatch(items) {
   items.forEach((item) => {
     batch.update(doc(db, "shopping_list", item.id), item);
   });
-  console.log(items);
   await batch.commit();
 }
 
