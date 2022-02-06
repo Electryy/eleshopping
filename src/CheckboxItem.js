@@ -7,7 +7,6 @@ function CheckboxItem(props) {
   const textInputRef = React.createRef();
 
   function checkboxClicked(e) {
-    console.log("höh");
     const id = e.target.name;
     props.checkboxClicked(id);
   }

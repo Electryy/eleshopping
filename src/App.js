@@ -6,7 +6,7 @@ import Recipe from "./Recipe";
 import LoadingScreen from "./LoadingScreen";
 import React from "react";
 import { v4 as uuid } from "uuid";
-import { storeAdd, storeGetAll, storeDelete, storeDeleteBatch, storeUpdateBatch, storeUpdate } from "./database";
+import { storeAdd, storeGetAll, storeDelete, storeDeleteBatch, storeUpdateBatch, storeUpdateProperty, storeUpdate } from "./database";
 
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
@@ -42,9 +42,10 @@ class App extends React.Component {
       this.dataLoadingEnded();
     });
   }
-  async componentDidUpdate() {}
+  async componentDidUpdate() {
+    console.log(this.state.shoppingList);
+  }
   async refresh() {
-    console.log("refreshing data");
     const shoppingList = await storeGetAll();
     this.setState({ shoppingList: shoppingList });
     console.log(this.state);
@@ -57,7 +58,7 @@ class App extends React.Component {
     if (item.text !== target.value) {
       item.text = target.value;
       this.setState({ shoppingList: shoppingList });
-      storeUpdate(item, "text");
+      storeUpdateProperty(item, "text");
     }
   }
   checkboxClicked(id) {
@@ -65,16 +66,14 @@ class App extends React.Component {
     let item = shoppingList.find((item) => item.id === id);
     item.checked = !item.checked;
     this.setState({ shoppingList: shoppingList });
-    storeUpdate(item, "checked");
-    storeDelete(item);
+    storeUpdateProperty(item, "checked");
   }
 
   async addItem(value) {
     let shoppingList = [...this.state.shoppingList];
-    const newItem = { id: uuid(), text: value, checked: false, order: shoppingList.length };
+    const newItem = { id: uuid(), text: value, checked: false, order: 0 };
     shoppingList.unshift(newItem);
-    this.setState({ shoppingList: shoppingList }, this.refreshListOrders);
-    //dbAdd(newItem);
+    this.refreshListOrders(shoppingList);
     storeAdd(newItem);
   }
 
@@ -95,35 +94,25 @@ class App extends React.Component {
   }
   dataLoadingStarted() {
     this.setState({ dataIsLoading: true });
-    console.log("started");
   }
   dataLoadingEnded() {
     this.setState({ dataIsLoading: false });
-    console.log("ended");
   }
   onDragEnd(result) {
     if (!result.destination) {
       return;
     }
-    const shoppingList = reorder(this.state.shoppingList, result.source.index, result.destination.index);
-
-    this.setState({ shoppingList }, this.refreshListOrders());
+    const ordered = reorder(this.state.shoppingList, result.source.index, result.destination.index);
+    this.refreshListOrders(ordered);
   }
-  refreshListOrders() {
-    let shoppingList = [...this.state.shoppingList];
-    shoppingList.forEach((item, index) => {
+  refreshListOrders(shoppingList) {
+    let ordered = shoppingList.map((item, index) => {
       item.order = index;
+      return item;
     });
-    this.setState({ shoppingList: shoppingList });
 
-    let dbObject = [];
-    shoppingList.forEach((item) => {
-      dbObject.push({
-        id: item.id,
-        order: item.order,
-      });
-    });
-    storeUpdateBatch(dbObject);
+    this.setState({ shoppingList: ordered });
+    storeUpdate(shoppingList, "order");
   }
   render() {
     return (

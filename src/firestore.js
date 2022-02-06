@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
-import { collection, addDoc, doc, getDocs, setDoc, deleteDoc, writeBatch, updateDoc } from "firebase/firestore";
+import { collection, doc, getDocs, setDoc, deleteDoc, writeBatch, updateDoc } from "firebase/firestore";
 const firebaseApp = initializeApp({
   apiKey: process.env.REACT_APP_apiKey,
   authDomain: process.env.REACT_APP_authDomain,
@@ -14,7 +14,6 @@ const db = getFirestore();
 
 export async function dbAdd(item) {
   try {
-    console.log("dbAdd", item);
     await setDoc(doc(db, "shopping_list", item.id), item);
   } catch (e) {
     console.error("Error adding document: ", e);
@@ -29,8 +28,8 @@ export async function dbPull() {
   return shoppingList;
 }
 
-export function dbDelete(id) {
-  deleteDoc(doc(db, "shopping_list", id));
+export async function dbDelete(id) {
+  await deleteDoc(doc(db, "shopping_list", id));
 }
 
 export async function dbUpdateBatch(items) {
@@ -38,6 +37,7 @@ export async function dbUpdateBatch(items) {
   items.forEach((item) => {
     batch.update(doc(db, "shopping_list", item.id), item);
   });
+  console.log(items);
   await batch.commit();
 }
 
@@ -51,5 +51,5 @@ export async function dbDeleteBatch(items) {
 
 export async function dbUpdate(item, data) {
   const itemRef = doc(db, "shopping_list", item.id);
-  updateDoc(itemRef, data);
+  await updateDoc(itemRef, data);
 }
