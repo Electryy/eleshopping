@@ -5,7 +5,6 @@ export function storeAdd(item) {
 }
 export async function storeGetAll() {
   let shoppingList = await dbPull();
-  // add needed local states
   shoppingList = addLocalProperties(shoppingList);
   // sort by order
   shoppingList.sort((a, b) => (a.order > b.order ? 1 : -1));

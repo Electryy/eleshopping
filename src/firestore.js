@@ -13,11 +13,7 @@ const firebaseApp = initializeApp({
 const db = getFirestore();
 
 export async function dbAdd(item) {
-  try {
-    await setDoc(doc(db, "shopping_list", item.id), item);
-  } catch (e) {
-    console.error("Error adding document: ", e);
-  }
+  await setDoc(doc(db, "shopping_list", item.id), item);
 }
 export async function dbPull() {
   const querySnapshot = await getDocs(collection(db, "shopping_list"));

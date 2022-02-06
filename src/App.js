@@ -73,8 +73,8 @@ class App extends React.Component {
     let shoppingList = [...this.state.shoppingList];
     const newItem = { id: uuid(), text: value, checked: false, order: 0 };
     shoppingList.unshift(newItem);
+    await storeAdd(newItem);
     this.refreshListOrders(shoppingList);
-    storeAdd(newItem);
   }
 
   deleteItem(id) {
