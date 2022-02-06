@@ -1,7 +1,7 @@
-import { dbPull, dbUpdate, dbAdd, dbDelete, dbDeleteBatch, dbUpdateBatch } from "./firestore";
+import { dbPull, dbAdd, dbDeleteBatch, dbUpdateBatch } from "./firestore";
 
-export function storeAdd(item) {
-  dbAdd(extractStoreableFields(item));
+export async function storeAdd(item) {
+  await dbAdd(extractStoreableFields(item));
 }
 export async function storeGetAll() {
   let shoppingList = await dbPull();
@@ -38,7 +38,7 @@ function extractStoreableFields(item) {
 
 /**
  * Remove all state properties and return saveable object for database
- * @param {Array} items shoppingList items
+ * @param {Object[]} items shoppingList items
  * @returns ShoppingList items
  */
 function cleanLocalProperties(items) {
@@ -51,7 +51,7 @@ function cleanLocalProperties(items) {
 
 /**
  * Add necessary state properties for view (not saved to database)
- * @param {Array} items Array of shoppingList items
+ * @param {Object[]} items Array of shoppingList items
  * @returns ShoppingList items
  */
 function addLocalProperties(items) {
@@ -65,7 +65,7 @@ function addLocalProperties(items) {
 /**
  * Return only selected properties from object
  * @param {Object} item Item object
- * @param {Array} properties Array of strings
+ * @param {string|string[]} properties Array of strings
  * @returns Object
  */
 function extractProperties(item, properties) {
