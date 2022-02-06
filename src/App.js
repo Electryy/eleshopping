@@ -33,6 +33,7 @@ class App extends React.Component {
       checkboxClicked: this.checkboxClicked.bind(this),
       refresh: this.refresh.bind(this),
       onDragEnd: this.onDragEnd.bind(this),
+      showTools: this.showTools.bind(this),
     };
   }
 
@@ -111,6 +112,17 @@ class App extends React.Component {
 
     this.setState({ shoppingList: ordered });
     storeUpdate(shoppingList, "order");
+  }
+
+  showTools(id) {
+    let shoppingList = [...this.state.shoppingList].map((item) => {
+      item.toolsVisible = false;
+      return item;
+    });
+
+    let item = shoppingList.find((item) => item.id === id);
+    item.toolsVisible = true;
+    this.setState({ shoppingList: shoppingList });
   }
   render() {
     return (

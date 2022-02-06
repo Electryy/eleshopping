@@ -58,7 +58,7 @@ function addLocalProperties(items) {
   return items.map((item) => ({
     ...item,
     isEditing: false,
-    showTools: false,
+    toolsVisible: false,
   }));
 }
 
