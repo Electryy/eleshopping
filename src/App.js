@@ -6,7 +6,7 @@ import Recipe from "./Recipe";
 import LoadingScreen from "./LoadingScreen";
 import React from "react";
 import { v4 as uuid } from "uuid";
-import { storeAdd, storeGetAll, storeDelete, storeDeleteBatch, storeUpdateBatch, storeUpdateProperty, storeUpdate } from "./database";
+import { storeAdd, storeGetAll, storeDelete, storeUpdate } from "./storage";
 
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
@@ -43,13 +43,11 @@ class App extends React.Component {
     });
   }
   async componentDidUpdate() {
-    console.log(this.state.shoppingList);
+    console.log("state", this.state);
   }
   async refresh() {
     const shoppingList = await storeGetAll();
     this.setState({ shoppingList: shoppingList });
-    console.log(this.state);
-    //setTimeout(this.refresh.bind(this), 2000);
   }
   inputChanged(target) {
     const id = target.name;
@@ -58,7 +56,7 @@ class App extends React.Component {
     if (item.text !== target.value) {
       item.text = target.value;
       this.setState({ shoppingList: shoppingList });
-      storeUpdateProperty(item, "text");
+      storeUpdate(item, "text");
     }
   }
   checkboxClicked(id) {
@@ -66,7 +64,7 @@ class App extends React.Component {
     let item = shoppingList.find((item) => item.id === id);
     item.checked = !item.checked;
     this.setState({ shoppingList: shoppingList });
-    storeUpdateProperty(item, "checked");
+    storeUpdate(item, "checked");
   }
 
   async addItem(value) {
@@ -90,7 +88,7 @@ class App extends React.Component {
     let deletedItems = shoppingList.filter((item) => item.checked === true);
     let remainingItems = shoppingList.filter((item) => item.checked === false);
     this.setState({ shoppingList: remainingItems });
-    storeDeleteBatch(deletedItems);
+    storeDelete(deletedItems);
   }
   dataLoadingStarted() {
     this.setState({ dataIsLoading: true });

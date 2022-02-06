@@ -26,27 +26,21 @@ export async function storeUpdate(item, property) {
   await dbUpdateBatch(dbItems);
 }
 
-export async function storeUpdateProperty(item, propertyName = null) {
-  await dbUpdate(item, { [propertyName]: item[propertyName] });
-}
-
-export async function storeDeleteBatch(items) {
-  await dbDeleteBatch(cleanLocalProperties(items));
-}
-
-export async function storeUpdateBatch(items) {
-  await dbUpdateBatch(cleanLocalProperties(items));
-}
-
+/**
+ * Get saveable properties
+ * @param {Object} item shoppingList item
+ * @returns ShoppingList item with only saveable properties
+ */
 function extractStoreableFields(item) {
-  return {
-    id: item.id,
-    text: item.text,
-    checked: item.checked,
-    order: item.order,
-  };
+  const { id, text, checked, order } = item;
+  return { id, text, checked, order };
 }
 
+/**
+ * Remove all state properties and return saveable object for database
+ * @param {Array} items shoppingList items
+ * @returns ShoppingList items
+ */
 function cleanLocalProperties(items) {
   let cleanItems = [];
   items.forEach((item) => {
@@ -55,15 +49,29 @@ function cleanLocalProperties(items) {
   return cleanItems;
 }
 
+/**
+ * Add necessary state properties for view (not saved to database)
+ * @param {Array} items Array of shoppingList items
+ * @returns ShoppingList items
+ */
 function addLocalProperties(items) {
-  return items.map((item) => ({ ...item, isEditing: false }));
+  return items.map((item) => ({
+    ...item,
+    isEditing: false,
+    showTools: false,
+  }));
 }
 
+/**
+ * Return only selected properties from object
+ * @param {Object} item Item object
+ * @param {Array} properties Array of strings
+ * @returns Object
+ */
 function extractProperties(item, properties) {
   let extracted = { id: item.id };
   properties.forEach((property) => {
     extracted[property] = item[property];
   });
-  console.log(extracted);
   return extracted;
 }
