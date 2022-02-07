@@ -17,9 +17,6 @@
   );
   background-image: repeating-linear-gradient(to bottom, var(--stripe-color), var(--stripe-color) 50%, transparent 50%, transparent 100%);
   background-size: calc(2 * var(--stripeHeight)) calc(2 * var(--stripeHeight));
-}
-.perkele {
-  height: 50px;
-  width: 100%;
-  background-color: blueviolet;
+
+  background: darkblue;
 }
