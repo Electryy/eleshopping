@@ -8,6 +8,7 @@
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
     "daisyui": "^1.24.3",
+    "dotenv": "^16.0.0",
     "firebase": "^9.6.4",
     "gulp": "^4.0.2",
     "gulp-inline-source": "^4.0.0",
@@ -25,7 +26,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "netlify": "react-scripts build && node beforeGulp.js && gulp bundle && gulp clean"
+    "netlify": "react-scripts build && node scripts/moveScripts.js && gulp bundle && gulp clean && node scripts/staticrypt.js"
   },
   "eslintConfig": {
     "extends": [
