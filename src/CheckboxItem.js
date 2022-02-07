@@ -20,17 +20,21 @@ function CheckboxItem(props) {
     }
   }
   function handleKeyPress(e) {
+    console.log("jaa");
     if (e.key === "Enter") {
       textInputRef.current.blur();
     }
   }
   function blur() {
-    //textInputRef.current.blur();
+    textInputRef.current.blur();
   }
 
   function deleteItem(id) {
-    //textInputRef.current.blur();
-    parentCall.deleteItem(id);
+    textInputRef.current.blur();
+
+    requestAnimationFrame(() => {
+      parentCall.deleteItem(id);
+    });
   }
 
   return (
