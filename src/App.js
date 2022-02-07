@@ -1,6 +1,7 @@
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import MainLayout from "./MainLayout";
+import ShoppingListItem from "./ShoppingListItem";
 import Shopping from "./Shopping";
 import Recipe from "./Recipe";
 import LoadingScreen from "./LoadingScreen";
@@ -38,6 +39,7 @@ class App extends React.Component {
   }
 
   async componentDidMount() {
+    console.log(new ShoppingListItem("textiä"));
     this.dataLoadingStarted();
     this.refresh().then((res) => {
       this.dataLoadingEnded();
