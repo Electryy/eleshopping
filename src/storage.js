@@ -1,5 +1,9 @@
 import { dbPull, dbAdd, dbDeleteBatch, dbUpdateBatch } from "./firestore";
 
+export async function storeGetAll2() {
+  return await dbPull();
+}
+
 export async function storeAdd(item) {
   await dbAdd(extractStoreableFields(item));
 }
