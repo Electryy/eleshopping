@@ -1,22 +1,3 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-.stripes {
-  --stripe-color: #363c47;
-  --stripeHeight: 56px;
-  background-image: linear-gradient(
-    0deg,
-    var(--stripe-color) 25%,
-    transparent 25%,
-    transparent 50%,
-    var(--stripe-color) 50%,
-    var(--stripe-color) 75%,
-    transparent 75%,
-    transparent 100%
-  );
-  background-image: repeating-linear-gradient(to bottom, var(--stripe-color), var(--stripe-color) 50%, transparent 50%, transparent 100%);
-  background-size: calc(2 * var(--stripeHeight)) calc(2 * var(--stripeHeight));
-
-  background: darkblue;
-}

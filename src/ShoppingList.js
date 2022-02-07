@@ -13,7 +13,7 @@ function ShoppingList(props) {
       <DragDropContext onDragEnd={parentCall.onDragEnd}>
         <Droppable droppableId="fix">
           {(provided) => (
-            <div className="stripes" ref={provided.innerRef} {...provided.droppableProps}>
+            <div ref={provided.innerRef} {...provided.droppableProps}>
               {shoppingList.map((item, index) => (
                 <Draggable key={item.id} draggableId={item.id} index={index}>
                   {(provided, snapshot) => (
