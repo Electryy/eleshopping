@@ -20,12 +20,12 @@ function AddItemControls(props) {
       parentCall.addItem(input.value);
       input.value = "";
     }
-    setEditing(true);
-    input.focus();
   }
   function handleKey(e) {
+    const input = textInputRef.current;
     if (e.key === "Enter") {
       addItem();
+      input.focus();
     }
   }
 

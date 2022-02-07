@@ -11,11 +11,8 @@ function CheckboxItem(props) {
       setIsEditing(true);
     } else if (e.type === "blur") {
       const element = textInputRef.current;
-
       element.setSelectionRange(0, 0); // "Scroll" back to start of the string
-
       setIsEditing(false);
-
       parentCall.inputChanged(element);
     }
   }
@@ -27,7 +24,6 @@ function CheckboxItem(props) {
   }
 
   function deleteItem(id) {
-    console.log("delling!");
     textInputRef.current.blur();
 
     requestAnimationFrame(() => {
@@ -36,10 +32,10 @@ function CheckboxItem(props) {
   }
 
   return (
-    <div className={`cursor-pointer rounded-md py-2 flex items-start relative ${props.snapshot.isDragging ? "bg-slate-800" : ""}`} onClick={() => parentCall.showTools(item.id)}>
-      <div className="h-12 w-10 relative shrink-0" {...props.dragHandleProps}>
+    <div className={`cursor-pointer rounded-md p-2 flex items-start relative ${props.snapshot.isDragging ? "bg-slate-800" : ""}`} onClick={() => parentCall.showTools(item.id)}>
+      <div className="h-12 w-8 relative shrink-0" {...props.dragHandleProps}>
+        <DotsVerticalIcon className="absolute w-6 top-3 -left-1" />
         <DotsVerticalIcon className="absolute w-6 top-3 left-1" />
-        <DotsVerticalIcon className="absolute w-6 top-3 left-3" />
       </div>
       <div className="grow flex flex-wrap justify-end mr-2">
         <input
@@ -47,7 +43,7 @@ function CheckboxItem(props) {
           name={item.id}
           defaultValue={item.text}
           type="text"
-          className={`input grow input-ghost p-0 text-xl focus:bg-slate-500`}
+          className={`input grow input-ghost p-0 text-xl focus:bg-slate-600`}
           onFocus={toggleFocus}
           onBlur={toggleFocus}
           onKeyPress={handleKeyPress}
