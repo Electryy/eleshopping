@@ -28,5 +28,3 @@ credentials/*
 # Local Netlify folder
 .netlify
 
-gulpfile.js
-hiddenNotes.txt
