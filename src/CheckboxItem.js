@@ -39,27 +39,29 @@ function CheckboxItem(props) {
 
   return (
     <div
-      className={`cursor-pointer  rounded-md label flex items-center relative ${props.snapshot.isDragging ? "bg-slate-800" : ""}`}
+      className={`cursor-pointer  rounded-md label flex items-start relative ${props.snapshot.isDragging ? "bg-slate-800" : ""}`}
       {...props.dragHandleProps}
       onClick={() => parentCall.showTools(item.id)}
     >
-      <input
-        ref={textInputRef}
-        name={item.id}
-        defaultValue={item.text}
-        type="text"
-        className={`input input-ghost p-0 text-xl pr-5 w-0 grow focus:bg-transparen ml-10 mr-2`}
-        onFocus={toggleFocus}
-        onBlur={toggleFocus}
-        onKeyPress={handleKeyPress}
-      ></input>
-      <div className={`mx-1 ${isEditing ? "" : "hidden"}`}>
-        <button className={`btn btn-primary mx-1`} onClick={blur}>
-          <CheckIcon className="w-6" />
-        </button>
-        <button className={`btn btn-warning mx-1`} onClick={() => deleteItem(item.id)}>
-          <TrashIcon className="w-6" />
-        </button>
+      <div className="grow flex flex-wrap justify-end">
+        <input
+          ref={textInputRef}
+          name={item.id}
+          defaultValue={item.text}
+          type="text"
+          className={`input w-full input-ghost p-0 text-xl focus:bg-transparen mr-2`}
+          onFocus={toggleFocus}
+          onBlur={toggleFocus}
+          onKeyPress={handleKeyPress}
+        ></input>
+        <div className={`mx-1 mt-2  ${isEditing ? "" : "hidden"}`}>
+          <button className={`btn btn-sm btn-warning mx-1`} onClick={() => deleteItem(item.id)}>
+            <TrashIcon className="w-4" />
+          </button>
+          <button className={`btn btn-sm btn-primary mx-1`} onClick={blur}>
+            <CheckIcon className="w-4" />
+          </button>
+        </div>
       </div>
 
       <input name={item.id} type="checkbox" className="checkbox checkbox-lg shrink-0" checked={item.checked} onChange={() => parentCall.checkboxClicked(item.id)} />
