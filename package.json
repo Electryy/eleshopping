@@ -32,10 +32,11 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "selfcontain": "npm run build && npm run selfcontain-move-scripts && npm run selfcontain-inline-scripts && npm run selfcontain-encrypt",
-    "selfcontain-move-scripts": "node scripts/moveScripts.js",
-    "selfcontain-inline-scripts": "gulp inline && gulp clean",
-    "selfcontain-encrypt": "node scripts/staticrypt.js"
+    "contain": "npm run build && npm run contain-move-scripts && npm run contain-inline-scripts && npm run contain-encrypt",
+    "contain-move-scripts": "node scripts/moveScripts.js",
+    "contain-inline-scripts": "gulp inline && gulp clean",
+    "contain-encrypt": "node scripts/staticrypt.js",
+    "netlify-deploy": "netlify deploy --prod --dir build"
   },
   "eslintConfig": {
     "extends": [
