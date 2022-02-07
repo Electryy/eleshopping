@@ -1,7 +1,7 @@
 import { v4 as uuid } from "uuid";
 
 export default class ShoppingListItem {
-  constructor(text, checked = false, order = null) {
+  constructor(text, checked = false, order = -1) {
     this.id = uuid();
     this.text = text;
     this.checked = checked;

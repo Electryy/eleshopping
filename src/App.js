@@ -8,6 +8,7 @@ import LoadingScreen from "./LoadingScreen";
 import React from "react";
 import { v4 as uuid } from "uuid";
 import { storeAdd, storeGetAll, storeDelete, storeUpdate } from "./storage";
+import ShoppingListModel from "./ShoppingListModel";
 
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
@@ -21,6 +22,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       shoppingList: [],
+      shopList: new ShoppingListModel([]),
       dataIsLoading: true,
     };
 
@@ -50,6 +52,9 @@ class App extends React.Component {
   }
   async refresh() {
     const shoppingList = await storeGetAll();
+    let list = { ...this.state.shopList };
+    list.populate();
+    this.setState({ shopList: list });
     this.setState({ shoppingList: shoppingList });
   }
   inputChanged(target) {
