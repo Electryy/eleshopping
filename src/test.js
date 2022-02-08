@@ -1,9 +1,8 @@
 const ShoppingListItem = function (item) {
-  return {
-    itm: item,
-    hep() {
-      return this.itm;
-    },
+  const itm = item;
+  this.jotain = item;
+  this.hep = () => {
+    return itm;
   };
 };
 export default ShoppingListItem;
