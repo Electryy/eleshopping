@@ -66,6 +66,7 @@ class App extends React.Component {
         this.setState({ refreshCounter: 0 });
       } else if (document.visibilityState === "visible") {
         this.setState({ refreshCounter: 600 });
+        this.refresh();
       }
     });
   }

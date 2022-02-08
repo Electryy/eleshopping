@@ -32,10 +32,7 @@ function CheckboxItem(props) {
   }
 
   return (
-    <div
-      className={`cursor-pointer rounded-md p-2 pl-0 flex items-start relative ${props.snapshot.isDragging ? "bg-slate-800" : ""}`}
-      onClick={() => parentCall.showTools(item.id)}
-    >
+    <div className={`rounded-md p-2 pl-0 flex items-start relative ${props.snapshot.isDragging ? "bg-slate-800" : ""}`} onClick={() => parentCall.showTools(item.id)}>
       <div className="h-12 w-10 relative shrink-0" {...props.dragHandleProps}>
         <DotsVerticalIcon className="absolute w-6 top-3 left-0" />
         <DotsVerticalIcon className="absolute w-6 top-3 left-2" />
@@ -46,7 +43,7 @@ function CheckboxItem(props) {
           name={item.id}
           defaultValue={item.text}
           type="text"
-          className={`input grow input-ghost p-0 text-xl focus:bg-slate-600`}
+          className={`input grow basis-full  input-ghost p-0 text-xl focus:bg-slate-600`}
           onFocus={toggleFocus}
           onBlur={toggleFocus}
           onKeyPress={handleKeyPress}
