@@ -1,15 +1,12 @@
 /**
- * Module that fetches data every on interval.
- * Paused when browser looses focus.
+ * Module that fetches data on interval.
+ * Paused when browser not focused.
  * If that fails only fetch for set amount of time and continue if interraction with the page.
  */
 
 const backgroundMins = 5;
-
-const updateFrequency = 1;
-
+const updateFrequencyMins = 1;
 let maxTimes = null;
-
 let refreshCallback = null;
 let intervalRef = null;
 let countDownCounter = null;
@@ -29,10 +26,10 @@ const refresher = {
     refreshCallback = callback;
 
     // Set interval to run every 2 sec
-    intervalRef = setInterval(refresh, updateFrequency * 1000);
+    intervalRef = setInterval(refresh, updateFrequencyMins * 1000);
 
     // Convert minutes to seconds and divide with frequency to get how many times to update
-    maxTimes = (backgroundMins * 60) / updateFrequency;
+    maxTimes = (backgroundMins * 60) / updateFrequencyMins;
 
     countDownCounter = maxTimes;
 
