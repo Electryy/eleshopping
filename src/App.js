@@ -39,14 +39,13 @@ class App extends React.Component {
       this.setState({ shoppingList: shoppingList });
     };
     this.refresher = new Refresher(this.refresh);
-    console.log(this.refresher);
   }
 
   async componentDidMount() {
     this.setState({ dataIsLoading: true });
     this.refresh().then((res) => {
       this.setState({ dataIsLoading: false });
-      this.refresher.init();
+      this.refresher.start();
     });
   }
 

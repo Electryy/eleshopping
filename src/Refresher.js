@@ -17,7 +17,7 @@ const Refresher = function (callback) {
    * @param {function} callback parent function that fetches the data
    * @returns
    */
-  this.init = function () {
+  this.start = function () {
     if (intervalRef) {
       return;
     }
