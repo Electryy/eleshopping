@@ -16,15 +16,13 @@ const reorder = (list, startIndex, endIndex) => {
   return result;
 };
 
-const refreshCounter = 0;
-
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       shoppingList: [],
       dataIsLoading: true,
-      counter: 5,
+      refreshCounter: 600,
     };
 
     this.parentCall = {
@@ -40,18 +38,20 @@ class App extends React.Component {
     };
 
     this.refresh = async () => {
-      if (this.state.counter > 0) {
+      if (this.state.refreshCounter > 0) {
         const shoppingList = await storeGetAll();
         this.setState((state) => {
-          return { counter: state.counter - 1, shoppingList: shoppingList };
+          return { refreshCounter: state.refreshCounter - 1, shoppingList: shoppingList };
         });
       }
     };
 
     this.intervalRef = null;
 
-    this.startRefreshInterval = () => {
-      this.setState({ counter: 5 });
+    this.restartRefreshCounter = () => {
+      if (this.state.refreshCounter < 600) {
+        this.setState({ refreshCounter: 600 });
+      }
     };
   }
 
@@ -61,11 +61,11 @@ class App extends React.Component {
       this.dataLoadingEnded();
     });
     this.intervalRef = setInterval(this.refresh, 2000);
-    window.addEventListener("visibilitychange", () => {
+    document.addEventListener("visibilitychange", () => {
       if (document.visibilityState === "hidden") {
-        this.intervalRef = clearTimeout(this.intervalRef);
-      } else if (!this.intervalRef) {
-        this.intervalRef = setInterval(this.refresh, 2000);
+        this.setState({ refreshCounter: 0 });
+      } else if (document.visibilityState === "visible") {
+        this.setState({ refreshCounter: 600 });
       }
     });
   }
@@ -152,7 +152,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="App pb-5 relative" onTouchStart={this.startRefreshInterval}>
+      <div className="App pb-5 relative" onTouchStart={this.restartRefreshCounter} onMouseMove={this.restartRefreshCounter}>
         <Routes>
           <Route path="/" element={<MainLayout />}>
             <Route index element={<Shopping parentCall={this.parentCall} shoppingList={this.state.shoppingList} />} />
@@ -160,7 +160,6 @@ class App extends React.Component {
           </Route>
         </Routes>
         <LoadingScreen dataIsLoading={this.state.dataIsLoading} />
-        <h3 className="text-6xl">{this.state.counter}</h3>
       </div>
     );
   }
