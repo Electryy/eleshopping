@@ -4,7 +4,7 @@ import MainLayout from "./MainLayout";
 import Shopping from "./Shopping";
 import Recipe from "./Recipe";
 import LoadingScreen from "./LoadingScreen";
-import refresher from "./Refresher";
+import Refresher from "./Refresher";
 import React from "react";
 import { v4 as uuid } from "uuid";
 import { storeAdd, storeGetAll, storeDelete, storeUpdate } from "./storage";
@@ -38,13 +38,15 @@ class App extends React.Component {
       const shoppingList = await storeGetAll();
       this.setState({ shoppingList: shoppingList });
     };
+    this.refresher = new Refresher(this.refresh);
+    console.log(this.refresher);
   }
 
   async componentDidMount() {
     this.setState({ dataIsLoading: true });
     this.refresh().then((res) => {
       this.setState({ dataIsLoading: false });
-      refresher.init(this.refresh);
+      this.refresher.init();
     });
   }
 

@@ -4,26 +4,23 @@
  * If that fails only fetch for set amount of time and continue if interraction with the page.
  */
 
-const backgroundMins = 5;
-const updateFrequencyMins = 1;
-let maxTimes = null;
-let refreshCallback = null;
-let intervalRef = null;
-let countDownCounter = null;
+const Refresher = function (callback) {
+  const backgroundMins = 5;
+  const updateFrequencyMins = 1;
+  const refreshCallback = callback;
 
-const refresher = {
+  let maxTimes = null;
+  let intervalRef = null;
+  let countDownCounter = null;
   /**
    *
    * @param {function} callback parent function that fetches the data
    * @returns
    */
-  init: (callback) => {
+  this.init = function () {
     if (intervalRef) {
       return;
     }
-
-    // The actual refresh function
-    refreshCallback = callback;
 
     // Set interval to run every 2 sec
     intervalRef = setInterval(refresh, updateFrequencyMins * 1000);
@@ -48,20 +45,19 @@ const refresher = {
     // with the page we want to top up the countDownCounter
     document.addEventListener("mousemove", topUpcountDownCounter);
     document.addEventListener("touchstart", topUpcountDownCounter);
-  },
+  };
+  function topUpcountDownCounter() {
+    if (countDownCounter < maxTimes) {
+      countDownCounter = maxTimes;
+    }
+  }
+
+  function refresh() {
+    if (countDownCounter > 0) {
+      refreshCallback();
+      countDownCounter--;
+    }
+  }
 };
 
-function topUpcountDownCounter() {
-  if (countDownCounter < maxTimes) {
-    countDownCounter = maxTimes;
-  }
-}
-
-function refresh() {
-  if (countDownCounter > 0) {
-    refreshCallback();
-    countDownCounter--;
-  }
-}
-
-export default refresher;
+export default Refresher;
