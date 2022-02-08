@@ -15,12 +15,16 @@ const reorder = (list, startIndex, endIndex) => {
 
   return result;
 };
+
+const refreshCounter = 0;
+
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       shoppingList: [],
       dataIsLoading: true,
+      counter: 5,
     };
 
     this.parentCall = {
@@ -31,9 +35,23 @@ class App extends React.Component {
       clearChecked: this.clearChecked.bind(this),
       deleteItem: this.deleteItem.bind(this),
       checkboxClicked: this.checkboxClicked.bind(this),
-      refresh: this.refresh.bind(this),
       onDragEnd: this.onDragEnd.bind(this),
       showTools: this.showTools.bind(this),
+    };
+
+    this.refresh = async () => {
+      if (this.state.counter > 0) {
+        const shoppingList = await storeGetAll();
+        this.setState((state) => {
+          return { counter: state.counter - 1, shoppingList: shoppingList };
+        });
+      }
+    };
+
+    this.intervalRef = null;
+
+    this.startRefreshInterval = () => {
+      this.setState({ counter: 5 });
     };
   }
 
@@ -42,14 +60,20 @@ class App extends React.Component {
     this.refresh().then((res) => {
       this.dataLoadingEnded();
     });
+    this.intervalRef = setInterval(this.refresh, 2000);
+    window.addEventListener("visibilitychange", () => {
+      if (document.visibilityState === "hidden") {
+        this.intervalRef = clearTimeout(this.intervalRef);
+      } else if (!this.intervalRef) {
+        this.intervalRef = setInterval(this.refresh, 2000);
+      }
+    });
   }
+
   async componentDidUpdate() {
     console.log("state", this.state);
   }
-  async refresh() {
-    const shoppingList = await storeGetAll();
-    this.setState({ shoppingList: shoppingList });
-  }
+
   inputChanged(target) {
     const id = target.name;
     let shoppingList = [...this.state.shoppingList];
@@ -125,9 +149,10 @@ class App extends React.Component {
     item.toolsVisible = true;
     this.setState({ shoppingList: shoppingList });
   }
+
   render() {
     return (
-      <div className="App pb-5 relative">
+      <div className="App pb-5 relative" onTouchStart={this.startRefreshInterval}>
         <Routes>
           <Route path="/" element={<MainLayout />}>
             <Route index element={<Shopping parentCall={this.parentCall} shoppingList={this.state.shoppingList} />} />
@@ -135,6 +160,7 @@ class App extends React.Component {
           </Route>
         </Routes>
         <LoadingScreen dataIsLoading={this.state.dataIsLoading} />
+        <h3 className="text-6xl">{this.state.counter}</h3>
       </div>
     );
   }
