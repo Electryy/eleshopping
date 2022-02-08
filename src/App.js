@@ -5,6 +5,7 @@ import Shopping from "./Shopping";
 import Recipe from "./Recipe";
 import LoadingScreen from "./LoadingScreen";
 import refresher from "./Refresher";
+import ShoppingListItem from "./test";
 import React from "react";
 import { v4 as uuid } from "uuid";
 import { storeAdd, storeGetAll, storeDelete, storeUpdate } from "./storage";
@@ -41,6 +42,9 @@ class App extends React.Component {
   }
 
   async componentDidMount() {
+    let jes = new ShoppingListItem("hehe");
+    let hah = new ShoppingListItem("hah");
+    console.log(jes.hep());
     this.setState({ dataIsLoading: true });
     this.refresh().then((res) => {
       this.setState({ dataIsLoading: false });
