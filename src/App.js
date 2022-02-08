@@ -26,15 +26,12 @@ class App extends React.Component {
     };
 
     this.parentCall = {
-      dataLoadingStarted: this.dataLoadingStarted.bind(this),
-      dataLoadingEnded: this.dataLoadingEnded.bind(this),
       inputChanged: this.inputChanged.bind(this),
       addItem: this.addItem.bind(this),
       clearChecked: this.clearChecked.bind(this),
       deleteItem: this.deleteItem.bind(this),
       checkboxClicked: this.checkboxClicked.bind(this),
       onDragEnd: this.onDragEnd.bind(this),
-      showTools: this.showTools.bind(this),
     };
 
     this.refresh = async () => {
@@ -44,9 +41,9 @@ class App extends React.Component {
   }
 
   async componentDidMount() {
-    this.dataLoadingStarted();
+    this.setState({ dataIsLoading: true });
     this.refresh().then((res) => {
-      this.dataLoadingEnded();
+      this.setState({ dataIsLoading: false });
       refresher.init(this.refresh);
     });
   }
@@ -97,12 +94,7 @@ class App extends React.Component {
     this.setState({ shoppingList: remainingItems });
     storeDelete(deletedItems);
   }
-  dataLoadingStarted() {
-    this.setState({ dataIsLoading: true });
-  }
-  dataLoadingEnded() {
-    this.setState({ dataIsLoading: false });
-  }
+
   onDragEnd(result) {
     if (!result.destination) {
       return;
@@ -110,6 +102,7 @@ class App extends React.Component {
     const ordered = reorder(this.state.shoppingList, result.source.index, result.destination.index);
     this.refreshListOrders(ordered);
   }
+
   refreshListOrders(shoppingList) {
     let ordered = shoppingList.map((item, index) => {
       item.order = index;
@@ -120,20 +113,9 @@ class App extends React.Component {
     storeUpdate(shoppingList, "order");
   }
 
-  showTools(id) {
-    let shoppingList = [...this.state.shoppingList].map((item) => {
-      item.toolsVisible = false;
-      return item;
-    });
-
-    let item = shoppingList.find((item) => item.id === id);
-    item.toolsVisible = true;
-    this.setState({ shoppingList: shoppingList });
-  }
-
   render() {
     return (
-      <div className="App pb-5 relative" onTouchStart={this.restartRefreshCounter} onMouseMove={this.restartRefreshCounter}>
+      <div className="App pb-5 relative">
         <Routes>
           <Route path="/" element={<MainLayout />}>
             <Route index element={<Shopping parentCall={this.parentCall} shoppingList={this.state.shoppingList} />} />
