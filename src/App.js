@@ -4,6 +4,7 @@ import MainLayout from "./MainLayout";
 import Shopping from "./Shopping";
 import Recipe from "./Recipe";
 import LoadingScreen from "./LoadingScreen";
+import * as refresher from "./Refresher";
 import React from "react";
 import { v4 as uuid } from "uuid";
 import { storeAdd, storeGetAll, storeDelete, storeUpdate } from "./storage";
@@ -22,7 +23,6 @@ class App extends React.Component {
     this.state = {
       shoppingList: [],
       dataIsLoading: true,
-      refreshCounter: 600,
     };
 
     this.parentCall = {
@@ -38,20 +38,8 @@ class App extends React.Component {
     };
 
     this.refresh = async () => {
-      if (this.state.refreshCounter > 0) {
-        const shoppingList = await storeGetAll();
-        this.setState((state) => {
-          return { refreshCounter: state.refreshCounter - 1, shoppingList: shoppingList };
-        });
-      }
-    };
-
-    this.intervalRef = null;
-
-    this.restartRefreshCounter = () => {
-      if (this.state.refreshCounter < 600) {
-        this.setState({ refreshCounter: 600 });
-      }
+      const shoppingList = await storeGetAll();
+      this.setState({ shoppingList: shoppingList });
     };
   }
 
@@ -59,15 +47,7 @@ class App extends React.Component {
     this.dataLoadingStarted();
     this.refresh().then((res) => {
       this.dataLoadingEnded();
-    });
-    this.intervalRef = setInterval(this.refresh, 2000);
-    document.addEventListener("visibilitychange", () => {
-      if (document.visibilityState === "hidden") {
-        this.setState({ refreshCounter: 0 });
-      } else if (document.visibilityState === "visible") {
-        this.setState({ refreshCounter: 600 });
-        this.refresh();
-      }
+      refresher.init(this.refresh);
     });
   }
 
