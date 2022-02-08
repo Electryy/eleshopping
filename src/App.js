@@ -4,7 +4,7 @@ import MainLayout from "./MainLayout";
 import Shopping from "./Shopping";
 import Recipe from "./Recipe";
 import LoadingScreen from "./LoadingScreen";
-import * as refresher from "./Refresher";
+import refresher from "./Refresher";
 import React from "react";
 import { v4 as uuid } from "uuid";
 import { storeAdd, storeGetAll, storeDelete, storeUpdate } from "./storage";
