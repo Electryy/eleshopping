@@ -5,6 +5,7 @@ import Shopping from "./Shopping";
 import Recipe from "./Recipe";
 import LoadingScreen from "./LoadingScreen";
 import Refresher from "./Refresher";
+import ShoppingListItem from "./data/ShoppingListItem";
 import React from "react";
 import { v4 as uuid } from "uuid";
 import { storeAdd, storeGetAll, storeDelete, storeUpdate } from "./storage";
@@ -73,7 +74,7 @@ class App extends React.Component {
 
   async addItem(value) {
     let shoppingList = [...this.state.shoppingList];
-    const newItem = { id: uuid(), text: value, checked: false, order: 0 };
+    const newItem = new ShoppingListItem(value);
     shoppingList.unshift(newItem);
     this.setState({ shoppingList: shoppingList });
     await storeAdd(newItem);
