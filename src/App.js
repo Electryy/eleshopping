@@ -5,17 +5,10 @@ import Shopping from "./Shopping";
 import Recipe from "./Recipe";
 import LoadingScreen from "./LoadingScreen";
 import Refresher from "./Refresher";
+import { reorder } from "./utils";
 import React from "react";
 import { v4 as uuid } from "uuid";
 import { storeAdd, storeGetAll, storeDelete, storeUpdate } from "./storage";
-
-const reorder = (list, startIndex, endIndex) => {
-  const result = Array.from(list);
-  const [removed] = result.splice(startIndex, 1);
-  result.splice(endIndex, 0, removed);
-
-  return result;
-};
 
 class App extends React.Component {
   constructor(props) {

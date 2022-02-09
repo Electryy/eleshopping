@@ -6,7 +6,7 @@
 
 const Refresher = function (callback) {
   const backgroundMins = 5;
-  const updateFrequencyMins = 1;
+  const updateFrequencyMins = 2;
   const refreshCallback = callback;
 
   let maxTimes = null;
