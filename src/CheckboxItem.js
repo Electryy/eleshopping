@@ -13,7 +13,9 @@ function CheckboxItem(props) {
       const element = textInputRef.current;
       element.setSelectionRange(0, 0); // "Scroll" back to start of the string
       setIsEditing(false);
-      parentCall.inputChanged(element);
+      if (item.text !== element.value) {
+        parentCall.inputChanged(element);
+      }
     }
   }
   function handleKeyPress(e) {
@@ -32,7 +34,7 @@ function CheckboxItem(props) {
   }
 
   return (
-    <div className={`rounded-md p-2 pl-0 flex items-start relative ${props.snapshot.isDragging ? "bg-slate-800" : ""}`} onClick={() => parentCall.showTools(item.id)}>
+    <div className={`rounded-md p-2 pl-0 flex items-start relative ${props.snapshot.isDragging ? "bg-slate-800" : ""}`}>
       <div className="h-12 w-10 relative shrink-0" {...props.dragHandleProps}>
         <DotsVerticalIcon className="absolute w-6 top-3 left-0" />
         <DotsVerticalIcon className="absolute w-6 top-3 left-2" />

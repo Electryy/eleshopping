@@ -57,11 +57,9 @@ class App extends React.Component {
     const id = target.name;
     let shoppingList = [...this.state.shoppingList];
     let item = shoppingList.find((item) => item.id === id);
-    if (item.text !== target.value) {
-      item.text = target.value;
-      this.setState({ shoppingList: shoppingList });
-      storeUpdate(item, "text");
-    }
+    item.text = target.value;
+    this.setState({ shoppingList: shoppingList });
+    storeUpdate(item, "text");
   }
   checkboxClicked(id) {
     let shoppingList = [...this.state.shoppingList];
