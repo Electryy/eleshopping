@@ -5,6 +5,7 @@ import Shopping from "./Shopping";
 import Recipe from "./Recipe";
 import LoadingScreen from "./LoadingScreen";
 import Refresher from "./Refresher";
+import ShoppingList from "./data/ShoppingList";
 import ShoppingListItem from "./data/ShoppingListItem";
 import React from "react";
 import { v4 as uuid } from "uuid";
@@ -43,11 +44,13 @@ class App extends React.Component {
   }
 
   async componentDidMount() {
+    /*
     this.setState({ dataIsLoading: true });
     this.refresh().then((res) => {
       this.setState({ dataIsLoading: false });
       this.refresher.start();
     });
+    */
   }
 
   async componentDidUpdate() {
