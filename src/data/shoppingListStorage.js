@@ -25,7 +25,7 @@ export async function storeGetAll() {
 
 /**
  * Delete items from storage
- * @param {Obect|Array<Object>} item item or items
+ * @param {Obect|Object[]} item item or items
  */
 export async function storeDelete(item) {
   // convert to array
@@ -40,8 +40,8 @@ export async function storeDelete(item) {
 
 /**
  * Update item properties in storage. Accepts item or array of items.
- * @param {Object|Array<Object>} item item or items to update
- * @param {String|Array<String>} propertyName Property name or names to update
+ * @param {Object|Object[]} item item or items to update
+ * @param {String|String[]} propertyName Property name or names to update
  */
 export async function storeUpdate(item, propertyName) {
   // Convert single item to array
