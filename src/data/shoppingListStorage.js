@@ -41,7 +41,8 @@ export async function storeUpdate(item, property) {
       extracted[prop] = item[prop];
     });
     // extracted is {order: 1, id: foobar} for example
-    dbItems.push({ id: item.id, item: extracted });
+    // complete data object is "1234: {order: 1, id: foobar}" for example
+    dbItems[item.id] = extracted;
   });
   await dbUpdateBatch(document, dbItems);
 }

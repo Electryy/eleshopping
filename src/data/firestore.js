@@ -28,12 +28,12 @@ export async function dbDelete(id) {
   await deleteDoc(doc(db, "shopping_list", id));
 }
 
-export async function dbUpdateBatch(document, dbItems) {
+export async function dbUpdateBatch(document, data) {
   const batch = writeBatch(db);
-  console.log(dbItems);
-  dbItems.forEach((dbItem) => {
-    batch.update(doc(db, document, dbItem.id), dbItem.item);
-  });
+  // data is "123: {order: 1}" for example
+  for (const id in data) {
+    batch.update(doc(db, document, id), data[id]);
+  }
   await batch.commit();
 }
 
