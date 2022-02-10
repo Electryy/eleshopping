@@ -4,11 +4,11 @@ import MainLayout from "./MainLayout";
 import Shopping from "./Shopping";
 import Recipe from "./Recipe";
 import LoadingScreen from "./LoadingScreen";
-import Refresher from "./Refresher";
-import { reorder } from "./utils";
+import Refresher from "./modules/Refresher";
+import { reorder } from "./modules/utils";
 import React from "react";
 import { v4 as uuid } from "uuid";
-import { storeAdd, storeGetAll, storeDelete, storeUpdate } from "./storage";
+import { storeAdd, storeGetAll, storeDelete, storeUpdate } from "./data/shoppingListStorage";
 
 class App extends React.Component {
   constructor(props) {
@@ -38,7 +38,7 @@ class App extends React.Component {
     this.setState({ dataIsLoading: true });
     this.refresh().then((res) => {
       this.setState({ dataIsLoading: false });
-      this.refresher.start();
+      //this.refresher.start();
     });
   }
 
@@ -64,11 +64,11 @@ class App extends React.Component {
 
   async addItem(value) {
     let shoppingList = [...this.state.shoppingList];
-    const newItem = { id: uuid(), text: value, checked: false, order: 0 };
+    let order = shoppingList.length;
+    const newItem = { id: uuid(), text: value, checked: false, order: order };
     shoppingList.unshift(newItem);
     this.setState({ shoppingList: shoppingList });
     await storeAdd(newItem);
-    this.refreshListOrders(shoppingList);
   }
 
   deleteItem(id) {
@@ -96,8 +96,9 @@ class App extends React.Component {
   }
 
   refreshListOrders(shoppingList) {
+    let lastIndex = shoppingList.length - 1;
     let ordered = shoppingList.map((item, index) => {
-      item.order = index;
+      item.order = lastIndex - index;
       return item;
     });
 

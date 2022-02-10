@@ -1,29 +1,49 @@
 import { dbPull, dbAdd, dbDeleteBatch, dbUpdateBatch } from "./firestore";
 
+const document = "shopping_list";
+
 export async function storeAdd(item) {
-  await dbAdd(extractStoreableFields(item));
+  await dbAdd(document, item.id, extractStoreableFields(item));
 }
 export async function storeGetAll() {
-  let shoppingList = await dbPull();
-  shoppingList = addLocalProperties(shoppingList);
-  // sort by order
-  shoppingList.sort((a, b) => (a.order > b.order ? 1 : -1));
+  let shoppingList = await dbPull(document);
+  //shoppingList = addLocalProperties(shoppingList);
+
+  // sort by order desc
+  shoppingList.sort((a, b) => (a.order < b.order ? 1 : -1));
   return shoppingList;
 }
 
 export async function storeDelete(item) {
-  const items = Array.isArray(item) ? item : [item];
-  await dbDeleteBatch(cleanLocalProperties(items));
+  // convert to array
+  let items = Array.isArray(item) ? item : [item];
+
+  // Get ids
+  let data = items.map((item) => {
+    return item.id;
+  });
+  await dbDeleteBatch(document, data);
 }
 
 export async function storeUpdate(item, property) {
+  // Convert single item to array
   const items = Array.isArray(item) ? item : [item];
+
+  // Convert properties to array if single item
   const properties = Array.isArray(property) ? property : [property];
+
+  // Extract only the properties that need to be saved
   let dbItems = [];
   items.forEach((item) => {
-    dbItems.push(extractProperties(item, properties));
+    let extracted = {};
+    // properties is ["order", "id"] for example
+    properties.forEach((prop) => {
+      extracted[prop] = item[prop];
+    });
+    // extracted is {order: 1, id: foobar} for example
+    dbItems.push({ id: item.id, item: extracted });
   });
-  await dbUpdateBatch(dbItems);
+  await dbUpdateBatch(document, dbItems);
 }
 
 /**

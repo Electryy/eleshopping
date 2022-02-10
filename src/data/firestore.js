@@ -12,34 +12,35 @@ const firebaseApp = initializeApp({
 
 const db = getFirestore();
 
-export async function dbAdd(item) {
-  await setDoc(doc(db, "shopping_list", item.id), item);
+export async function dbAdd(document, id, item) {
+  await setDoc(doc(db, document, id), item);
 }
-export async function dbPull() {
-  const querySnapshot = await getDocs(collection(db, "shopping_list"));
-  let shoppingList = [];
+export async function dbPull(document) {
+  const querySnapshot = await getDocs(collection(db, document));
+  let data = [];
   querySnapshot.forEach((doc) => {
-    shoppingList.push(doc.data());
+    data.push(doc.data());
   });
-  return shoppingList;
+  return data;
 }
 
 export async function dbDelete(id) {
   await deleteDoc(doc(db, "shopping_list", id));
 }
 
-export async function dbUpdateBatch(items) {
+export async function dbUpdateBatch(document, dbItems) {
   const batch = writeBatch(db);
-  items.forEach((item) => {
-    batch.update(doc(db, "shopping_list", item.id), item);
+  console.log(dbItems);
+  dbItems.forEach((dbItem) => {
+    batch.update(doc(db, document, dbItem.id), dbItem.item);
   });
   await batch.commit();
 }
 
-export async function dbDeleteBatch(items) {
+export async function dbDeleteBatch(document, items) {
   const batch = writeBatch(db);
-  items.forEach((item) => {
-    batch.delete(doc(db, "shopping_list", item.id), item);
+  items.forEach((id) => {
+    batch.delete(doc(db, document, id));
   });
   await batch.commit();
 }
