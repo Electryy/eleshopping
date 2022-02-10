@@ -1,12 +1,21 @@
-import { dbPull, dbAdd, dbDeleteBatch, dbUpdateBatch } from "./firestore";
+import { dbGetDoc, dbAdd, dbDeleteBatch, dbUpdateBatch } from "./firestore";
 
 const document = "shopping_list";
 
+/**
+ * Add ShoppingListItem item to storage
+ * @param {Object} item ShoppingListItem as is from state
+ */
 export async function storeAdd(item) {
   await dbAdd(document, item.id, extractStoreableFields(item));
 }
+
+/**
+ * Get all ShoppingListItems from storage
+ * @returns Array of items
+ */
 export async function storeGetAll() {
-  let shoppingList = await dbPull(document);
+  let shoppingList = await dbGetDoc(document);
   //shoppingList = addLocalProperties(shoppingList);
 
   // sort by order desc
@@ -14,6 +23,10 @@ export async function storeGetAll() {
   return shoppingList;
 }
 
+/**
+ * Delete items from storage
+ * @param {Obect|Array<Object>} item item or items
+ */
 export async function storeDelete(item) {
   // convert to array
   let items = Array.isArray(item) ? item : [item];
@@ -25,19 +38,24 @@ export async function storeDelete(item) {
   await dbDeleteBatch(document, data);
 }
 
-export async function storeUpdate(item, property) {
+/**
+ * Update item properties in storage. Accepts item or array of items.
+ * @param {Object|Array<Object>} item item or items to update
+ * @param {String|Array<String>} propertyName Property name or names to update
+ */
+export async function storeUpdate(item, propertyName) {
   // Convert single item to array
   const items = Array.isArray(item) ? item : [item];
 
-  // Convert properties to array if single item
-  const properties = Array.isArray(property) ? property : [property];
+  // Convert propertyNames to array if single item
+  const propertyNames = Array.isArray(propertyName) ? propertyName : [propertyName];
 
   // Extract only the properties that need to be saved
   let dbItems = [];
   items.forEach((item) => {
     let extracted = {};
-    // properties is ["order", "id"] for example
-    properties.forEach((prop) => {
+    // propertyNames is ["order", "id"] for example
+    propertyNames.forEach((prop) => {
       extracted[prop] = item[prop];
     });
     // extracted is {order: 1, id: foobar} for example

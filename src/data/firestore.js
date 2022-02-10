@@ -15,17 +15,13 @@ const db = getFirestore();
 export async function dbAdd(document, id, item) {
   await setDoc(doc(db, document, id), item);
 }
-export async function dbPull(document) {
+export async function dbGetDoc(document) {
   const querySnapshot = await getDocs(collection(db, document));
   let data = [];
   querySnapshot.forEach((doc) => {
     data.push(doc.data());
   });
   return data;
-}
-
-export async function dbDelete(id) {
-  await deleteDoc(doc(db, "shopping_list", id));
 }
 
 export async function dbUpdateBatch(document, data) {
@@ -44,8 +40,9 @@ export async function dbDeleteBatch(document, items) {
   });
   await batch.commit();
 }
-
-export async function dbUpdate(item, data) {
-  const itemRef = doc(db, "shopping_list", item.id);
-  await updateDoc(itemRef, data);
+export async function dbDelete(document, id) {
+  await deleteDoc(doc(db, document, id));
+}
+export async function dbUpdate(document, id, data) {
+  await updateDoc(doc(db, document, id), data);
 }
