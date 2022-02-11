@@ -1,12 +1,14 @@
 import { PencilAltIcon } from "@heroicons/react/solid";
 import Recipe from "./Recipe";
 
-function Recipes() {
+function Recipes(props) {
+  const { recipes } = { ...props };
+  console.log(recipes);
   return (
     <div className="flex flex-wrap gap-4">
-      <Recipe />
-      <Recipe />
-      <Recipe />
+      {recipes.map((item, index) => (
+        <Recipe key={index} item={item} />
+      ))}
     </div>
   );
 }

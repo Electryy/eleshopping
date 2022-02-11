@@ -15,6 +15,14 @@ class App extends React.Component {
     super(props);
     this.state = {
       shoppingList: [],
+      recipes: [
+        {
+          name: "Chorizo pasta",
+          url: "https://google.com",
+          notes: "tekstiä tekstiä",
+          ingredients: ["Chorizoo 200g", "fjdkslajfdsa", "jfkdlsa jfkdslajfkl"],
+        },
+      ],
       dataIsLoading: true,
     };
 
@@ -112,7 +120,7 @@ class App extends React.Component {
         <Routes>
           <Route path="/" element={<MainLayout />}>
             <Route index element={<Shopping parentCall={this.parentCall} shoppingList={this.state.shoppingList} />} />
-            <Route path="recipes" element={<Recipes />} />
+            <Route path="recipes" element={<Recipes recipes={this.state.recipes} />} />
           </Route>
         </Routes>
         <LoadingScreen dataIsLoading={this.state.dataIsLoading} />
