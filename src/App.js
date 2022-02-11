@@ -2,7 +2,7 @@ import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import MainLayout from "./MainLayout";
 import Shopping from "./Shopping";
-import Recipe from "./Recipe";
+import Recipes from "./Recepes";
 import LoadingScreen from "./LoadingScreen";
 import Refresher from "./modules/Refresher";
 import { reorder } from "./modules/utils";
@@ -112,7 +112,7 @@ class App extends React.Component {
         <Routes>
           <Route path="/" element={<MainLayout />}>
             <Route index element={<Shopping parentCall={this.parentCall} shoppingList={this.state.shoppingList} />} />
-            <Route path="recipes" element={<Recipe />} />
+            <Route path="recipes" element={<Recipes />} />
           </Route>
         </Routes>
         <LoadingScreen dataIsLoading={this.state.dataIsLoading} />
