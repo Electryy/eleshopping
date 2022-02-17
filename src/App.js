@@ -8,7 +8,7 @@ import Refresher from "./modules/Refresher";
 import { reorder } from "./modules/utils";
 import React from "react";
 import { v4 as uuid } from "uuid";
-import { storeAdd, storeGetAll, storeDelete, storeUpdate } from "./data/shoppingListStorage";
+import ShoppingListStorage from "./data/shoppingListStorage";
 
 class App extends React.Component {
   constructor(props) {
@@ -36,10 +36,11 @@ class App extends React.Component {
     };
 
     this.refresh = async () => {
-      const shoppingList = await storeGetAll();
+      const shoppingList = await this.shoppingListStorage.getAll();
       this.setState({ shoppingList: shoppingList });
     };
     this.refresher = new Refresher(this.refresh);
+    this.shoppingListStorage = new ShoppingListStorage();
   }
 
   async componentDidMount() {
@@ -60,14 +61,14 @@ class App extends React.Component {
     let item = shoppingList.find((item) => item.id === id);
     item.text = target.value;
     this.setState({ shoppingList: shoppingList });
-    storeUpdate(item, "text");
+    this.shoppingListStorage.update(item, "text");
   }
   checkboxClicked(id) {
     let shoppingList = [...this.state.shoppingList];
     let item = shoppingList.find((item) => item.id === id);
     item.checked = !item.checked;
     this.setState({ shoppingList: shoppingList });
-    storeUpdate(item, "checked");
+    this.shoppingListStorage.update(item, "checked");
   }
 
   async addItem(value) {
@@ -76,7 +77,7 @@ class App extends React.Component {
     const newItem = { id: uuid(), text: value, checked: false, order: order };
     shoppingList.unshift(newItem);
     this.setState({ shoppingList: shoppingList });
-    await storeAdd(newItem);
+    await this.shoppingListStorage.add(newItem);
   }
 
   deleteItem(id) {
@@ -84,7 +85,7 @@ class App extends React.Component {
     let item = shoppingList.find((item) => item.id === id);
     shoppingList = shoppingList.filter((item) => item.id !== id);
     this.setState({ shoppingList: shoppingList });
-    storeDelete(item);
+    this.shoppingListStorage.delete(item);
   }
 
   clearChecked() {
@@ -92,7 +93,7 @@ class App extends React.Component {
     let deletedItems = shoppingList.filter((item) => item.checked === true);
     let remainingItems = shoppingList.filter((item) => item.checked === false);
     this.setState({ shoppingList: remainingItems });
-    storeDelete(deletedItems);
+    this.shoppingListStorage.delete(deletedItems);
   }
 
   onDragEnd(result) {
@@ -111,7 +112,7 @@ class App extends React.Component {
     });
 
     this.setState({ shoppingList: ordered });
-    storeUpdate(shoppingList, "order");
+    this.shoppingListStorage.update(shoppingList, "order");
   }
 
   render() {
