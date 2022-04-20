@@ -8,11 +8,21 @@ function RecipeModal(props) {
       <input type="checkbox" id="my-modal-2" className="modal-toggle" />
       <div className="modal">
         <div className="modal-box">
-          <h4>{item.name}</h4>
-          <p>
-            Enim dolorem dolorum omnis atque necessitatibus. Consequatur aut adipisci qui iusto illo eaque. Consequatur repudiandae et. Nulla ea quasi eligendi. Saepe velit autem
-            minima.
-          </p>
+          <div className="form-control w-full min-w-full">
+            <label className="label">
+              <span className="label-text">Name</span>
+            </label>
+            <input type="text" placeholder="Type here" className="input input-bordered min-w-full"></input>
+            <label className="label">
+              <span className="label-text">Url</span>
+            </label>
+            <input type="text" placeholder="Type here" className="input input-bordered min-w-full"></input>
+            <label className="label">
+              <span className="label-text">Name</span>
+            </label>
+            <input type="text" placeholder="Type here" className="input input-bordered min-w-full"></input>
+          </div>
+
           <div className="modal-action">
             <label htmlFor="my-modal-2" className="btn btn-primary">
               Accept
