@@ -8,7 +8,7 @@ function Recipe(props) {
   return (
     <div className="card shadow-2xl bg-slate-600  shrink">
       <div className="card-body">
-        <label htmlFor="my-modal-2" className="btn btn-circle absolute top-1 right-1 modal-button">
+        <label htmlFor="recipeModal" className="btn btn-circle absolute top-1 right-1 modal-button">
           <PencilAltIcon className="w-4" />
         </label>
         <h2 className="card-title">
