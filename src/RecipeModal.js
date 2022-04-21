@@ -9,19 +9,13 @@ class RecipeModal extends React.Component {
     this.ingredientChanged = this.ingredientChanged.bind(this);
     this.addIngredient = this.addIngredient.bind(this);
     this.removeIngredient = this.removeIngredient.bind(this);
-    this.setState({ item: props.item });
   }
   itemChanged(event) {
-    let item = { ...this.state.item };
-    item[event.target.id] = event.target.value;
-
-    this.setState({ item: item });
+    this.props.parentCall.itemChanged(event.target.id, event.target.value);
   }
   ingredientChanged(event) {
-    let item = { ...this.state.item };
     const index = event.target.getAttribute("data-index");
-    item.ingredients[index] = event.target.value;
-    this.setState({ item: item });
+    this.props.parentCall.ingredientChanged(index, event.target.value);
   }
   addIngredient() {
     let item = { ...this.state.item };
@@ -35,14 +29,16 @@ class RecipeModal extends React.Component {
     this.setState({ item: item });
   }
   render() {
-    console.log(this.state, "statee");
-    let item = this.state.item;
+    let item = this.props.item;
+    if (!item) {
+      return null;
+    }
     return (
       <div>
         <input type="checkbox" id="recipeModal" className="modal-toggle" />
         <div className="modal">
           <div className="modal-box">
-            <label for="recipeModal" class="btn btn-sm btn-circle absolute right-2 top-2">
+            <label htmlFor="recipeModal" className="btn btn-sm btn-circle absolute right-2 top-2">
               ✕
             </label>
             <div className="form-control w-full min-w-full mb-6">
@@ -73,7 +69,7 @@ class RecipeModal extends React.Component {
                 <PlusIcon className="w-6 top-3 left-0" />
               </button>
             </div>
-            <div class="divider"></div>
+            <div className="divider"></div>
             <div className="modal-action justify-between ">
               <label htmlFor="recipeModal" className="btn">
                 Delete

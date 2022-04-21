@@ -19,7 +19,6 @@ function CheckboxItem(props) {
     }
   }
   function handleKeyPress(e) {
-    console.log("jaa");
     if (e.key === "Enter") {
       textInputRef.current.blur();
     }
