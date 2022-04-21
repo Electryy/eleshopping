@@ -9,6 +9,7 @@ class RecipeModal extends React.Component {
     this.ingredientChanged = this.ingredientChanged.bind(this);
     this.addIngredient = this.addIngredient.bind(this);
     this.removeIngredient = this.removeIngredient.bind(this);
+    this.setState({ item: props.item });
   }
   itemChanged(event) {
     let item = { ...this.state.item };

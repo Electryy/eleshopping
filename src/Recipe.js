@@ -3,12 +3,11 @@ import RecipeModal from "./RecipeModal";
 import React, { useState } from "react";
 
 function Recipe(props) {
-  const { item } = { ...props };
-  const [openModal, setOpenModal] = useState(false);
+  const { item, parentCall } = { ...props };
   return (
     <div className="card shadow-2xl bg-slate-600  shrink">
       <div className="card-body">
-        <label htmlFor="recipeModal" className="btn btn-circle absolute top-1 right-1 modal-button">
+        <label htmlFor="recipeModal" className="btn btn-circle absolute top-1 right-1 modal-button" onClick={() => parentCall.openModal(item.id)}>
           <PencilAltIcon className="w-4" />
         </label>
         <h2 className="card-title">
@@ -23,7 +22,6 @@ function Recipe(props) {
           <button className="btn btn-outline btn-accent">Copy to Shoppinglist</button>
         </div>
       </div>
-      <RecipeModal item={item} />
     </div>
   );
 }
