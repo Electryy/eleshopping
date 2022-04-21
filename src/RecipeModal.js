@@ -1,88 +1,71 @@
 import { PlusIcon, TrashIcon } from "@heroicons/react/solid";
-import React, { useState } from "react";
 
-class RecipeModal extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { item: props.item };
-    this.itemChanged = this.itemChanged.bind(this);
-    this.ingredientChanged = this.ingredientChanged.bind(this);
-    this.addIngredient = this.addIngredient.bind(this);
-    this.removeIngredient = this.removeIngredient.bind(this);
+function RecipeModal(props) {
+  const { item, parentCall } = { ...props };
+
+  function itemChanged(e) {
+    parentCall.itemChanged(e.target.id, e.target.value);
   }
-  itemChanged(event) {
-    this.props.parentCall.itemChanged(event.target.id, event.target.value);
+  function ingredientChanged(e) {
+    const index = e.target.getAttribute("data-index");
+    parentCall.ingredientChanged(index, e.target.value);
   }
-  ingredientChanged(event) {
-    const index = event.target.getAttribute("data-index");
-    this.props.parentCall.ingredientChanged(index, event.target.value);
+  function removeIngredient(e) {
+    const index = e.target.getAttribute("data-index");
+    parentCall.removeIngredient(index);
   }
-  addIngredient() {
-    let item = { ...this.state.item };
-    item.ingredients.push("");
-    this.setState({ item: item });
+  if (!item) {
+    return null;
   }
-  removeIngredient(event) {
-    let item = { ...this.state.item };
-    const index = event.target.getAttribute("data-index");
-    item.ingredients.splice(index, 1);
-    this.setState({ item: item });
-  }
-  render() {
-    let item = this.props.item;
-    if (!item) {
-      return null;
-    }
-    return (
-      <div>
-        <input type="checkbox" id="recipeModal" className="modal-toggle" />
-        <div className="modal">
-          <div className="modal-box">
-            <label htmlFor="recipeModal" className="btn btn-sm btn-circle absolute right-2 top-2">
-              ✕
-            </label>
-            <div className="form-control w-full min-w-full mb-6">
-              <label className="label">
-                <span className="label-text">Name</span>
-              </label>
-              <input type="text" id="name" value={item.name} className="input input-bordered min-w-full" onChange={this.itemChanged}></input>
-              <label className="label">
-                <span className="label-text">Url</span>
-              </label>
-              <input type="text" id="url" value={item.url} className="input input-bordered min-w-full" onChange={this.itemChanged}></input>
-            </div>
+  return (
+    <div>
+      <input type="checkbox" id="recipeModal" className="modal-toggle" />
+      <div className="modal">
+        <div className="modal-box">
+          <label htmlFor="recipeModal" className="btn btn-sm btn-circle absolute right-2 top-2">
+            ✕
+          </label>
+          <div className="form-control w-full min-w-full mb-6">
             <label className="label">
-              <span className="label-text">Ingredients</span>
+              <span className="label-text">Name</span>
             </label>
-            <div className="form-control w-full min-w-full mb-2">
-              {item.ingredients.map((ingredient, index) => (
-                <div key={index} className="flex flex-row">
-                  <input value={ingredient} data-index={index} type="text" className="input input-bordered input-sm mb-2 grow mr-2" onChange={this.ingredientChanged}></input>
-                  <button className="btn btn-sm" data-index={index} onClick={this.removeIngredient}>
-                    <TrashIcon className="w-3" />
-                  </button>
-                </div>
-              ))}
-            </div>
-            <div className="grid place-content-center">
-              <button className="btn btn-circle btn-outline" onClick={this.addIngredient}>
-                <PlusIcon className="w-6 top-3 left-0" />
-              </button>
-            </div>
-            <div className="divider"></div>
-            <div className="modal-action justify-between ">
-              <label htmlFor="recipeModal" className="btn">
-                Delete
-              </label>
-              <label htmlFor="recipeModal" className="btn btn-primary">
-                Save
-              </label>
-            </div>
+            <input type="text" id="name" value={item.name} className="input input-bordered min-w-full" onChange={itemChanged}></input>
+            <label className="label">
+              <span className="label-text">Url</span>
+            </label>
+            <input type="text" id="url" value={item.url} className="input input-bordered min-w-full" onChange={itemChanged}></input>
+          </div>
+          <label className="label">
+            <span className="label-text">Ingredients</span>
+          </label>
+          <div className="form-control w-full min-w-full mb-2">
+            {item.ingredients.map((ingredient, index) => (
+              <div key={index} className="flex flex-row">
+                <input value={ingredient} data-index={index} type="text" className="input input-bordered input-sm mb-2 grow mr-2" onChange={ingredientChanged}></input>
+                <button className="btn btn-sm" data-index={index} onClick={removeIngredient}>
+                  <TrashIcon className="w-3" />
+                </button>
+              </div>
+            ))}
+          </div>
+          <div className="grid place-content-center">
+            <button className="btn btn-circle btn-outline" onClick={parentCall.addIngredient}>
+              <PlusIcon className="w-6 top-3 left-0" />
+            </button>
+          </div>
+          <div className="divider"></div>
+          <div className="modal-action justify-between ">
+            <label htmlFor="recipeModal" className="btn">
+              Delete
+            </label>
+            <label htmlFor="recipeModal" className="btn btn-primary">
+              Save
+            </label>
           </div>
         </div>
       </div>
-    );
-  }
+    </div>
+  );
 }
 
 export default RecipeModal;

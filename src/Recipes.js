@@ -32,6 +32,8 @@ class Recipes extends React.Component {
     this.modalCalls = {
       itemChanged: this.itemChanged.bind(this),
       ingredientChanged: this.ingredientChanged.bind(this),
+      addIngredient: this.addIngredient.bind(this),
+      removeIngredient: this.removeIngredient.bind(this),
     };
   }
   openModal(id) {
@@ -48,7 +50,16 @@ class Recipes extends React.Component {
     let modalItem = { ...this.state.modalItem };
     modalItem.ingredients[index] = value;
     this.setState({ modalItem: modalItem });
-    console.log("devuggi", this.state);
+  }
+  addIngredient() {
+    let modalItem = { ...this.state.modalItem };
+    modalItem.ingredients.push("");
+    this.setState({ modalItem: modalItem });
+  }
+  removeIngredient(index) {
+    let modalItem = { ...this.state.modalItem };
+    modalItem.ingredients.splice(index, 1);
+    this.setState({ modalItem: modalItem });
   }
   render() {
     let recipes = [...this.state.recipes];
