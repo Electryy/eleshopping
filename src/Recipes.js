@@ -34,6 +34,9 @@ class Recipes extends React.Component {
       ingredientChanged: this.ingredientChanged.bind(this),
       addIngredient: this.addIngredient.bind(this),
       removeIngredient: this.removeIngredient.bind(this),
+      saveItem: this.saveItem.bind(this),
+      cancelEdits: this.cancelEdits.bind(this),
+      deleteItem: this.deleteItem.bind(this),
     };
   }
   openModal(id) {
@@ -60,6 +63,27 @@ class Recipes extends React.Component {
     let modalItem = { ...this.state.modalItem };
     modalItem.ingredients.splice(index, 1);
     this.setState({ modalItem: modalItem });
+  }
+  saveItem() {
+    let recipes = [...this.state.recipes];
+    let modalItem = { ...this.state.modalItem };
+    const index = recipes.findIndex((item) => {
+      return item.id === modalItem.id;
+    });
+    recipes.splice(index, 1, modalItem);
+    this.setState({ recipes: recipes });
+  }
+  cancelEdits() {
+    this.setState({ modalItem: null });
+  }
+  deleteItem() {
+    let recipes = [...this.state.recipes];
+    let modalItem = { ...this.state.modalItem };
+    const index = recipes.findIndex((item) => {
+      return item.id === modalItem.id;
+    });
+    recipes.splice(index, 1);
+    this.setState({ recipes: recipes });
   }
   render() {
     let recipes = [...this.state.recipes];

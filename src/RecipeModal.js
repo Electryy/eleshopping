@@ -22,7 +22,7 @@ function RecipeModal(props) {
       <input type="checkbox" id="recipeModal" className="modal-toggle" />
       <div className="modal">
         <div className="modal-box">
-          <label htmlFor="recipeModal" className="btn btn-sm btn-circle absolute right-2 top-2">
+          <label htmlFor="recipeModal" className="btn btn-sm btn-circle absolute right-2 top-2" onClick={parentCall.cancelEdits}>
             ✕
           </label>
           <div className="form-control w-full min-w-full mb-6">
@@ -55,10 +55,10 @@ function RecipeModal(props) {
           </div>
           <div className="divider"></div>
           <div className="modal-action justify-between ">
-            <label htmlFor="recipeModal" className="btn">
+            <label htmlFor="recipeModal" className="btn" onClick={parentCall.deleteItem}>
               Delete
             </label>
-            <label htmlFor="recipeModal" className="btn btn-primary">
+            <label htmlFor="recipeModal" className="btn btn-primary" onClick={parentCall.saveItem}>
               Save
             </label>
           </div>
