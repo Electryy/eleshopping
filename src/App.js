@@ -2,7 +2,7 @@ import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import MainLayout from "./MainLayout";
 import Shopping from "./Shopping";
-import Recipes from "./Recepes";
+import Recipes from "./Recipes";
 import LoadingScreen from "./LoadingScreen";
 import Refresher from "./modules/Refresher";
 import { reorder } from "./modules/utils";
