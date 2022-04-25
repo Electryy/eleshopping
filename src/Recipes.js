@@ -3,7 +3,6 @@ import { PencilAltIcon } from "@heroicons/react/solid";
 import RecipesStorage from "./data/recipesStorage";
 import RecipeModal from "./RecipeModal";
 import Recipe from "./Recipe";
-import LoadingScreen from "./LoadingScreen";
 
 import { v4 as uuid } from "uuid";
 class Recipes extends React.Component {
@@ -12,18 +11,16 @@ class Recipes extends React.Component {
 
     this.recipes = new RecipesStorage();
     this.state = {
-      recipes: [],
+      recipes: this.fetchInitialFromLocalStorage(),
       modalItem: null,
-      dataIsLoading: true,
     };
     this.refresh = async () => {
       const recipes = await this.recipes.getAll();
       this.setState({ recipes: recipes });
-      this.setState({ dataIsLoading: false });
 
       console.log(recipes);
     };
-    this.refresh();
+
     this.recipeCalls = {
       openModal: this.openModal.bind(this),
     };
@@ -38,8 +35,23 @@ class Recipes extends React.Component {
     };
     this.addRecipe = this.addRecipe.bind(this);
   }
-  async componentDidUpdate() {
-    //this.refresh();
+  async componentDidMount() {
+    this.refresh();
+  }
+  componentWillMount() {
+    const recipes = JSON.parse(localStorage.getItem("recipesLocal"));
+    console.log("local", recipes);
+    //this.setState({ recipes: JSON.parse(localStorage.getItem("recipesState")) });
+  }
+  fetchInitialFromLocalStorage() {
+    const recipes = JSON.parse(localStorage.getItem("recipesLocal"));
+    if (!Array.isArray(recipes)) {
+      return [];
+    }
+    return recipes;
+  }
+  componentWillUnmount() {
+    localStorage.setItem("recipesLocal", JSON.stringify(this.state.recipes));
   }
   openModal(id) {
     let item = this.state.recipes.find((item) => item.id === id);
@@ -120,7 +132,6 @@ class Recipes extends React.Component {
           </div>
         </div>
         <RecipeModal item={this.state.modalItem} parentCall={this.modalCalls} />
-        <LoadingScreen dataIsLoading={this.state.dataIsLoading} />
       </div>
     );
   }
