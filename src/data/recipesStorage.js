@@ -1,4 +1,4 @@
-import { dbGetDoc, dbDelete, dbAdd, dbDeleteBatch, dbUpdate } from "./firestore";
+import { dbGetDoc, dbDelete, dbAdd, dbUpdate } from "./firestore";
 
 const RecipesStorage = function () {
   const document = "recipes";

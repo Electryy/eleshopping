@@ -25,7 +25,7 @@ fs.readFile(`${buildDir}/index.html`, "utf8", (err, data) => {
   data = data.replace(scriptTag, "");
 
   // Insert before </body>
-  data = data.replace("></body>", `>${scriptTag}</body>`);
+  data = data.replace("</body>", `${scriptTag}</body>`);
 
   fs.writeFile(`${buildDir}/index.html`, data, (err) => {
     if (err) {
