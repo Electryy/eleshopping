@@ -9,13 +9,13 @@ class Recipes extends React.Component {
   constructor(props) {
     super(props);
 
-    this.recipes = new RecipesStorage();
+    this.recipesStorage = new RecipesStorage();
     this.state = {
       recipes: this.fetchInitialFromLocalStorage(),
       modalItem: null,
     };
     this.refresh = async () => {
-      const recipes = await this.recipes.getAll();
+      const recipes = await this.recipesStorage.getAll();
       this.setState({ recipes: recipes });
 
       console.log(recipes);
@@ -38,11 +38,7 @@ class Recipes extends React.Component {
   async componentDidMount() {
     this.refresh();
   }
-  componentWillMount() {
-    const recipes = JSON.parse(localStorage.getItem("recipesLocal"));
-    console.log("local", recipes);
-    //this.setState({ recipes: JSON.parse(localStorage.getItem("recipesState")) });
-  }
+
   fetchInitialFromLocalStorage() {
     const recipes = JSON.parse(localStorage.getItem("recipesLocal"));
     if (!Array.isArray(recipes)) {
@@ -94,10 +90,12 @@ class Recipes extends React.Component {
     // If not found in array then it's a new item and add it to last place
     if (index === -1) {
       index = recipes.length;
+      this.recipesStorage.add(modalItem);
+    } else {
+      this.recipesStorage.update(modalItem);
     }
     recipes.splice(index, 1, modalItem);
     this.setState({ recipes: recipes });
-    this.recipes.update(modalItem);
   }
   cancelEdits() {
     this.setState({ modalItem: null });
@@ -110,6 +108,7 @@ class Recipes extends React.Component {
     });
     recipes.splice(index, 1);
     this.setState({ recipes: recipes });
+    this.recipesStorage.delete(modalItem);
   }
   addRecipe() {
     const newItem = { id: uuid(), name: "", url: "", ingredients: [], notes: "" };
@@ -125,7 +124,7 @@ class Recipes extends React.Component {
           ))}
           <div className="card shadow-2xl bg-slate-600">
             <div className="card-body">
-              <label htmlFor="recipeModal" class="btn btn-primary" onClick={this.addRecipe}>
+              <label htmlFor="recipeModal" className="btn btn-primary" onClick={this.addRecipe}>
                 Add recipe
               </label>
             </div>
