@@ -3,6 +3,7 @@ import { PencilAltIcon } from "@heroicons/react/solid";
 import RecipeModal from "./RecipeModal";
 import Recipe from "./Recipe";
 
+import { v4 as uuid } from "uuid";
 class Recipes extends React.Component {
   constructor(props) {
     super(props);
@@ -38,6 +39,7 @@ class Recipes extends React.Component {
       cancelEdits: this.cancelEdits.bind(this),
       deleteItem: this.deleteItem.bind(this),
     };
+    this.addRecipe = this.addRecipe.bind(this);
   }
   openModal(id) {
     let item = this.state.recipes.find((item) => item.id === id);
@@ -67,9 +69,20 @@ class Recipes extends React.Component {
   saveItem() {
     let recipes = [...this.state.recipes];
     let modalItem = { ...this.state.modalItem };
-    const index = recipes.findIndex((item) => {
+
+    // In case of empty save
+    if (!modalItem.name) {
+      return;
+    }
+
+    let index = recipes.findIndex((item) => {
       return item.id === modalItem.id;
     });
+
+    // If not found in array then it's a new item and add it to last place
+    if (index === -1) {
+      index = recipes.length;
+    }
     recipes.splice(index, 1, modalItem);
     this.setState({ recipes: recipes });
   }
@@ -85,14 +98,25 @@ class Recipes extends React.Component {
     recipes.splice(index, 1);
     this.setState({ recipes: recipes });
   }
+  addRecipe() {
+    const newItem = { id: uuid(), name: "", url: "", ingredients: [], notes: "" };
+    this.setState({ modalItem: newItem });
+  }
   render() {
     let recipes = [...this.state.recipes];
     return (
       <div>
-        <div className="flex flex-wrap gap-4">
+        <div className="">
           {recipes.map((item, index) => (
             <Recipe key={index} item={item} parentCall={this.recipeCalls} />
           ))}
+          <div className="card shadow-2xl bg-slate-600">
+            <div className="card-body">
+              <label htmlFor="recipeModal" class="btn btn-primary" onClick={this.addRecipe}>
+                Add recipe
+              </label>
+            </div>
+          </div>
         </div>
         <RecipeModal item={this.state.modalItem} parentCall={this.modalCalls} />
       </div>
