@@ -53,9 +53,9 @@ function RecipeModal(props) {
               <PlusIcon className="w-6 top-3 left-0" />
             </button>
           </div>
-          <div class="form-control">
-            <label class="label">
-              <span class="label-text">Notes</span>
+          <div className="form-control">
+            <label className="label">
+              <span className="label-text">Notes</span>
             </label>
             <textarea id="notes" value={item.notes} onChange={itemChanged} className="textarea textarea-bordered  min-w-full" />
           </div>

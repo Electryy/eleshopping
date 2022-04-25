@@ -1,32 +1,29 @@
 import React from "react";
 import { PencilAltIcon } from "@heroicons/react/solid";
+import RecipesStorage from "./data/recipesStorage";
 import RecipeModal from "./RecipeModal";
 import Recipe from "./Recipe";
+import LoadingScreen from "./LoadingScreen";
 
 import { v4 as uuid } from "uuid";
 class Recipes extends React.Component {
   constructor(props) {
     super(props);
+
+    this.recipes = new RecipesStorage();
     this.state = {
-      recipes: [
-        {
-          id: "adfjkdfjsak",
-          name: "Chorizo pasta",
-          url: "https://google.com",
-          notes: "tekstiä tekstiä",
-          ingredients: ["Chorizoo 200g", "fjdkslajfdsa", "jfkdlsa jfkdslajfkl"],
-        },
-        {
-          id: "adfjkdfjsaaaak",
-          name: "KANA pasta",
-          url: "https://google.com",
-          notes: "tekstiä tekstiä",
-          ingredients: ["kanaa 200g", "fjdkslajfdsa", "jfkdlsa jfkdslajfkl"],
-        },
-      ],
+      recipes: [],
       modalItem: null,
       dataIsLoading: true,
     };
+    this.refresh = async () => {
+      const recipes = await this.recipes.getAll();
+      this.setState({ recipes: recipes });
+      this.setState({ dataIsLoading: false });
+
+      console.log(recipes);
+    };
+    this.refresh();
     this.recipeCalls = {
       openModal: this.openModal.bind(this),
     };
@@ -40,6 +37,9 @@ class Recipes extends React.Component {
       deleteItem: this.deleteItem.bind(this),
     };
     this.addRecipe = this.addRecipe.bind(this);
+  }
+  async componentDidUpdate() {
+    //this.refresh();
   }
   openModal(id) {
     let item = this.state.recipes.find((item) => item.id === id);
@@ -85,6 +85,7 @@ class Recipes extends React.Component {
     }
     recipes.splice(index, 1, modalItem);
     this.setState({ recipes: recipes });
+    this.recipes.update(modalItem);
   }
   cancelEdits() {
     this.setState({ modalItem: null });
@@ -119,6 +120,7 @@ class Recipes extends React.Component {
           </div>
         </div>
         <RecipeModal item={this.state.modalItem} parentCall={this.modalCalls} />
+        <LoadingScreen dataIsLoading={this.state.dataIsLoading} />
       </div>
     );
   }

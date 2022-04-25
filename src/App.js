@@ -15,14 +15,6 @@ class App extends React.Component {
     super(props);
     this.state = {
       shoppingList: [],
-      recipes: [
-        {
-          name: "Chorizo pasta",
-          url: "https://google.com",
-          notes: "tekstiä tekstiä",
-          ingredients: ["Chorizoo 200g", "fjdkslajfdsa", "jfkdlsa jfkdslajfkl"],
-        },
-      ],
       dataIsLoading: true,
     };
 
