@@ -14,6 +14,15 @@ function RecipeModal(props) {
     const index = e.target.getAttribute("data-index");
     parentCall.removeIngredient(index);
   }
+  function addIngredient() {
+    parentCall.addIngredient();
+
+    // Auto focus the last input element in the list
+    window.requestAnimationFrame(() => {
+      let ingredientInputs = document.querySelectorAll(`input[data-index]`);
+      ingredientInputs[ingredientInputs.length - 1].focus();
+    });
+  }
   if (!item) {
     return null;
   }
@@ -49,7 +58,7 @@ function RecipeModal(props) {
             ))}
           </div>
           <div className="grid place-content-center">
-            <button className="btn btn-circle btn-outline" onClick={parentCall.addIngredient}>
+            <button className="btn btn-circle btn-outline" onClick={addIngredient}>
               <PlusIcon className="w-6 top-3 left-0" />
             </button>
           </div>
