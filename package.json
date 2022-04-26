@@ -24,7 +24,7 @@
     "gulp-inline-source": "^4.0.0",
     "gulp-replace": "^1.1.3",
     "postcss": "^8.4.5",
-    "staticrypt": "^1.3.2",
+    "staticrypt": "^2.1.1",
     "tailwindcss": "^3.0.15"
   },
   "scripts": {
@@ -32,7 +32,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "contain": "npm run build && npm run contain-move-scripts && npm run contain-inline-scripts && node deploymentScripts/staticryptPWSetter.js && npm run contain-encrypt && node deploymentScripts/staticryptBypasser.js",
+    "contain": "npm run build && npm run contain-move-scripts && npm run contain-inline-scripts && npm run contain-encrypt",
     "contain-move-scripts": "node deploymentScripts/moveScripts.js",
     "contain-inline-scripts": "gulp inline && gulp clean",
     "contain-encrypt": "node deploymentScripts/staticrypt.js",

@@ -8,7 +8,7 @@ require("dotenv").config();
 
 const pw = process.env.STATICRYPT_PW;
 
-exec(`staticrypt build/index.html ${pw} -o build/index.html`, (error, stdout, stderr) => {
+exec(`staticrypt build/index.html ${pw} -o build/index.html -r`, (error, stdout, stderr) => {
   if (error) {
     console.log(`error: ${error.message}`);
     return;
