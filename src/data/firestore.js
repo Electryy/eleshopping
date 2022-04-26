@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
-import { collection, doc, getDocs, setDoc, deleteDoc, writeBatch, updateDoc } from "firebase/firestore";
+import { getFirestore, serverTimestamp } from "firebase/firestore";
+import { collection, doc, query, orderBy, getDocs, setDoc, deleteDoc, writeBatch, updateDoc } from "firebase/firestore";
 const firebaseApp = initializeApp({
   apiKey: process.env.REACT_APP_apiKey,
   authDomain: process.env.REACT_APP_authDomain,
@@ -13,10 +13,13 @@ const firebaseApp = initializeApp({
 const db = getFirestore();
 
 export async function dbAdd(document, id, item) {
+  item["timestamp"] = serverTimestamp();
   await setDoc(doc(db, document, id), item);
 }
+
 export async function dbGetDoc(document) {
-  const querySnapshot = await getDocs(collection(db, document));
+  const q = query(collection(db, document), orderBy("timestamp"));
+  const querySnapshot = await getDocs(q);
   let data = [];
   querySnapshot.forEach((doc) => {
     data.push(doc.data());
