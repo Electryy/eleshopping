@@ -27,6 +27,10 @@ class App extends React.Component {
       onDragEnd: this.onDragEnd.bind(this),
     };
 
+    this.recipeCalls = {
+      copyRecipe: this.copyRecipe.bind(this),
+    };
+
     this.refresh = async () => {
       const shoppingList = await this.shoppingListStorage.getAll();
       this.setState({ shoppingList: shoppingList });
@@ -107,13 +111,19 @@ class App extends React.Component {
     this.shoppingListStorage.update(shoppingList, "order");
   }
 
+  async copyRecipe(item) {
+    for (const ingredient of item.ingredients) {
+      await this.addItem(ingredient);
+    }
+  }
+
   render() {
     return (
       <div className="App pb-5 relative">
         <Routes>
           <Route path="/" element={<MainLayout />}>
             <Route index element={<Shopping parentCall={this.parentCall} shoppingList={this.state.shoppingList} />} />
-            <Route path="recipes" element={<Recipes recipes={this.state.recipes} />} />
+            <Route path="recipes" element={<Recipes parentCall={this.recipeCalls} />} />
           </Route>
         </Routes>
         <LoadingScreen dataIsLoading={this.state.dataIsLoading} />

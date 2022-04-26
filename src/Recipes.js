@@ -23,6 +23,7 @@ class Recipes extends React.Component {
 
     this.recipeCalls = {
       openModal: this.openModal.bind(this),
+      ...this.props.parentCall,
     };
     this.modalCalls = {
       itemChanged: this.itemChanged.bind(this),
