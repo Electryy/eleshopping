@@ -5,15 +5,16 @@
 const fs = require("fs");
 const baseDir = process.cwd();
 const buildDir = `${baseDir}/build`;
-let stuff = "";
 
-fs.readFile(`${baseDir}/deploymentScripts/setBypassphrase.js`, "utf8", (err, data) => {
-  if (err) {
-    console.error(err);
-    return;
-  }
-  stuff = data;
-});
+require("dotenv").config();
+
+const pw = process.env.STATICRYPT_PW;
+
+const staticryptPWSetter = `
+<script>
+    localStorage.setItem("staticryptPW", btoa("${pw}"));
+</script>
+`;
 
 fs.readFile(`${buildDir}/index.html`, "utf8", (err, data) => {
   if (err) {
@@ -22,13 +23,13 @@ fs.readFile(`${buildDir}/index.html`, "utf8", (err, data) => {
   }
 
   // Insert before </body>
-  data = data.replace("</body>", `<script>${stuff}</script></body>`);
+  data = data.replace("</body>", `${staticryptPWSetter}</body>`);
 
   fs.writeFile(`${buildDir}/index.html`, data, (err) => {
     if (err) {
       console.error(err);
       return;
     }
-    console.log("Moved scripts to body end");
+    console.log("Added staticrypt password setter");
   });
 });

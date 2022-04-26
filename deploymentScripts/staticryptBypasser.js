@@ -6,15 +6,21 @@ const fs = require("fs");
 const baseDir = process.cwd();
 const deploymentDir = `${baseDir}/deploymentScripts`;
 const buildDir = `${baseDir}/build`;
-let encryptionBypasser = "";
 
-fs.readFile(`${deploymentDir}/encryptionBypass.js`, "utf8", (err, data) => {
-  if (err) {
-    console.error(err);
-    return;
+const bypasser = `
+<script>
+  let input = document.getElementById("staticrypt-password");
+
+  const password = atob(localStorage.getItem("staticryptPW"));
+
+  if (password) {
+    input.value = password;
+    setTimeout(() => {
+      document.getElementsByClassName("staticrypt-decrypt-button")[0].click();
+    }, 1);
   }
-  encryptionBypasser = data;
-});
+</script>
+`;
 
 fs.readFile(`${buildDir}/index.html`, "utf8", (err, data) => {
   if (err) {
@@ -22,13 +28,13 @@ fs.readFile(`${buildDir}/index.html`, "utf8", (err, data) => {
     return;
   }
   // Insert before </body>
-  data = data.replace("</body>", `<script>${encryptionBypasser}</script></body>`);
+  data = data.replace("</body>", `${bypasser}</body>`);
 
   fs.writeFile(`${buildDir}/index.html`, data, (err) => {
     if (err) {
       console.error(err);
       return;
     }
-    console.log("Added encryption bypasser");
+    console.log("Added staticrypt bypasser");
   });
 });
