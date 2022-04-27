@@ -11,7 +11,7 @@ class Recipes extends React.Component {
 
     this.recipesStorage = new RecipesStorage();
     this.state = {
-      recipes: this.fetchInitialFromLocalStorage(),
+      recipes: this.fetchInitialFromSessionStorage(),
       modalItem: null,
     };
     this.refresh = async () => {
@@ -38,15 +38,15 @@ class Recipes extends React.Component {
     this.refresh();
   }
 
-  fetchInitialFromLocalStorage() {
-    const recipes = JSON.parse(localStorage.getItem("recipesLocal"));
+  fetchInitialFromSessionStorage() {
+    const recipes = JSON.parse(sessionStorage.getItem("recipesLocal"));
     if (!Array.isArray(recipes)) {
       return [];
     }
     return recipes;
   }
   componentWillUnmount() {
-    localStorage.setItem("recipesLocal", JSON.stringify(this.state.recipes));
+    sessionStorage.setItem("recipesLocal", JSON.stringify(this.state.recipes));
   }
   openModal(id) {
     let item = this.state.recipes.find((item) => item.id === id);
