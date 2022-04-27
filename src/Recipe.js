@@ -4,7 +4,6 @@ import React, { useState } from "react";
 
 function Recipe(props) {
   const { item, parentCall } = { ...props };
-  console.log(parentCall);
   return (
     <div className="card shadow-2xl bg-slate-600 mb-4">
       <div className="card-body">

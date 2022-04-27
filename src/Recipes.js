@@ -17,8 +17,6 @@ class Recipes extends React.Component {
     this.refresh = async () => {
       const recipes = await this.recipesStorage.getAll();
       this.setState({ recipes: recipes });
-
-      console.log(recipes);
     };
 
     this.recipeCalls = {
