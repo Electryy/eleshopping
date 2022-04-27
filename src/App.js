@@ -11,6 +11,7 @@ import { v4 as uuid } from "uuid";
 import ShoppingListStorage from "./data/shoppingListStorage";
 
 class App extends React.Component {
+  test = "jeppis";
   constructor(props) {
     super(props);
     this.state = {
@@ -20,6 +21,9 @@ class App extends React.Component {
       dataLoadingStart: this.dataLoadingStart.bind(this),
       dataLoadingStop: this.dataLoadingStop.bind(this),
     };
+    this.recipesCalls = {
+      copyRecipe: this.copyRecipe.bind(this),
+    };
   }
 
   dataLoadingStart() {
@@ -28,14 +32,21 @@ class App extends React.Component {
   dataLoadingStop() {
     this.setState({ dataIsLoading: false });
   }
-
+  async copyRecipe(item) {
+    this.test = "haha";
+    /*
+    for (const ingredient of item.ingredients) {
+      await this.addItem(ingredient);
+    }
+    */
+  }
   render() {
     return (
       <div className="App pb-5 relative">
         <Routes>
           <Route path="/" element={<MainLayout />}>
-            <Route index element={<ShoppingList parentCall={this.dataIsLoadingCalls} />} />
-            <Route path="recipes" element={<Recipes parentCall={this.dataIsLoadingCalls} />} />
+            <Route index element={<ShoppingList parentCall={this.dataIsLoadingCalls} test={this.test} />} />
+            <Route path="recipes" element={<Recipes parentCall={{ ...this.dataIsLoadingCalls, ...this.recipesCalls }} />} />
           </Route>
         </Routes>
         <LoadingScreen dataIsLoading={this.state.dataIsLoading} />

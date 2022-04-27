@@ -21,7 +21,7 @@ class Recipes extends React.Component {
 
     this.recipeCalls = {
       openModal: this.openModal.bind(this),
-      ...this.props.parentCall,
+      copyRecipe: this.props.parentCall.copyRecipe,
     };
     this.modalCalls = {
       itemChanged: this.itemChanged.bind(this),

@@ -23,10 +23,6 @@ class ShoppingList extends React.Component {
       onDragEnd: this.onDragEnd.bind(this),
     };
 
-    this.recipeCalls = {
-      copyRecipe: this.copyRecipe.bind(this),
-    };
-
     this.refresh = async () => {
       const shoppingList = await this.shoppingListStorage.getAll();
       this.setState({ shoppingList: shoppingList });
@@ -53,6 +49,7 @@ class ShoppingList extends React.Component {
   }
   async componentDidUpdate() {
     console.log("state", this.state);
+    console.log(this.props.test);
   }
   inputChanged(target) {
     const id = target.name;
@@ -114,11 +111,6 @@ class ShoppingList extends React.Component {
     this.shoppingListStorage.update(shoppingList, "order");
   }
 
-  async copyRecipe(item) {
-    for (const ingredient of item.ingredients) {
-      await this.addItem(ingredient);
-    }
-  }
   render() {
     return (
       <div className="form-control">
