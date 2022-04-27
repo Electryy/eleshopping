@@ -1,7 +1,7 @@
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import MainLayout from "./MainLayout";
-import Shopping from "./Shopping";
+import ShoppingList from "./ShoppingList";
 import Recipes from "./Recipes";
 import LoadingScreen from "./LoadingScreen";
 import Refresher from "./modules/Refresher";
@@ -25,6 +25,7 @@ class App extends React.Component {
       deleteItem: this.deleteItem.bind(this),
       checkboxClicked: this.checkboxClicked.bind(this),
       onDragEnd: this.onDragEnd.bind(this),
+      setShoppingList: this.setShoppingList.bind(this),
     };
 
     this.recipeCalls = {
@@ -49,6 +50,9 @@ class App extends React.Component {
 
   async componentDidUpdate() {
     console.log("state", this.state);
+  }
+  setShoppingList(shoppingList) {
+    this.setState({ shoppingList: shoppingList });
   }
 
   inputChanged(target) {
@@ -122,7 +126,7 @@ class App extends React.Component {
       <div className="App pb-5 relative">
         <Routes>
           <Route path="/" element={<MainLayout />}>
-            <Route index element={<Shopping parentCall={this.parentCall} shoppingList={this.state.shoppingList} />} />
+            <Route index element={<ShoppingList parentCall={this.parentCall} shoppingList={this.state.shoppingList} />} />
             <Route path="recipes" element={<Recipes parentCall={this.recipeCalls} />} />
           </Route>
         </Routes>
