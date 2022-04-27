@@ -35,12 +35,15 @@ class Recipes extends React.Component {
     this.addRecipe = this.addRecipe.bind(this);
   }
   async componentDidMount() {
-    this.refresh();
+    this.refresh().then((res) => {
+      this.props.parentCall.dataLoadingStop();
+    });
   }
 
   fetchInitialFromSessionStorage() {
     const recipes = JSON.parse(sessionStorage.getItem("recipesLocal"));
     if (!Array.isArray(recipes)) {
+      this.props.parentCall.dataLoadingStart();
       return [];
     }
     return recipes;
