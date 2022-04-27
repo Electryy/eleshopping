@@ -3,9 +3,21 @@ import CheckboxItem from "./CheckboxItem";
 import ClearCheckedBtn from "./ClearCheckedBtn";
 import AddItemControls from "./AddItemControls";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import ShoppingListStorage from "./data/shoppingListStorage";
+
+const shoppingListStorage = new ShoppingListStorage();
 
 function ShoppingList(props) {
-  const { shoppingList, parentCall } = { ...props };
+  let { shoppingList, parentCall } = { ...props };
+
+  function inputChanged(id, value) {
+    let item = shoppingList.find((item) => item.id === id);
+    item.text = value;
+    parentCall.setShoppingList(shoppingList);
+    shoppingListStorage.update(item, "text");
+  }
+
+  parentCall = { ...parentCall, inputChanged };
   return (
     <div className="form-control">
       <AddItemControls parentCall={parentCall} />

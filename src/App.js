@@ -55,14 +55,7 @@ class App extends React.Component {
     this.setState({ shoppingList: shoppingList });
   }
 
-  inputChanged(target) {
-    const id = target.name;
-    let shoppingList = [...this.state.shoppingList];
-    let item = shoppingList.find((item) => item.id === id);
-    item.text = target.value;
-    this.setState({ shoppingList: shoppingList });
-    this.shoppingListStorage.update(item, "text");
-  }
+  inputChanged(target) {}
   checkboxClicked(id) {
     let shoppingList = [...this.state.shoppingList];
     let item = shoppingList.find((item) => item.id === id);

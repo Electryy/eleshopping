@@ -14,7 +14,7 @@ function CheckboxItem(props) {
       element.setSelectionRange(0, 0); // "Scroll" back to start of the string
       setIsEditing(false);
       if (item.text !== element.value) {
-        parentCall.inputChanged(element);
+        parentCall.inputChanged(item.id, element.value);
       }
     }
   }
