@@ -10,7 +10,7 @@ const recipesStorage = new RecipesStorage();
 function Recipes(props) {
   const [modalItem, setModalItem] = useState(null);
   const { parentCall } = { ...props };
-  const addItems = { ...parentCall };
+  const addItems = parentCall.addItems;
   let recipes = JSON.parse(JSON.stringify(props.recipes));
 
   function openModal(id) {
