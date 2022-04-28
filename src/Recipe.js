@@ -4,6 +4,7 @@ import React, { useState } from "react";
 
 function Recipe(props) {
   const { item, parentCall } = { ...props };
+
   return (
     <div className="card shadow-2xl bg-slate-600 mb-4">
       <div className="card-body">
@@ -20,7 +21,7 @@ function Recipe(props) {
         </ul>
         <p>{item.notes}</p>
         <div className="card-actions">
-          <button className="btn btn-outline btn-accent" onClick={() => parentCall.copyRecipe(item)}>
+          <button className="btn btn-outline btn-accent" onClick={() => parentCall.addItems(item.ingredients)}>
             Copy to Shoppinglist
           </button>
         </div>

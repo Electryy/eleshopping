@@ -17,7 +17,7 @@ function AddItemControls(props) {
   function addItem() {
     const input = textInputRef.current;
     if (input.value) {
-      parentCall.addItem(input.value);
+      parentCall.addItems(input.value);
       input.value = "";
     }
   }

@@ -43,20 +43,13 @@ function App() {
 
   //this.refresher = new Refresher(refresh);
 
-  async function addItem(value) {
+  async function addItems(values) {
+    let valuesArr = Array.isArray(values) ? values : [values];
     let shoppingListCopy = [...shoppingList];
     let order = shoppingListCopy.length;
-    const newItem = { id: uuid(), text: value, checked: false, order: order };
-    shoppingListCopy.unshift(newItem);
-    setShoppingList(shoppingListCopy);
-    await shoppingListStorage.add(newItem);
-  }
-
-  async function copyRecipe(item) {
-    let order = shoppingList.length;
     let newItems = [];
-    for (const ingredient of item.ingredients) {
-      const newItem = { id: uuid(), text: ingredient, checked: false, order: order };
+    for (const value of valuesArr) {
+      const newItem = { id: uuid(), text: value, checked: false, order: order };
       newItems.push(newItem);
       order++;
     }
@@ -70,8 +63,8 @@ function App() {
     <div className="App pb-5 relative">
       <Routes>
         <Route path="/" element={<MainLayout />}>
-          <Route index element={<ShoppingList parentCall={{ addItem, copyRecipe, setShoppingList }} shoppingList={shoppingList} />} />
-          <Route path="recipes" element={<Recipes parentCall={{ copyRecipe }} />} />
+          <Route index element={<ShoppingList parentCall={{ addItems, setShoppingList }} shoppingList={shoppingList} />} />
+          <Route path="recipes" element={<Recipes parentCall={{ addItems }} />} />
         </Route>
       </Routes>
       <LoadingScreen dataIsLoading={dataIsLoading} />

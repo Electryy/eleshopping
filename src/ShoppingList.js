@@ -1,17 +1,16 @@
 import React, { useEffect } from "react";
 import CheckboxItem from "./CheckboxItem";
-import ClearCheckedBtn from "./ClearCheckedBtn";
 import AddItemControls from "./AddItemControls";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import ShoppingListStorage from "./data/shoppingListStorage";
 import { reorder } from "./modules/utils";
-import { v4 as uuid } from "uuid";
 
 const shoppingListStorage = new ShoppingListStorage();
 
 function ShoppingList(props) {
   let { parentCall } = { ...props };
   let shoppingList = [...props.shoppingList];
+  let addItems = parentCall.addItems;
 
   function inputChanged(id, value) {
     let item = shoppingList.find((item) => item.id === id);
@@ -60,18 +59,12 @@ function ShoppingList(props) {
     shoppingListStorage.update(shoppingList, "order");
   }
 
-  function addItem(value) {
-    let order = shoppingList.length;
-    const newItem = { id: uuid(), text: value, checked: false, order: order };
-    shoppingList.unshift(newItem);
-    parentCall.setShoppingList(shoppingList);
-    shoppingListStorage.add(newItem);
-  }
-
   return (
     <div className="form-control">
-      <AddItemControls parentCall={{ addItem }} />
-      <ClearCheckedBtn parentCall={{ clearChecked }} />
+      <AddItemControls parentCall={{ addItems }} />
+      <button className={`btn btn-link self-end text-white -mr-4`} onClick={clearChecked}>
+        Clear checked
+      </button>
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="fix">
           {(provided) => (
