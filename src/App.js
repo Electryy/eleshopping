@@ -6,21 +6,26 @@ import Recipes from "./Recipes";
 import LoadingScreen from "./LoadingScreen";
 import Refresher from "./modules/Refresher";
 import { reorder } from "./modules/utils";
+import RecipesStorage from "./data/recipesStorage";
 import React, { useState, useEffect } from "react";
 import { v4 as uuid } from "uuid";
 import ShoppingListStorage from "./data/shoppingListStorage";
 
 let refresher = null;
 const shoppingListStorage = new ShoppingListStorage();
+const recipesStorage = new RecipesStorage();
 
 function App() {
   const [shoppingList, setShoppingList] = useState([]);
+  const [recipes, setRecipes] = useState([]);
   const [dataIsLoading, setDataIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await shoppingListStorage.getAll();
-      setShoppingList(data);
+      const shoppingList = await shoppingListStorage.getAll();
+      const recipes = await recipesStorage.getAll();
+      setShoppingList(shoppingList);
+      setRecipes(recipes);
       setDataIsLoading(false);
     };
     fetchData();
@@ -64,7 +69,7 @@ function App() {
       <Routes>
         <Route path="/" element={<MainLayout />}>
           <Route index element={<ShoppingList parentCall={{ addItems, setShoppingList }} shoppingList={shoppingList} />} />
-          <Route path="recipes" element={<Recipes parentCall={{ addItems }} />} />
+          <Route path="recipes" element={<Recipes parentCall={{ addItems, setRecipes }} recipes={recipes} />} />
         </Route>
       </Routes>
       <LoadingScreen dataIsLoading={dataIsLoading} />

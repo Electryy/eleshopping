@@ -1,21 +1,26 @@
 import { PlusIcon, TrashIcon } from "@heroicons/react/solid";
 
 function RecipeModal(props) {
-  const { item, parentCall } = { ...props };
+  const { parentCall } = { ...props };
+  let modalItem = JSON.parse(JSON.stringify(props.modalItem));
 
   function itemChanged(e) {
-    parentCall.itemChanged(e.target.id, e.target.value);
+    modalItem[e.target.id] = e.target.value;
+    parentCall.setModalItem(modalItem);
   }
   function ingredientChanged(e) {
     const index = e.target.getAttribute("data-index");
-    parentCall.ingredientChanged(index, e.target.value);
+    modalItem.ingredients[index] = e.target.value;
+    parentCall.setModalItem(modalItem);
   }
   function removeIngredient(e) {
     const index = e.target.getAttribute("data-index");
-    parentCall.removeIngredient(index);
+    modalItem.ingredients.splice(index, 1);
+    parentCall.setModalItem(modalItem);
   }
   function addIngredient() {
-    parentCall.addIngredient();
+    modalItem.ingredients.push("");
+    parentCall.setModalItem(modalItem);
 
     // Auto focus the last input element in the list
     window.requestAnimationFrame(() => {
@@ -23,7 +28,7 @@ function RecipeModal(props) {
       ingredientInputs[ingredientInputs.length - 1].focus();
     });
   }
-  if (!item) {
+  if (!modalItem) {
     return null;
   }
   return (
@@ -31,24 +36,24 @@ function RecipeModal(props) {
       <input type="checkbox" id="recipeModal" className="modal-toggle" />
       <div className="modal">
         <div className="modal-box">
-          <label htmlFor="recipeModal" className="btn btn-sm btn-circle absolute right-2 top-2" onClick={parentCall.cancelEdits}>
+          <label htmlFor="recipeModal" className="btn btn-sm btn-circle absolute right-2 top-2" onClick={() => parentCall.setModalItem(null)}>
             ✕
           </label>
           <div className="form-control w-full min-w-full mb-6">
             <label className="label">
               <span className="label-text">Name</span>
             </label>
-            <input type="text" id="name" value={item.name} className="input input-bordered min-w-full" onChange={itemChanged}></input>
+            <input type="text" id="name" value={modalItem.name} className="input input-bordered min-w-full" onChange={itemChanged}></input>
             <label className="label">
               <span className="label-text">Url</span>
             </label>
-            <input type="text" id="url" value={item.url} className="input input-bordered min-w-full" onChange={itemChanged}></input>
+            <input type="text" id="url" value={modalItem.url} className="input input-bordered min-w-full" onChange={itemChanged}></input>
           </div>
           <label className="label">
             <span className="label-text">Ingredients</span>
           </label>
           <div className="form-control w-full min-w-full mb-2">
-            {item.ingredients.map((ingredient, index) => (
+            {modalItem.ingredients.map((ingredient, index) => (
               <div key={index} className="flex flex-row">
                 <input value={ingredient} data-index={index} type="text" className="input input-bordered input-sm mb-2 grow mr-2" onChange={ingredientChanged}></input>
                 <button className="btn btn-sm" data-index={index} onClick={removeIngredient}>
@@ -66,7 +71,7 @@ function RecipeModal(props) {
             <label className="label">
               <span className="label-text">Notes</span>
             </label>
-            <textarea id="notes" value={item.notes} onChange={itemChanged} className="textarea textarea-bordered  min-w-full" />
+            <textarea id="notes" value={modalItem.notes} onChange={itemChanged} className="textarea textarea-bordered  min-w-full" />
           </div>
 
           <div className="divider"></div>
