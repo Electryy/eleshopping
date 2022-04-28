@@ -56,13 +56,7 @@ class App extends React.Component {
   }
 
   inputChanged(target) {}
-  checkboxClicked(id) {
-    let shoppingList = [...this.state.shoppingList];
-    let item = shoppingList.find((item) => item.id === id);
-    item.checked = !item.checked;
-    this.setState({ shoppingList: shoppingList });
-    this.shoppingListStorage.update(item, "checked");
-  }
+  checkboxClicked(id) {}
 
   async addItem(value) {
     let shoppingList = [...this.state.shoppingList];
@@ -73,40 +67,13 @@ class App extends React.Component {
     await this.shoppingListStorage.add(newItem);
   }
 
-  deleteItem(id) {
-    let shoppingList = [...this.state.shoppingList];
-    let item = shoppingList.find((item) => item.id === id);
-    shoppingList = shoppingList.filter((item) => item.id !== id);
-    this.setState({ shoppingList: shoppingList });
-    this.shoppingListStorage.delete(item);
-  }
+  deleteItem(id) {}
 
-  clearChecked() {
-    let shoppingList = [...this.state.shoppingList];
-    let deletedItems = shoppingList.filter((item) => item.checked === true);
-    let remainingItems = shoppingList.filter((item) => item.checked === false);
-    this.setState({ shoppingList: remainingItems });
-    this.shoppingListStorage.delete(deletedItems);
-  }
+  clearChecked() {}
 
-  onDragEnd(result) {
-    if (!result.destination) {
-      return;
-    }
-    const ordered = reorder(this.state.shoppingList, result.source.index, result.destination.index);
-    this.refreshListOrders(ordered);
-  }
+  onDragEnd(result) {}
 
-  refreshListOrders(shoppingList) {
-    let lastIndex = shoppingList.length - 1;
-    let ordered = shoppingList.map((item, index) => {
-      item.order = lastIndex - index;
-      return item;
-    });
-
-    this.setState({ shoppingList: ordered });
-    this.shoppingListStorage.update(shoppingList, "order");
-  }
+  refreshListOrders(shoppingList) {}
 
   async copyRecipe(item) {
     for (const ingredient of item.ingredients) {
