@@ -5,6 +5,7 @@ import AddItemControls from "./AddItemControls";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import ShoppingListStorage from "./data/shoppingListStorage";
 import { reorder } from "./modules/utils";
+import { v4 as uuid } from "uuid";
 
 const shoppingListStorage = new ShoppingListStorage();
 
@@ -59,9 +60,17 @@ function ShoppingList(props) {
     shoppingListStorage.update(shoppingList, "order");
   }
 
+  function addItem(value) {
+    let order = shoppingList.length;
+    const newItem = { id: uuid(), text: value, checked: false, order: order };
+    shoppingList.unshift(newItem);
+    parentCall.setShoppingList(shoppingList);
+    shoppingListStorage.add(newItem);
+  }
+
   return (
     <div className="form-control">
-      <AddItemControls parentCall={parentCall} />
+      <AddItemControls parentCall={{ addItem }} />
       <ClearCheckedBtn parentCall={{ clearChecked }} />
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="fix">

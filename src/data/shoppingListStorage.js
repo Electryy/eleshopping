@@ -11,13 +11,6 @@ const ShoppingListStorage = function () {
     // convert to array
     let items = Array.isArray(item) ? item : [item];
 
-    // Get ids
-    let data = items.map((item) => {
-      const object = {
-        [item.id]: item,
-      };
-      return object;
-    });
     await dbAdd(document, items);
   };
 

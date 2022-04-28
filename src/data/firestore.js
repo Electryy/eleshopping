@@ -15,10 +15,11 @@ const db = getFirestore();
 export async function dbAdd(document, items) {
   const batch = writeBatch(db);
   // data is "123: {order: 1}" for example
-  for (const id in items) {
-    items[id]["timestamp"] = serverTimestamp();
-    batch.set(doc(db, document, id), items[id]);
-  }
+
+  items.forEach((item) => {
+    item["timestamp"] = serverTimestamp();
+    batch.set(doc(db, document, item.id), item);
+  });
   await batch.commit();
 }
 

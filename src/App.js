@@ -60,7 +60,10 @@ function App() {
       newItems.push(newItem);
       order++;
     }
-    console.log(newItems);
+    newItems.reverse();
+    let newList = [...newItems, ...shoppingList];
+    setShoppingList(newList);
+    await shoppingListStorage.add(newItems);
   }
 
   return (
