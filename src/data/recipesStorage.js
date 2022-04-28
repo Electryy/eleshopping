@@ -17,7 +17,7 @@ const RecipesStorage = function () {
    * @param {Object} item item to add
    */
   this.add = async function (item) {
-    await dbAdd(document, item.id, item);
+    await dbAdd(document, [item]);
   };
 
   /**

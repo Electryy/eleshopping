@@ -15,12 +15,13 @@ const shoppingListStorage = new ShoppingListStorage();
 
 function App() {
   const [shoppingList, setShoppingList] = useState([]);
-  const [dataIsLoading, setDataIsLoading] = useState(false);
+  const [dataIsLoading, setDataIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       const data = await shoppingListStorage.getAll();
       setShoppingList(data);
+      setDataIsLoading(false);
     };
     fetchData();
   }, []);
@@ -43,17 +44,23 @@ function App() {
   //this.refresher = new Refresher(refresh);
 
   async function addItem(value) {
-    let order = shoppingList.length;
+    let shoppingListCopy = [...shoppingList];
+    let order = shoppingListCopy.length;
     const newItem = { id: uuid(), text: value, checked: false, order: order };
-    shoppingList.unshift(newItem);
-    setShoppingList(shoppingList);
+    shoppingListCopy.unshift(newItem);
+    setShoppingList(shoppingListCopy);
     await shoppingListStorage.add(newItem);
   }
 
   async function copyRecipe(item) {
+    let order = shoppingList.length;
+    let newItems = [];
     for (const ingredient of item.ingredients) {
-      await this.addItem(ingredient);
+      const newItem = { id: uuid(), text: ingredient, checked: false, order: order };
+      newItems.push(newItem);
+      order++;
     }
+    console.log(newItems);
   }
 
   return (
@@ -61,7 +68,7 @@ function App() {
       <Routes>
         <Route path="/" element={<MainLayout />}>
           <Route index element={<ShoppingList parentCall={{ addItem, copyRecipe, setShoppingList }} shoppingList={shoppingList} />} />
-          <Route path="recipes" element={<Recipes parentCall={copyRecipe} />} />
+          <Route path="recipes" element={<Recipes parentCall={{ copyRecipe }} />} />
         </Route>
       </Routes>
       <LoadingScreen dataIsLoading={dataIsLoading} />

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import CheckboxItem from "./CheckboxItem";
 import ClearCheckedBtn from "./ClearCheckedBtn";
 import AddItemControls from "./AddItemControls";
@@ -22,10 +22,8 @@ function ShoppingList(props) {
   function checkboxClicked(id) {
     let item = shoppingList.find((item) => item.id === id);
     item.checked = !item.checked;
-    console.log(shoppingList);
     parentCall.setShoppingList(shoppingList);
     shoppingListStorage.update(item, "checked");
-    console.log("cliddk");
   }
 
   function deleteItem(id) {
@@ -64,7 +62,7 @@ function ShoppingList(props) {
   return (
     <div className="form-control">
       <AddItemControls parentCall={parentCall} />
-      <ClearCheckedBtn parentCall={parentCall} />
+      <ClearCheckedBtn parentCall={{ clearChecked }} />
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="fix">
           {(provided) => (
@@ -77,7 +75,7 @@ function ShoppingList(props) {
                         item={item}
                         dragHandleProps={provided.dragHandleProps}
                         snapshot={snapshot}
-                        parentCall={{ ...parentCall, inputChanged, checkboxClicked, deleteItem, clearChecked }}
+                        parentCall={{ ...parentCall, inputChanged, checkboxClicked, deleteItem }}
                       />
                     </div>
                   )}

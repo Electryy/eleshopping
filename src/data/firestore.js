@@ -12,9 +12,14 @@ const firebaseApp = initializeApp({
 
 const db = getFirestore();
 
-export async function dbAdd(document, id, item) {
-  item["timestamp"] = serverTimestamp();
-  await setDoc(doc(db, document, id), item);
+export async function dbAdd(document, items) {
+  const batch = writeBatch(db);
+  // data is "123: {order: 1}" for example
+  for (const id in items) {
+    items[id]["timestamp"] = serverTimestamp();
+    batch.set(doc(db, document, id), items[id]);
+  }
+  await batch.commit();
 }
 
 export async function dbGetDoc(document) {
