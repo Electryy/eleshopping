@@ -9,7 +9,8 @@ import { reorder } from "./modules/utils";
 const shoppingListStorage = new ShoppingListStorage();
 
 function ShoppingList(props) {
-  let { shoppingList, parentCall } = { ...props };
+  let { parentCall } = { ...props };
+  let shoppingList = [...props.shoppingList];
 
   function inputChanged(id, value) {
     let item = shoppingList.find((item) => item.id === id);
@@ -21,8 +22,10 @@ function ShoppingList(props) {
   function checkboxClicked(id) {
     let item = shoppingList.find((item) => item.id === id);
     item.checked = !item.checked;
+    console.log(shoppingList);
     parentCall.setShoppingList(shoppingList);
     shoppingListStorage.update(item, "checked");
+    console.log("cliddk");
   }
 
   function deleteItem(id) {
