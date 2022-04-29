@@ -44,7 +44,7 @@ function CheckboxItem(props) {
           name={item.id}
           defaultValue={item.text}
           type="text"
-          className={`input grow basis-full  input-ghost p-0 text-xl focus:bg-slate-600`}
+          className={`input grow basis-full  input-ghost p-0 text-xl focus:bg-slate-600 ${item.checked ? "line-through italic" : ""}`}
           onFocus={toggleFocus}
           onBlur={toggleFocus}
           onKeyPress={handleKeyPress}
