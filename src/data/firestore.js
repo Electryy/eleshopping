@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore, serverTimestamp } from "firebase/firestore";
-import { collection, doc, query, orderBy, getDocs, setDoc, deleteDoc, writeBatch, updateDoc } from "firebase/firestore";
+import { collection, doc, query, orderBy, getDocs, setDoc, deleteDoc, writeBatch, updateDoc, onSnapshot } from "firebase/firestore";
 const firebaseApp = initializeApp({
   apiKey: process.env.REACT_APP_apiKey,
   authDomain: process.env.REACT_APP_authDomain,
@@ -11,6 +11,26 @@ const firebaseApp = initializeApp({
 });
 
 const db = getFirestore();
+
+export function live(document, objekti) {
+  const q = query(collection(db, document));
+
+  const unsubscribe = onSnapshot(q, (snapshot, jeps, setShoppingList) => {
+    snapshot.docChanges().forEach((change) => {
+      console.log(change.doc.metadata.hasPendingWrites);
+      if (change.type === "added") {
+        console.log("New city: ", change.doc.data());
+      }
+      if (change.type === "modified") {
+        console.log("Modified city: ", change.doc.data());
+        console.log(objekti());
+      }
+      if (change.type === "removed") {
+        console.log("Removed city: ", change.doc.data());
+      }
+    });
+  });
+}
 
 export async function dbAdd(document, items) {
   const batch = writeBatch(db);

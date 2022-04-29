@@ -10,10 +10,15 @@ import RecipesStorage from "./data/recipesStorage";
 import React, { useState, useEffect } from "react";
 import { v4 as uuid } from "uuid";
 import ShoppingListStorage from "./data/shoppingListStorage";
+import { live } from "../src/data/firestore";
 
 let refresher = null;
 const shoppingListStorage = new ShoppingListStorage();
 const recipesStorage = new RecipesStorage();
+
+let reffing;
+
+let setStateHaha;
 
 function App() {
   const [shoppingList, setShoppingList] = useState([]);
@@ -29,11 +34,19 @@ function App() {
       setDataIsLoading(false);
     };
     fetchData();
+    live("shopping_list", updateFunc);
   }, []);
 
   useEffect(() => {
     console.log("state", shoppingList);
+    reffing = shoppingList;
   });
+
+  const updateFunc = function () {
+    let changed = [...reffing];
+    changed[0].text = "HAHAHAHAHAH";
+    setStateHaha(changed);
+  };
 
   /*
   shoppingList = shoppingListStorage.getAll();
