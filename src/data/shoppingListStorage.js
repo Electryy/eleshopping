@@ -1,8 +1,13 @@
-import { dbGetDoc, dbAdd, dbDeleteBatch, dbUpdateBatch } from "./firestore";
+import { dbGetDoc, dbAdd, dbDeleteBatch, dbUpdateBatch, live } from "./firestore";
+
+import { sortByOrder } from ".././modules/utils";
 
 const ShoppingListStorage = function () {
   const document = "shopping_list";
 
+  this.liveTest = (addFunc, modify) => {
+    live(document, addFunc, modify);
+  };
   /**
    * Add ShoppingListItem item/items to storage
    * @param {Obect|Object[]} item item or items

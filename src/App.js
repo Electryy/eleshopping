@@ -10,31 +10,46 @@ import RecipesStorage from "./data/recipesStorage";
 import React, { useState, useEffect } from "react";
 import { v4 as uuid } from "uuid";
 import ShoppingListStorage from "./data/shoppingListStorage";
+import { dbGetDoc, dbAdd, dbDeleteBatch, dbUpdateBatch, live } from "../src/data/firestore";
+import { render } from "@testing-library/react";
 
 let refresher = null;
 const shoppingListStorage = new ShoppingListStorage();
 const recipesStorage = new RecipesStorage();
 
-function App() {
-  const [shoppingList, setShoppingList] = useState([]);
-  const [recipes, setRecipes] = useState([]);
-  const [dataIsLoading, setDataIsLoading] = useState(true);
-
-  useEffect(() => {
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      shoppingList: [],
+      recipes: [],
+      dataIsloading: true,
+    };
+    this.addItems = this.addItems.bind(this);
+    this.setShoppingList = this.setShoppingList.bind(this);
+    this.setRecipes = this.setRecipes.bind(this);
+    this.getState = this.getState.bind(this);
+  }
+  componentDidMount() {
     const fetchData = async () => {
       const shoppingList = await shoppingListStorage.getAll();
       const recipes = await recipesStorage.getAll();
-      setShoppingList(shoppingList);
-      setRecipes(recipes);
-      setDataIsLoading(false);
+      this.setState({ shoppingList: shoppingList });
+      this.setState({ recipes: recipes });
+      this.setState({ dataIsloading: false });
     };
     fetchData();
-  }, []);
-
-  useEffect(() => {
-    console.log("state", shoppingList);
-  });
-
+    live("shopping_list", this.getState);
+  }
+  getState() {
+    return this.state.shoppingList;
+  }
+  setShoppingList(data) {
+    this.setState({ shoppingList: data });
+  }
+  setRecipes(data) {
+    this.setState({ recipes: data });
+  }
   /*
   shoppingList = shoppingListStorage.getAll();
   setShoppingList(shoppingList);
@@ -48,9 +63,9 @@ function App() {
 
   //this.refresher = new Refresher(refresh);
 
-  async function addItems(values) {
+  async addItems(values) {
     let valuesArr = Array.isArray(values) ? values : [values];
-    let shoppingListCopy = [...shoppingList];
+    let shoppingListCopy = [...this.state.shoppingList];
     let order = shoppingListCopy.length;
     let newItems = [];
     for (const value of valuesArr) {
@@ -59,22 +74,23 @@ function App() {
       order++;
     }
     newItems.reverse();
-    let newList = [...newItems, ...shoppingList];
-    setShoppingList(newList);
+    let newList = [...newItems, ...this.state.shoppingList];
+    this.setState({ shoppingList: newList });
     await shoppingListStorage.add(newItems);
   }
-
-  return (
-    <div className="App pb-5 relative">
-      <Routes>
-        <Route path="/" element={<MainLayout />}>
-          <Route index element={<ShoppingList parentCall={{ addItems, setShoppingList }} shoppingList={shoppingList} />} />
-          <Route path="recipes" element={<Recipes parentCall={{ addItems, setRecipes }} recipes={recipes} />} />
-        </Route>
-      </Routes>
-      <LoadingScreen dataIsLoading={dataIsLoading} />
-    </div>
-  );
+  render() {
+    return (
+      <div className="App pb-5 relative">
+        <Routes>
+          <Route path="/" element={<MainLayout />}>
+            <Route index element={<ShoppingList parentCall={{ addItems: this.addItems, setShoppingList: this.setShoppingList }} shoppingList={this.state.shoppingList} />} />
+            <Route path="recipes" element={<Recipes parentCall={{ addItems: this.addItems, setRecipes: this.setRecipes }} recipes={this.state.recipes} />} />
+          </Route>
+        </Routes>
+        <LoadingScreen dataIsLoading={this.state.dataIsLoading} />
+      </div>
+    );
+  }
 }
 
 export default App;
