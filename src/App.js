@@ -16,13 +16,9 @@ let refresher = null;
 const shoppingListStorage = new ShoppingListStorage();
 const recipesStorage = new RecipesStorage();
 
-let reffing;
-
-let setStateHaha;
-
 function App() {
-  const [shoppingList, setShoppingList] = useState([]);
-  const [recipes, setRecipes] = useState([]);
+  let [shoppingList, setShoppingList] = useState([]);
+  let [recipes, setRecipes] = useState([]);
   const [dataIsLoading, setDataIsLoading] = useState(true);
 
   useEffect(() => {
@@ -34,19 +30,15 @@ function App() {
       setDataIsLoading(false);
     };
     fetchData();
-    live("shopping_list", updateFunc);
   }, []);
 
   useEffect(() => {
     console.log("state", shoppingList);
-    reffing = shoppingList;
+    const unsub = live("shopping_list", shoppingList, setShoppingList);
+    return function cleanup() {
+      unsub();
+    };
   });
-
-  const updateFunc = function () {
-    let changed = [...reffing];
-    changed[0].text = "HAHAHAHAHAH";
-    setStateHaha(changed);
-  };
 
   /*
   shoppingList = shoppingListStorage.getAll();
