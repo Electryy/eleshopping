@@ -1,6 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore, serverTimestamp } from "firebase/firestore";
 import { collection, doc, query, orderBy, getDocs, setDoc, deleteDoc, writeBatch, updateDoc, onSnapshot } from "firebase/firestore";
+import { sortByOrder } from "../modules/utils";
 const firebaseApp = initializeApp({
   apiKey: process.env.REACT_APP_apiKey,
   authDomain: process.env.REACT_APP_authDomain,
@@ -19,7 +20,6 @@ export function live(document, shoppingList, setShoppingList) {
     let shoppingListCpy = [...shoppingList];
     let needsUpdate = false;
     let hasPendingWrites = false;
-    console.log(snapshot);
     snapshot.docChanges().forEach((change) => {
       console.log(change.doc.data());
       if (change.doc.metadata.hasPendingWrites) {
@@ -39,8 +39,33 @@ export function live(document, shoppingList, setShoppingList) {
       }
     });
     if (needsUpdate && !hasPendingWrites) {
+      sortByOrder(shoppingListCpy);
       setShoppingList(shoppingListCpy);
     }
+  });
+  return unsubscribe;
+}
+
+export function dbLiveUpdates(document, addFunc, modifyFunc, removeFunc) {
+  const q = query(collection(db, document));
+
+  const unsubscribe = onSnapshot(q, (snapshot) => {
+    snapshot.docChanges().forEach((change) => {
+      if (change.type === "added") {
+        console.log("New city: ", change.doc.data());
+        addFunc();
+      }
+      if (change.type === "modified") {
+        console.log("mofidfyy");
+        if (!change.doc.metadata.hasPendingWrites) {
+          modifyFunc(change.doc.data());
+        }
+      }
+      if (change.type === "removed") {
+        console.log("Removed city: ", change.doc.data());
+        removeFunc();
+      }
+    });
   });
   return unsubscribe;
 }

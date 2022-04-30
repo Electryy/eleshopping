@@ -5,3 +5,7 @@ export const reorder = (list, startIndex, endIndex) => {
 
   return result;
 };
+
+export const sortByOrder = (shoppingList) => {
+  shoppingList.sort((a, b) => b.order - a.order);
+};

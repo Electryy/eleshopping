@@ -1,4 +1,5 @@
-import { dbGetDoc, dbAdd, dbDeleteBatch, dbUpdateBatch } from "./firestore";
+import { dbGetDoc, dbAdd, dbDeleteBatch, dbUpdateBatch, dbLiveUpdates } from "./firestore";
+import { sortByOrder } from "../modules/utils";
 
 const ShoppingListStorage = function () {
   const document = "shopping_list";
@@ -12,6 +13,28 @@ const ShoppingListStorage = function () {
     let items = Array.isArray(item) ? item : [item];
 
     await dbAdd(document, items);
+  };
+
+  /**
+   *
+   * @param
+   */
+  this.subscribe = function (shoppingList, setShoppingList) {
+    const addFunc = function () {
+      console.log("addFunc");
+    };
+    const modifyFunc = function (data) {
+      const shoppingListCpy = [...shoppingList];
+      let item = shoppingListCpy.find((item) => item.id === data.id);
+      item = Object.assign(item, data);
+      sortByOrder(shoppingListCpy);
+      setShoppingList(shoppingListCpy);
+      console.log("modifyFunc");
+    };
+    const removeFunc = function () {
+      console.log("removeFunc");
+    };
+    return dbLiveUpdates(document, addFunc, modifyFunc, removeFunc);
   };
 
   /**

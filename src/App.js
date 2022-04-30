@@ -34,7 +34,7 @@ function App() {
 
   useEffect(() => {
     console.log("state", shoppingList);
-    const unsub = live("shopping_list", shoppingList, setShoppingList);
+    const unsub = shoppingListStorage.subscribe(shoppingList, setShoppingList);
     return function cleanup() {
       unsub();
     };
