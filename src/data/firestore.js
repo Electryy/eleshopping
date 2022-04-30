@@ -19,7 +19,9 @@ export function live(document, shoppingList, setShoppingList) {
     let shoppingListCpy = [...shoppingList];
     let needsUpdate = false;
     let hasPendingWrites = false;
+    console.log(snapshot);
     snapshot.docChanges().forEach((change) => {
+      console.log(change.doc.data());
       if (change.doc.metadata.hasPendingWrites) {
         hasPendingWrites = true;
       }
