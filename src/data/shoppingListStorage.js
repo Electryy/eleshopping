@@ -1,5 +1,6 @@
 import { dbGetDoc, dbAdd, dbDeleteBatch, dbUpdateBatch, dbLiveUpdates } from "./firestore";
 import { sortByOrder } from "../modules/utils";
+import { snapshotEqual } from "firebase/firestore";
 
 const ShoppingListStorage = function () {
   const document = "shopping_list";
@@ -19,22 +20,34 @@ const ShoppingListStorage = function () {
    *
    * @param
    */
-  this.subscribe = function (shoppingList, setShoppingList) {
-    const addFunc = function () {
-      console.log("addFunc");
-    };
-    const modifyFunc = function (data) {
-      const shoppingListCpy = [...shoppingList];
-      let item = shoppingListCpy.find((item) => item.id === data.id);
-      item = Object.assign(item, data);
+  this.subscribe = function (getShoppingList, setShoppingList) {
+    const handleChanges = function (snapshot) {
+      if (snapshot.metadata.hasPendingWrites) {
+        return;
+      }
+      let shoppingListCpy = [...getShoppingList()];
+      snapshot.docChanges().forEach((change) => {
+        const data = change.doc.data();
+        if (change.type === "added") {
+          if (!shoppingListCpy.some((item) => item.id === data.id)) {
+            shoppingListCpy.push(data);
+          }
+        }
+        if (change.type === "modified") {
+          let item = shoppingListCpy.find((item) => item.id === data.id);
+          item = Object.assign(item, data);
+        }
+        if (change.type === "removed") {
+          shoppingListCpy = shoppingListCpy.filter(function (item) {
+            return item.id !== data.id;
+          });
+        }
+      });
       sortByOrder(shoppingListCpy);
       setShoppingList(shoppingListCpy);
-      console.log("modifyFunc");
     };
-    const removeFunc = function () {
-      console.log("removeFunc");
-    };
-    return dbLiveUpdates(document, addFunc, modifyFunc, removeFunc);
+
+    return dbLiveUpdates(document, handleChanges);
   };
 
   /**

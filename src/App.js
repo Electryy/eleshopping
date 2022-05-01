@@ -4,17 +4,15 @@ import MainLayout from "./MainLayout";
 import ShoppingList from "./ShoppingList";
 import Recipes from "./Recipes";
 import LoadingScreen from "./LoadingScreen";
-import Refresher from "./modules/Refresher";
-import { reorder } from "./modules/utils";
 import RecipesStorage from "./data/recipesStorage";
 import React, { useState, useEffect } from "react";
 import { v4 as uuid } from "uuid";
 import ShoppingListStorage from "./data/shoppingListStorage";
-import { live } from "../src/data/firestore";
 
-let refresher = null;
 const shoppingListStorage = new ShoppingListStorage();
 const recipesStorage = new RecipesStorage();
+
+let shoppingListState = [];
 
 function App() {
   let [shoppingList, setShoppingList] = useState([]);
@@ -30,28 +28,13 @@ function App() {
       setDataIsLoading(false);
     };
     fetchData();
+    const unsub = shoppingListStorage.subscribe(() => shoppingListState, setShoppingList);
   }, []);
 
   useEffect(() => {
     console.log("state", shoppingList);
-    const unsub = shoppingListStorage.subscribe(shoppingList, setShoppingList);
-    return function cleanup() {
-      unsub();
-    };
+    shoppingListState = shoppingList;
   });
-
-  /*
-  shoppingList = shoppingListStorage.getAll();
-  setShoppingList(shoppingList);
-
-  const refresh = async function () {
-    const shoppingList = await shoppingListStorage.getAll();
-    setShoppingList(shoppingList);
-  };
-*/
-  //refresh();
-
-  //this.refresher = new Refresher(refresh);
 
   async function addItems(values) {
     let valuesArr = Array.isArray(values) ? values : [values];

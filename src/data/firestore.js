@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore, serverTimestamp } from "firebase/firestore";
 import { collection, doc, query, orderBy, getDocs, setDoc, deleteDoc, writeBatch, updateDoc, onSnapshot } from "firebase/firestore";
-import { sortByOrder } from "../modules/utils";
+
 const firebaseApp = initializeApp({
   apiKey: process.env.REACT_APP_apiKey,
   authDomain: process.env.REACT_APP_authDomain,
@@ -13,59 +13,11 @@ const firebaseApp = initializeApp({
 
 const db = getFirestore();
 
-export function live(document, shoppingList, setShoppingList) {
+export function dbLiveUpdates(document, handleChanges) {
   const q = query(collection(db, document));
 
   const unsubscribe = onSnapshot(q, (snapshot) => {
-    let shoppingListCpy = [...shoppingList];
-    let needsUpdate = false;
-    let hasPendingWrites = false;
-    snapshot.docChanges().forEach((change) => {
-      console.log(change.doc.data());
-      if (change.doc.metadata.hasPendingWrites) {
-        hasPendingWrites = true;
-      }
-      const data = change.doc.data();
-      if (change.type === "added") {
-        //console.log("New city: ", change.doc.data());
-      }
-      if (change.type === "modified") {
-        let item = shoppingListCpy.find((item) => item.id === data.id);
-        item = Object.assign(item, data);
-        needsUpdate = true;
-      }
-      if (change.type === "removed") {
-        console.log("Removed city: ", change.doc.data());
-      }
-    });
-    if (needsUpdate && !hasPendingWrites) {
-      sortByOrder(shoppingListCpy);
-      setShoppingList(shoppingListCpy);
-    }
-  });
-  return unsubscribe;
-}
-
-export function dbLiveUpdates(document, addFunc, modifyFunc, removeFunc) {
-  const q = query(collection(db, document));
-
-  const unsubscribe = onSnapshot(q, (snapshot) => {
-    snapshot.docChanges().forEach((change) => {
-      if (change.type === "added") {
-        console.log("New city: ", change.doc.data());
-        addFunc();
-      }
-      if (change.type === "modified") {
-        console.log("mofidfyy");
-        if (!change.doc.metadata.hasPendingWrites) {
-          modifyFunc(change.doc.data());
-        }
-      }
-      if (change.type === "removed") {
-        console.log("Removed city: ", change.doc.data());
-        removeFunc();
-      }
-    });
+    handleChanges(snapshot);
   });
   return unsubscribe;
 }
