@@ -16,7 +16,12 @@ function ShoppingList(props) {
     let item = shoppingList.find((item) => item.id === id);
     item.text = value;
     parentCall.setShoppingList(shoppingList);
-    shoppingListStorage.update(item, "text");
+  }
+
+  function saveItem(item) {
+    if (shoppingList.some((itm) => itm.id === item.id)) {
+      shoppingListStorage.update(item, "text");
+    }
   }
 
   function checkboxClicked(id) {
@@ -30,6 +35,7 @@ function ShoppingList(props) {
     let item = shoppingList.find((item) => item.id === id);
     shoppingList = shoppingList.filter((item) => item.id !== id);
     parentCall.setShoppingList(shoppingList);
+    console.log(item);
     shoppingListStorage.delete(item);
   }
 
@@ -77,7 +83,7 @@ function ShoppingList(props) {
                         item={item}
                         dragHandleProps={provided.dragHandleProps}
                         snapshot={snapshot}
-                        parentCall={{ ...parentCall, inputChanged, checkboxClicked, deleteItem }}
+                        parentCall={{ ...parentCall, inputChanged, checkboxClicked, deleteItem, saveItem }}
                       />
                     </div>
                   )}

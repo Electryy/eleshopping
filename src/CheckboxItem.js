@@ -6,24 +6,22 @@ function CheckboxItem(props) {
   const [isEditing, setIsEditing] = useState(false);
   const textInputRef = React.createRef();
 
-  function toggleFocus(e) {
-    if (e.type === "focus") {
-      setIsEditing(true);
-    } else if (e.type === "blur") {
-      const element = textInputRef.current;
-      element.setSelectionRange(0, 0); // "Scroll" back to start of the string
-      setIsEditing(false);
-      if (item.text !== element.value) {
-        parentCall.inputChanged(item.id, element.value);
-      }
-    }
+  function focus() {
+    setIsEditing(true);
+  }
+  function blur(item) {
+    textInputRef.current.setSelectionRange(0, 0); // "Scroll" back to start of the string
+    setIsEditing(false);
+    parentCall.saveItem(item);
   }
   function handleKeyPress(e) {
     if (e.key === "Enter") {
-      textInputRef.current.blur();
+      e.target.current.blur();
     }
   }
-
+  function onChange(e) {
+    parentCall.inputChanged(item.id, e.target.value);
+  }
   function deleteItem(id) {
     textInputRef.current.blur();
 
@@ -42,12 +40,13 @@ function CheckboxItem(props) {
         <input
           ref={textInputRef}
           name={item.id}
-          defaultValue={item.text}
+          value={item.text}
           type="text"
           className={`input grow basis-full  input-ghost p-0 text-xl focus:bg-slate-600 ${item.checked ? "line-through italic" : ""}`}
-          onFocus={toggleFocus}
-          onBlur={toggleFocus}
+          onFocus={focus}
+          onBlur={() => blur(item)}
           onKeyPress={handleKeyPress}
+          onChange={onChange}
         ></input>
         <div className={`-mx-1 mt-2  ${isEditing ? "" : "hidden"}`}>
           <button className={`btn btn-sm btn-warning mx-1`} onMouseDown={() => deleteItem(item.id)}>
