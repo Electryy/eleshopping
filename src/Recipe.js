@@ -10,7 +10,7 @@ function Recipe(props) {
   useEffect(() => {
     if (copyingAnimation) {
       // Add little transition to animate copied text
-      const copiedTextClasses = ["opacity-100", "scale-100", "transition", "duration-300"];
+      const copiedTextClasses = ["opacity-100", "scale-100"];
       copyTextRef.current.classList.add("opacity-0");
       copiedTextRef.current.classList.add(...copiedTextClasses);
       setTimeout(() => {
@@ -44,7 +44,7 @@ function Recipe(props) {
         <div className="card-actions">
           <button className="relative btn btn-outline btn-accent text-center" onClick={copyToShoppingList}>
             <span ref={copyTextRef}>Copy to Shoppinglist</span>
-            <span ref={copiedTextRef} className="absolute scale-50 opacity-0">
+            <span ref={copiedTextRef} className="absolute scale-50 opacity-0 transition-transform duration-300">
               Copied
             </span>
           </button>
