@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import CheckboxItem from "./CheckboxItem";
+import ShoppingListItem from "./ShoppingListItem";
 import AddItemControls from "./AddItemControls";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import ShoppingListStorage from "./data/shoppingListStorage";
@@ -81,7 +81,7 @@ function ShoppingList(props) {
                 <Draggable key={item.id} draggableId={item.id} index={index}>
                   {(provided, snapshot) => (
                     <div ref={provided.innerRef} {...provided.draggableProps}>
-                      <CheckboxItem
+                      <ShoppingListItem
                         item={item}
                         dragHandleProps={provided.dragHandleProps}
                         snapshot={snapshot}

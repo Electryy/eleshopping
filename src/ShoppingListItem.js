@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { DotsVerticalIcon, TrashIcon, CheckIcon, PencilIcon } from "@heroicons/react/solid";
 
-function CheckboxItem(props) {
+function ShoppingListItem(props) {
   const { item, parentCall } = { ...props };
   const [isEditing, setIsEditing] = useState(false);
   const [deleteAnimation, setDeleteAnimation] = useState(false);
@@ -15,6 +15,7 @@ function CheckboxItem(props) {
   };
 
   useEffect(() => {
+    // Once state changes to checked: Animate it out and delete
     if (item.checked === true) {
       setDeleteAnimation(true);
       setTimeout(() => {
@@ -72,4 +73,4 @@ function CheckboxItem(props) {
   );
 }
 
-export default CheckboxItem;
+export default ShoppingListItem;
