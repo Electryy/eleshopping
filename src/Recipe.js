@@ -44,7 +44,7 @@ function Recipe(props) {
         <div className="card-actions">
           <button className="relative btn btn-outline btn-accent text-center" onClick={copyToShoppingList}>
             <span ref={copyTextRef}>Copy to Shoppinglist</span>
-            <span ref={copiedTextRef} className="absolute scale-50 opacity-0 transition-transform duration-300">
+            <span ref={copiedTextRef} className="absolute scale-50 opacity-0 transition-transform duration-300 motion-reduce:scale-100">
               Copied
             </span>
           </button>
