@@ -41,11 +41,9 @@ function ShoppingList(props) {
     shoppingListStorage.delete(item);
   }
 
-  function clearChecked() {
-    let deletedItems = shoppingList.filter((item) => item.checked === true);
-    let remainingItems = shoppingList.filter((item) => item.checked === false);
-    parentCall.setShoppingList(remainingItems);
-    shoppingListStorage.delete(deletedItems);
+  function clearList() {
+    parentCall.setShoppingList([]);
+    shoppingListStorage.delete(shoppingList);
   }
 
   function onDragEnd(result) {
@@ -70,8 +68,8 @@ function ShoppingList(props) {
   return (
     <div className="form-control">
       <AddItemControls parentCall={{ addItems }} />
-      <button className={`btn btn-link self-end text-white -mr-4`} onClick={clearChecked}>
-        Clear checked
+      <button className={`btn btn-link self-end text-white -mr-4`} onClick={clearList}>
+        Clear all
       </button>
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="fix">

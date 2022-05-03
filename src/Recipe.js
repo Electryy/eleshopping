@@ -1,23 +1,29 @@
 import { PencilAltIcon } from "@heroicons/react/solid";
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 function Recipe(props) {
   const { item, parentCall } = { ...props };
+  const [copyingAnimation, setCopyingAnimation] = useState(false);
   const copyTextRef = React.createRef();
   const copiedTextRef = React.createRef();
 
-  function copyToShoppingList() {
-    // Add little transition to animate copied text
-    const copiedTextClasses = ["opacity-100", "scale-100", "transition", "duration-300"];
-    copyTextRef.current.classList.add("opacity-0");
-    copiedTextRef.current.classList.add(...copiedTextClasses);
-    setTimeout(() => {
-      copiedTextRef.current.classList.remove(...copiedTextClasses);
-      copyTextRef.current.classList.remove("opacity-0");
+  useEffect(() => {
+    if (copyingAnimation) {
+      // Add little transition to animate copied text
+      const copiedTextClasses = ["opacity-100", "scale-100", "transition", "duration-300"];
+      copyTextRef.current.classList.add("opacity-0");
+      copiedTextRef.current.classList.add(...copiedTextClasses);
+      setTimeout(() => {
+        copiedTextRef.current.classList.remove(...copiedTextClasses);
+        copyTextRef.current.classList.remove("opacity-0");
 
-      // Need to run this after animations because re-rendering when state changes
-      parentCall.addItems(item.ingredients);
-    }, 1000);
+        setCopyingAnimation(false);
+      }, 1000);
+    }
+  });
+  function copyToShoppingList() {
+    setCopyingAnimation(true);
+    parentCall.addItems(item.ingredients);
   }
 
   return (

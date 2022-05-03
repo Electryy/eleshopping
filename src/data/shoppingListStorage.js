@@ -38,11 +38,9 @@ const ShoppingListStorage = function () {
           item = Object.assign(item, data);
         }
         if (change.type === "removed") {
-          /*
           shoppingListCpy = shoppingListCpy.filter(function (item) {
             return item.id !== data.id;
           });
-          */
         }
       });
       sortByOrder(shoppingListCpy);
