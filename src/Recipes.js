@@ -37,7 +37,6 @@ function Recipes(props) {
       recipesStorage.update(modalItem);
     }
     recipes.splice(index, 1, modalItem);
-    console.log(parentCall);
     parentCall.setRecipes(recipes);
   }
 

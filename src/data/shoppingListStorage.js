@@ -38,9 +38,11 @@ const ShoppingListStorage = function () {
           item = Object.assign(item, data);
         }
         if (change.type === "removed") {
+          /*
           shoppingListCpy = shoppingListCpy.filter(function (item) {
             return item.id !== data.id;
           });
+          */
         }
       });
       sortByOrder(shoppingListCpy);
@@ -73,7 +75,6 @@ const ShoppingListStorage = function () {
 
     // Get ids
     let data = items.map((item) => {
-      console.log(item);
       return item.id;
     });
     await dbDeleteBatch(document, data);

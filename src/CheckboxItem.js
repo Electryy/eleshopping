@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { DotsVerticalIcon, TrashIcon, CheckIcon } from "@heroicons/react/solid";
 
 function CheckboxItem(props) {
@@ -13,6 +13,15 @@ function CheckboxItem(props) {
   const styleDuration = {
     transitionDuration: transDuration + "ms",
   };
+
+  useEffect(() => {
+    if (item.checked === true) {
+      setDeleteAnimation(true);
+      setTimeout(() => {
+        parentCall.deleteItem(item.id);
+      }, transDuration);
+    }
+  });
 
   function focus() {
     setIsEditing(true);
@@ -29,13 +38,6 @@ function CheckboxItem(props) {
   }
   function onChange(e) {
     parentCall.inputChanged(item.id, e.target.value);
-  }
-
-  function checkboxClicked() {
-    setDeleteAnimation(true);
-    setTimeout(() => {
-      parentCall.deleteItem(item.id);
-    }, transDuration);
   }
 
   return (
@@ -70,7 +72,7 @@ function CheckboxItem(props) {
         </div>
       </div>
 
-      <input name={item.id} type="checkbox" className="checkbox checkbox-lg shrink-0 mt-2" defaultValue="false" onChange={checkboxClicked} />
+      <input name={item.id} type="checkbox" className="checkbox checkbox-lg shrink-0 mt-2" checked={item.checked} onChange={() => parentCall.checkboxClicked(item.id)} />
     </div>
   );
 }

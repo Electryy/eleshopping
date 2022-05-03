@@ -32,8 +32,10 @@ function ShoppingList(props) {
   }
 
   function deleteItem(id) {
-    console.log("monestikko");
     let item = shoppingList.find((item) => item.id === id);
+    if (!item) {
+      return;
+    }
     shoppingList = shoppingList.filter((item) => item.id !== id);
     parentCall.setShoppingList(shoppingList);
     shoppingListStorage.delete(item);
