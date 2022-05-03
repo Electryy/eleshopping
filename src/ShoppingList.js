@@ -32,10 +32,10 @@ function ShoppingList(props) {
   }
 
   function deleteItem(id) {
+    console.log("monestikko");
     let item = shoppingList.find((item) => item.id === id);
     shoppingList = shoppingList.filter((item) => item.id !== id);
     parentCall.setShoppingList(shoppingList);
-    console.log(item);
     shoppingListStorage.delete(item);
   }
 

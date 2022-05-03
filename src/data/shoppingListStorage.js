@@ -73,6 +73,7 @@ const ShoppingListStorage = function () {
 
     // Get ids
     let data = items.map((item) => {
+      console.log(item);
       return item.id;
     });
     await dbDeleteBatch(document, data);
