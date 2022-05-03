@@ -1,6 +1,5 @@
-import { PencilAltIcon, CheckIcon } from "@heroicons/react/solid";
-import RecipeModal from "./RecipeModal";
-import React, { useState } from "react";
+import { PencilAltIcon } from "@heroicons/react/solid";
+import React from "react";
 
 function Recipe(props) {
   const { item, parentCall } = { ...props };
