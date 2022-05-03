@@ -1,4 +1,3 @@
-import "./Recipe.css";
 import { PencilAltIcon, CheckIcon } from "@heroicons/react/solid";
 import RecipeModal from "./RecipeModal";
 import React, { useState } from "react";
