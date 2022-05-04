@@ -3,7 +3,6 @@ import { PencilAltIcon } from "@heroicons/react/solid";
 import RecipesStorage from "./data/recipesStorage";
 import RecipeModal from "./RecipeModal";
 import Recipe from "./Recipe";
-import { lineBreakConverter } from "./modules/utils";
 
 import { v4 as uuid } from "uuid";
 
@@ -17,7 +16,6 @@ function Recipes(props) {
   function openModal(id) {
     let item = recipes.find((item) => item.id === id);
     let modalItemCopy = JSON.parse(JSON.stringify(item));
-    modalItemCopy.notes = lineBreakConverter(modalItemCopy.notes, "toLineBreak");
     setModalItem(modalItemCopy);
   }
 
@@ -31,6 +29,8 @@ function Recipes(props) {
     let index = recipes.findIndex((item) => {
       return item.id === modalItem.id;
     });
+
+    modalItemCopy.notes = modalItemCopy.notes.trim();
 
     // If not found in array then it's a new item and add it to last place
     if (index === -1) {

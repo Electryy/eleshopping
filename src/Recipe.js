@@ -64,7 +64,7 @@ function Recipe(props) {
           </div>
         )}
 
-        <div className="card-actions">
+        <div className="card-actions justify-end">
           <button className="relative btn btn-outline btn-accent text-center" onClick={copyToShoppingList}>
             <span ref={copyTextRef}>Copy to Shopping list</span>
             <span ref={copiedTextRef} className="absolute opacity-0 duration-0">
