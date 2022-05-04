@@ -46,6 +46,10 @@ function RecipeModal(props) {
               <span className="label-text">Url</span>
             </label>
             <input type="text" id="url" value={modalItem.url} className="input input-bordered min-w-full" onChange={itemChanged}></input>
+            <label className="label">
+              <span className="label-text">Image</span>
+            </label>
+            <input type="text" id="img" value={modalItem.img} className="input input-bordered min-w-full" onChange={itemChanged}></input>
           </div>
           <label className="label">
             <span className="label-text">Ingredients</span>

@@ -1,4 +1,4 @@
-import { PencilAltIcon } from "@heroicons/react/solid";
+import { PencilAltIcon, ExternalLinkIcon } from "@heroicons/react/solid";
 import React, { useState, useEffect } from "react";
 
 function Recipe(props) {
@@ -40,13 +40,21 @@ function Recipe(props) {
   }
 
   return (
-    <div className="card shadow-2xl bg-slate-600 mb-4">
+    <div className="card shadow-2xl bg-zinc-800 mb-4">
+      {item.img && (
+        <figure className="bg-slate-600">
+          <img className="h-52 object-cover" src={item.img} alt={item.name} />
+        </figure>
+      )}
+
       <div className="card-body">
-        <label htmlFor="recipeModal" className="btn btn-circle absolute top-1 right-1 modal-button" onClick={() => parentCall.openModal(item.id)}>
-          <PencilAltIcon className="w-4" />
+        <label htmlFor="recipeModal" className="btn btn-circle absolute top-1 right-1 modal-button btn-ghost" onClick={() => parentCall.openModal(item.id)}>
+          <PencilAltIcon className="w-6" />
         </label>
         <h2 className="card-title">
-          <a href={item.url}>{item.name}</a>
+          <a href={item.url}>
+            {item.name} <ExternalLinkIcon className="w-4 inline" />
+          </a>
         </h2>
         <ul className="list-disc list-inside mb-4">
           {item.ingredients.map((item, index) => (

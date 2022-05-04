@@ -32,7 +32,8 @@ function App() {
   }, []);
 
   useEffect(() => {
-    console.log("state", shoppingList);
+    console.log("shoppingList", shoppingList);
+    console.log("recipes", recipes);
     shoppingListState = shoppingList;
   });
 

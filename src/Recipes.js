@@ -52,7 +52,7 @@ function Recipes(props) {
     recipesStorage.delete(modalItem);
   }
   function addRecipe() {
-    const newItem = { id: uuid(), name: "", url: "", ingredients: [], notes: "" };
+    const newItem = { id: uuid(), name: "", url: "", img: "", ingredients: [], notes: "" };
     setModalItem(newItem);
   }
 
@@ -62,7 +62,7 @@ function Recipes(props) {
         {recipes.map((item, index) => (
           <Recipe key={index} item={item} parentCall={{ openModal, addItems }} />
         ))}
-        <div className="card shadow-2xl bg-slate-600">
+        <div className="card shadow-2xl bg-zinc-800">
           <div className="card-body">
             <label htmlFor="recipeModal" className="btn btn-primary" onClick={addRecipe}>
               Add recipe
