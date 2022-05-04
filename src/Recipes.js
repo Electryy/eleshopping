@@ -32,9 +32,6 @@ function Recipes(props) {
       return item.id === modalItem.id;
     });
 
-    // Trim notes and convert line breaks to br
-    modalItemCopy.notes = lineBreakConverter(modalItemCopy.notes.trim(), "toBr");
-
     // If not found in array then it's a new item and add it to last place
     if (index === -1) {
       index = recipes.length;

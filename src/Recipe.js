@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 function Recipe(props) {
   const { item, parentCall } = { ...props };
   const [copyingAnimation, setCopyingAnimation] = useState(false);
+  const [readMore, setReadMore] = useState(false);
   const copyTextRef = React.createRef();
   const copiedTextRef = React.createRef();
 
@@ -14,8 +15,8 @@ function Recipe(props) {
       copyTextRef.current.classList.add("opacity-0");
       copiedTextRef.current.classList.add(...copiedTextClasses);
       setTimeout(() => {
-        copiedTextRef.current.classList.remove(...copiedTextClasses);
-        copyTextRef.current.classList.remove("opacity-0");
+        copiedTextRef.current?.classList.remove(...copiedTextClasses);
+        copyTextRef.current?.classList.remove("opacity-0");
 
         setCopyingAnimation(false);
       }, 1000);
@@ -24,6 +25,18 @@ function Recipe(props) {
   function copyToShoppingList() {
     setCopyingAnimation(true);
     parentCall.addItems(item.ingredients);
+  }
+
+  function getFullText() {
+    return item.notes.split("\n").join("<br>");
+  }
+
+  function getSnippet() {
+    return item.notes.slice(0, 120);
+  }
+
+  function toggleReadMore() {
+    setReadMore(!readMore);
   }
 
   return (
@@ -40,10 +53,20 @@ function Recipe(props) {
             <li key={index}>{item}</li>
           ))}
         </ul>
-        <p dangerouslySetInnerHTML={{ __html: item.notes }}></p>
+        {item.notes && (
+          <div>
+            {!readMore && <p>{getSnippet()}...</p>}
+            {readMore && <p dangerouslySetInnerHTML={{ __html: getFullText() }}></p>}
+            <button className="uppercase mt-2 text-accent" onClick={toggleReadMore}>
+              {!readMore && "Read more"}
+              {readMore && "Show less"}
+            </button>
+          </div>
+        )}
+
         <div className="card-actions">
           <button className="relative btn btn-outline btn-accent text-center" onClick={copyToShoppingList}>
-            <span ref={copyTextRef}>Copy to Shoppinglist</span>
+            <span ref={copyTextRef}>Copy to Shopping list</span>
             <span ref={copiedTextRef} className="absolute opacity-0 duration-0">
               Copied
             </span>
