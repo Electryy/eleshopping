@@ -8,13 +8,11 @@ function RecipeModal(props) {
     modalItem[e.target.id] = e.target.value;
     parentCall.setModalItem(modalItem);
   }
-  function ingredientChanged(e) {
-    const index = e.target.getAttribute("data-index");
+  function ingredientChanged(e, index) {
     modalItem.ingredients[index] = e.target.value;
     parentCall.setModalItem(modalItem);
   }
-  function removeIngredient(e) {
-    const index = e.target.getAttribute("data-index");
+  function removeIngredient(index) {
     modalItem.ingredients.splice(index, 1);
     parentCall.setModalItem(modalItem);
   }
@@ -24,7 +22,7 @@ function RecipeModal(props) {
 
     // Auto focus the last input element in the list
     window.requestAnimationFrame(() => {
-      let ingredientInputs = document.querySelectorAll(`input[data-index]`);
+      let ingredientInputs = document.querySelectorAll(`[data-ingredientinput]`);
       ingredientInputs[ingredientInputs.length - 1].focus();
     });
   }
@@ -55,8 +53,14 @@ function RecipeModal(props) {
           <div className="form-control w-full min-w-full mb-2">
             {modalItem.ingredients.map((ingredient, index) => (
               <div key={index} className="flex flex-row">
-                <input value={ingredient} data-index={index} type="text" className="input input-bordered input-sm mb-2 grow mr-2" onChange={ingredientChanged}></input>
-                <button className="btn btn-sm" data-index={index} onClick={removeIngredient}>
+                <input
+                  value={ingredient}
+                  data-ingredientinput
+                  type="text"
+                  className="input input-bordered input-sm mb-2 grow mr-2"
+                  onChange={(e) => ingredientChanged(e, index)}
+                ></input>
+                <button className="btn btn-sm" onClick={() => removeIngredient(index)}>
                   <TrashIcon className="w-3" />
                 </button>
               </div>
