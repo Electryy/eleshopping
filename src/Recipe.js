@@ -43,7 +43,7 @@ function Recipe(props) {
     <div className="card shadow-2xl bg-zinc-800 mb-4">
       {item.img && (
         <figure className="bg-slate-600">
-          <img className="h-52 object-cover" src={item.img} alt={item.name} />
+          <img className="h-52 w-full object-cover" src={item.img} alt={item.name} />
         </figure>
       )}
 
@@ -73,7 +73,7 @@ function Recipe(props) {
         )}
 
         <div className="card-actions justify-end">
-          <button className="relative btn btn-outline btn-accent text-center" onClick={copyToShoppingList}>
+          <button className="relative btn btn-primary text-center" onClick={copyToShoppingList}>
             <span ref={copyTextRef}>Copy to Shopping list</span>
             <span ref={copiedTextRef} className="absolute opacity-0 duration-0">
               Copied

@@ -45,7 +45,7 @@ function ShoppingListItem(props) {
     <div
       ref={wrapperRef}
       style={styleDuration}
-      className={`relative rounded-md p-2 pl-0 flex items-start transition ${props.snapshot.isDragging ? "bg-zinc-800" : ""} ${deleteAnimation ? "opacity-0 scale-75" : ""}`}
+      className={`relative rounded-sm p-2 pl-0 flex items-start transition ${props.snapshot.isDragging ? "bg-zinc-600" : ""} ${deleteAnimation ? "opacity-0 scale-75" : ""}`}
     >
       <div className="h-12 w-10 relative shrink-0" {...props.dragHandleProps}>
         <DotsVerticalIcon className="absolute w-6 top-3 left-0" />
