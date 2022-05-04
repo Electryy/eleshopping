@@ -40,7 +40,7 @@ function Recipe(props) {
             <li key={index}>{item}</li>
           ))}
         </ul>
-        <p>{item.notes}</p>
+        <p dangerouslySetInnerHTML={{ __html: item.notes }}></p>
         <div className="card-actions">
           <button className="relative btn btn-outline btn-accent text-center" onClick={copyToShoppingList}>
             <span ref={copyTextRef}>Copy to Shoppinglist</span>

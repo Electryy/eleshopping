@@ -3,6 +3,7 @@ import { PencilAltIcon } from "@heroicons/react/solid";
 import RecipesStorage from "./data/recipesStorage";
 import RecipeModal from "./RecipeModal";
 import Recipe from "./Recipe";
+import { lineBreakConverter } from "./modules/utils";
 
 import { v4 as uuid } from "uuid";
 
@@ -16,12 +17,14 @@ function Recipes(props) {
   function openModal(id) {
     let item = recipes.find((item) => item.id === id);
     let modalItemCopy = JSON.parse(JSON.stringify(item));
+    modalItemCopy.notes = lineBreakConverter(modalItemCopy.notes, "toLineBreak");
     setModalItem(modalItemCopy);
   }
 
   function saveItem() {
+    let modalItemCopy = JSON.parse(JSON.stringify(modalItem));
     // In case of empty save
-    if (!modalItem.name) {
+    if (!modalItemCopy.name) {
       return;
     }
 
@@ -29,14 +32,17 @@ function Recipes(props) {
       return item.id === modalItem.id;
     });
 
+    // Trim notes and convert line breaks to br
+    modalItemCopy.notes = lineBreakConverter(modalItemCopy.notes.trim(), "toBr");
+
     // If not found in array then it's a new item and add it to last place
     if (index === -1) {
       index = recipes.length;
-      recipesStorage.add(modalItem);
+      recipesStorage.add(modalItemCopy);
     } else {
-      recipesStorage.update(modalItem);
+      recipesStorage.update(modalItemCopy);
     }
-    recipes.splice(index, 1, modalItem);
+    recipes.splice(index, 1, modalItemCopy);
     parentCall.setRecipes(recipes);
   }
 

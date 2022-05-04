@@ -75,7 +75,7 @@ function RecipeModal(props) {
             <label className="label">
               <span className="label-text">Notes</span>
             </label>
-            <textarea id="notes" value={modalItem.notes} onChange={itemChanged} className="textarea textarea-bordered  min-w-full" />
+            <textarea rows="8" id="notes" value={modalItem.notes} onChange={itemChanged} className="textarea textarea-bordered  min-w-full" />
           </div>
 
           <div className="divider"></div>
