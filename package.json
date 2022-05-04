@@ -7,7 +7,6 @@
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
-    "daisyui": "^1.24.3",
     "dotenv": "^16.0.0",
     "firebase": "^9.6.4",
     "react": "^17.0.2",
@@ -20,6 +19,7 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.4.2",
+    "daisyui": "^2.14.3",
     "gulp": "^4.0.2",
     "gulp-inline-source": "^4.0.0",
     "gulp-replace": "^1.1.3",
