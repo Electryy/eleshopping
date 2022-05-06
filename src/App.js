@@ -4,12 +4,10 @@ import MainLayout from "./MainLayout";
 import ShoppingList from "./ShoppingList";
 import Recipes from "./Recipes";
 import LoadingScreen from "./LoadingScreen";
-import RecipesStorage from "./data/recipesStorage";
 import React, { useState, useEffect } from "react";
 import { v4 as uuid } from "uuid";
 import * as shoppingListStorage from "./data/shoppingListStorage";
-
-const recipesStorage = new RecipesStorage();
+import * as recipesStorage from "./data/recipesStorage";
 
 let shoppingListState = [];
 

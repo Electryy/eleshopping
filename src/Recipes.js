@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import { PencilAltIcon } from "@heroicons/react/solid";
-import RecipesStorage from "./data/recipesStorage";
 import RecipeModal from "./RecipeModal";
 import Recipe from "./Recipe";
+import * as recipesStorage from "./data/recipesStorage";
 
 import { v4 as uuid } from "uuid";
 
-const recipesStorage = new RecipesStorage();
 function Recipes(props) {
   const [modalItem, setModalItem] = useState(null);
   const { parentCall } = { ...props };
@@ -49,7 +48,7 @@ function Recipes(props) {
     });
     recipes.splice(index, 1);
     parentCall.setRecipes(recipes);
-    recipesStorage.delete(modalItem);
+    recipesStorage.deleteItem(modalItem);
   }
   function addRecipe() {
     const newItem = { id: uuid(), name: "", url: "", img: "", ingredients: [], notes: "" };

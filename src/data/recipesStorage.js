@@ -1,40 +1,41 @@
-import { dbGetAll, dbDelete, dbAdd, dbUpdate } from "./firestore";
+import * as firestore from "./firestore";
+import * as localstore from "./localstore";
 
-const RecipesStorage = function () {
-  const document = "recipes";
+const document = "recipes";
 
-  /**
-   * Get all Recipes from storage
-   * @returns Array of items
-   */
-  this.getAll = async function () {
-    let recipes = await dbGetAll(document);
-    return recipes;
-  };
+const jotai = false;
 
-  /**
-   * Add recipe
-   * @param {Object} item item to add
-   */
-  this.add = async function (item) {
-    await dbAdd(document, [item]);
-  };
+const store = jotai ? firestore : localstore;
 
-  /**
-   * Update recipe
-   * @param {Object} item item to update
-   */
-  this.update = async function (item) {
-    await dbUpdate(document, item.id, item);
-  };
+/**
+ * Get all Recipes from storage
+ * @returns Array of items
+ */
+export async function getAll() {
+  let recipes = await store.dbGetAll(document);
+  return recipes;
+}
 
-  /**
-   * Delete recipe
-   * @param {Object} item item to delete
-   */
-  this.delete = async function (item) {
-    await dbDelete(document, item.id, item);
-  };
-};
+/**
+ * Add recipe
+ * @param {Object} item item to add
+ */
+export async function add(item) {
+  await store.dbAdd(document, [item]);
+}
 
-export default RecipesStorage;
+/**
+ * Update recipe
+ * @param {Object} item item to update
+ */
+export async function update(item) {
+  await store.dbUpdate(document, item.id, item);
+}
+
+/**
+ * Delete recipe
+ * @param {Object} item item to delete
+ */
+export async function deleteItem(item) {
+  await store.dbDelete(document, item.id, item);
+}
