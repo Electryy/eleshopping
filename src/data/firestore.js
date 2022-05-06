@@ -13,26 +13,11 @@ const firebaseApp = initializeApp({
 
 const db = getFirestore();
 
-export function dbLiveUpdates(document, handleChanges) {
-  const q = query(collection(db, document));
-
-  const unsubscribe = onSnapshot(q, (snapshot) => {
-    handleChanges(snapshot);
-  });
-  return unsubscribe;
-}
-
-export async function dbAdd(document, items) {
-  const batch = writeBatch(db);
-  // data is "123: {order: 1}" for example
-
-  items.forEach((item) => {
-    item["timestamp"] = serverTimestamp();
-    batch.set(doc(db, document, item.id), item);
-  });
-  await batch.commit();
-}
-
+/**
+ * Get all items in the document
+ * @param {String} document document name
+ * @returns Array of results
+ */
 export async function dbGetAll(document) {
   const q = query(collection(db, document), orderBy("timestamp"));
   const querySnapshot = await getDocs(q);
@@ -43,6 +28,41 @@ export async function dbGetAll(document) {
   return data;
 }
 
+/**
+ * Listen to live database changes
+ * @param {String} document document name
+ * @param {function(Object)} handleChanges Change callback
+ * @returns
+ */
+export function dbLiveUpdates(document, handleChanges) {
+  const q = query(collection(db, document));
+
+  const unsubscribe = onSnapshot(q, (snapshot) => {
+    handleChanges(snapshot);
+  });
+  return unsubscribe;
+}
+
+/**
+ * Add items to the db
+ * @param {String} document document name
+ * @param {Object[]} items Array of items
+ */
+export async function dbAdd(document, data) {
+  const batch = writeBatch(db);
+
+  data.forEach((item) => {
+    item["timestamp"] = serverTimestamp();
+    batch.set(doc(db, document, item.id), item);
+  });
+  await batch.commit();
+}
+
+/**
+ * Update items
+ * @param {String} document document name
+ * @param {Object[]} data Array of items
+ */
 export async function dbUpdate(document, data) {
   const batch = writeBatch(db);
   data.forEach((item) => {
@@ -51,6 +71,11 @@ export async function dbUpdate(document, data) {
   await batch.commit();
 }
 
+/**
+ * Remove items from db
+ * @param {String} document document name
+ * @param {Object[]} data Array of items
+ */
 export async function dbRemove(document, data) {
   const batch = writeBatch(db);
   data.forEach((item) => {
