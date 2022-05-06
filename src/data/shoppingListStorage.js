@@ -2,7 +2,7 @@ import * as firestore from "./firestore";
 import * as localstore from "./localstore";
 import { sortByOrder } from "../modules/utils";
 
-const jotai = false;
+const jotai = true;
 
 const store = jotai ? firestore : localstore;
 
@@ -90,20 +90,5 @@ export async function update(item, propertyName) {
   // Convert single item to array
   const items = Array.isArray(item) ? item : [item];
 
-  // Convert propertyNames to array if single item
-  const propertyNames = Array.isArray(propertyName) ? propertyName : [propertyName];
-
-  // Extract only the properties that need to be saved
-  let dbItems = [];
-  items.forEach((item) => {
-    let extracted = {};
-    // propertyNames is ["order", "id"] for example
-    propertyNames.forEach((prop) => {
-      extracted[prop] = item[prop];
-    });
-    // extracted is {order: 1, id: foobar} for example
-    // complete data object is "1234: {order: 1, id: foobar}" for example
-    dbItems[item.id] = extracted;
-  });
-  await store.dbUpdateBatch(document, dbItems);
+  await store.dbUpdateBatch(document, items);
 }

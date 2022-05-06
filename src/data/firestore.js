@@ -45,10 +45,9 @@ export async function dbGetAll(document) {
 
 export async function dbUpdateBatch(document, data) {
   const batch = writeBatch(db);
-  // data is "123: {order: 1}" for example
-  for (const id in data) {
-    batch.update(doc(db, document, id), data[id]);
-  }
+  data.forEach((item) => {
+    batch.update(doc(db, document, item.id), item);
+  });
   await batch.commit();
 }
 
