@@ -39,5 +39,5 @@ export async function update(item) {
  */
 export async function deleteItem(item) {
   // Convert item to array
-  await store.dBRemove(document, [item]);
+  await store.dbRemove(document, [item]);
 }

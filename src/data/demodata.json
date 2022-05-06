@@ -1,0 +1,68 @@
+[
+    {
+        "document": "recipes",
+        "data": [
+            {
+                "id": "ff1f68ee-7398-429b-a039-98a3e7a1a297",
+                "name": "Wiskey Sour",
+                "url": "https://www.liquor.com/recipes/whiskey-sour/",
+                "img": "https://assets.epicurious.com/photos/605b5501ca1ffc178a2d26d3/4:3/w_3108,h_2331,c_limit/Editorial_04_WhiskeySour-v4-6x4.jpg",
+                "ingredients": [
+                    "2 ounces bourbon",
+                    "3/4 ounce lemon juice, freshly squeezed",
+                    "1/2 ounce simple syrup",
+                    "1/2 ounce egg white (optional)",
+                    "Garnish: Angostura bitters"
+                ],
+                "notes": "Add bourbon, lemon juice, simple syrup and egg white, if using, to a shaker and dry-shake for 30 seconds without ice.\n\nAdd ice and shake again until well-chilled.\n\nStrain into a coupe glass.\n\nGarnish with 3 or 4 drops of Angostura bitters."
+            },
+            {
+                "id": "914012e7-8183-440a-8221-55896ce6c8db",
+                "name": "Pasta Alfredo",
+                "url": "https://cravinghomecooked.com/easy-pasta-alfredo/",
+                "img": "https://cravinghomecooked.com/wp-content/uploads/2018/08/alfredo-pasta-1-5.jpg",
+                "ingredients": [
+                    "8 ounce pasta",
+                    "4 tablespoon butter",
+                    "2 cloves garlic",
+                    "1 1/2 cups milk",
+                    "1 cup heavy cream",
+                    "1/2 cup Parmesan cheese",
+                    "1/4 teaspoon salt",
+                    "1/4 teaspoon pepper",
+                    "2 tablespoon fresh parsley"
+                ],
+                "notes": "Cook the pasta according to the package instructions.\n\nMelt the butter in a large skillet over medium high heat. Add the garlic and cook for 30 seconds, or until fragrant.\n\nPour in the milk and cream. Stir consistently to avoid burning on the bottom of the pan until the mixture comes to a boil. Turn the heat down to medium, and mix in the parmesan cheese, salt, and pepper. Adjust the seasoning to your own taste.\n\nRemove the pan from the heat and mix in the cooked pasta until the sauce begins to thicken. Garnish with parsley, and serve."
+            }
+        ]
+    },
+    {
+        "document": "shopping_list",
+        "data": [
+            {
+                "id": "75e4c37d-96fe-46fd-83a1-b25ec11aaaae",
+                "text": "Coca-cola",
+                "checked": false,
+                "order": 3
+            },
+            {
+                "id": "28686dc1-ff51-4626-9950-327fb99122d5",
+                "text": "Eggs",
+                "checked": false,
+                "order": 2
+            },
+            {
+                "id": "5eedc47e-cadc-4e67-908f-e48e2ca1093d",
+                "text": "Cereal",
+                "checked": false,
+                "order": 1
+            },
+            {
+                "id": "6ea1507d-1af7-4843-9aa0-dd44155a71bb",
+                "text": "Toilet paper",
+                "checked": false,
+                "order": 0
+            }
+        ]
+    }
+]

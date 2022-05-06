@@ -75,7 +75,7 @@ export async function deleteItem(item) {
   // Convert single item to array
   const items = Array.isArray(item) ? item : [item];
 
-  await store.dBRemove(document, items);
+  await store.dbRemove(document, items);
 }
 
 /**

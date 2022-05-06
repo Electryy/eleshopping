@@ -1,0 +1,26 @@
+[
+    {
+        "id": "75e4c37d-96fe-46fd-83a1-b25ec11aaaae",
+        "text": "Coca-cola",
+        "checked": false,
+        "order": 3
+    },
+    {
+        "id": "28686dc1-ff51-4626-9950-327fb99122d5",
+        "text": "Eggs",
+        "checked": false,
+        "order": 2
+    },
+    {
+        "id": "5eedc47e-cadc-4e67-908f-e48e2ca1093d",
+        "text": "Cereal",
+        "checked": false,
+        "order": 1
+    },
+    {
+        "id": "6ea1507d-1af7-4843-9aa0-dd44155a71bb",
+        "text": "Toilet paper",
+        "checked": false,
+        "order": 0
+    }
+]
