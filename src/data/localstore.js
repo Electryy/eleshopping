@@ -13,12 +13,17 @@ export async function dbAdd(document, items) {
 export async function dbGetAll(document) {
   const data = localStorage.getItem(document);
   if (data) {
-    return JSON.parse(data);
+    return Array.from(JSON.parse(data));
   }
   return [];
 }
 
-export async function dbUpdateBatch(document, data) {
+export async function dbUpdateBatch(document, items) {
+  const data = await dbGetAll(document);
+  items.forEach((item) => {
+    let found = data.find((i) => item.id === i.id);
+    Object.assign(found, item);
+  });
   console.log(data);
   localStorage.setItem(document, JSON.stringify(data));
 }
