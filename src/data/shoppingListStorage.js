@@ -7,13 +7,20 @@ const document = "shopping_list";
 // If firestore api key is not found -> use local storage as database
 const store = process.env.REACT_APP_apiKey ? firestore : localstore;
 
+// Do we want demo data to play with? Change this in .env file
+const shouldCreateDemoData = process.env.REACT_APP_useDemoData;
+
 /**
  * Get all ShoppingListItems from storage
  * @returns Array of items
  */
 export async function getAll() {
   let shoppingList = await store.dbGetAll(document);
-  //shoppingList = addLocalProperties(shoppingList);
+
+  // If we have no data saved and want to create demodata -> do it
+  if (!shoppingList.length && shouldCreateDemoData) {
+    shoppingList = await createDemoData();
+  }
 
   // sort by order desc
   shoppingList.sort((a, b) => (a.order < b.order ? 1 : -1));
@@ -52,7 +59,9 @@ export function subscribe(getShoppingList, setShoppingList) {
       }
       if (change.type === "modified") {
         let item = shoppingListCpy.find((item) => item.id === data.id);
-        Object.assign(item, data);
+        if (item) {
+          Object.assign(item, data);
+        }
       }
       if (change.type === "removed") {
         shoppingListCpy = shoppingListCpy.filter(function (item) {
@@ -87,4 +96,14 @@ export async function update(item) {
   const items = Array.isArray(item) ? item : [item];
 
   await store.dbUpdate(document, items);
+}
+
+/**
+ * Create demo data for tinkering and testing
+ * @returns Array of items
+ */
+async function createDemoData() {
+  const demodata = require("./demodata/shoppingList.json");
+  await add(demodata);
+  return demodata;
 }
