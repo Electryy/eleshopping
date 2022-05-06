@@ -2,10 +2,8 @@ import React, { useEffect } from "react";
 import ShoppingListItem from "./ShoppingListItem";
 import AddItemControls from "./AddItemControls";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import ShoppingListStorage from "./data/shoppingListStorage";
+import * as shoppingListStorage from "./data/shoppingListStorage";
 import { reorder } from "./modules/utils";
-
-const shoppingListStorage = new ShoppingListStorage();
 
 function ShoppingList(props) {
   let { parentCall } = { ...props };
@@ -38,12 +36,12 @@ function ShoppingList(props) {
     }
     shoppingList = shoppingList.filter((item) => item.id !== id);
     parentCall.setShoppingList(shoppingList);
-    shoppingListStorage.delete(item);
+    shoppingListStorage.deleteItem(item);
   }
 
   function clearList() {
     parentCall.setShoppingList([]);
-    shoppingListStorage.delete(shoppingList);
+    shoppingListStorage.deleteItem(shoppingList);
   }
 
   function onDragEnd(result) {

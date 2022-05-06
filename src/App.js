@@ -7,9 +7,8 @@ import LoadingScreen from "./LoadingScreen";
 import RecipesStorage from "./data/recipesStorage";
 import React, { useState, useEffect } from "react";
 import { v4 as uuid } from "uuid";
-import ShoppingListStorage from "./data/shoppingListStorage";
+import * as shoppingListStorage from "./data/shoppingListStorage";
 
-const shoppingListStorage = new ShoppingListStorage();
 const recipesStorage = new RecipesStorage();
 
 let shoppingListState = [];

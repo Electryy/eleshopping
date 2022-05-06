@@ -64,7 +64,7 @@ function Recipes(props) {
         ))}
         <div className="card shadow-2xl bg-zinc-800">
           <div className="card-body">
-            <label htmlFor="recipeModal" className="btn btn-secondary" onClick={addRecipe}>
+            <label htmlFor="recipeModal" className="btn btn-outline" onClick={addRecipe}>
               Add recipe
             </label>
           </div>

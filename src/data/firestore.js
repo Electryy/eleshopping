@@ -33,7 +33,7 @@ export async function dbAdd(document, items) {
   await batch.commit();
 }
 
-export async function dbGetDoc(document) {
+export async function dbGetAll(document) {
   const q = query(collection(db, document), orderBy("timestamp"));
   const querySnapshot = await getDocs(q);
   let data = [];

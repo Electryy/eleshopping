@@ -1,4 +1,4 @@
-import { dbGetDoc, dbDelete, dbAdd, dbUpdate } from "./firestore";
+import { dbGetAll, dbDelete, dbAdd, dbUpdate } from "./firestore";
 
 const RecipesStorage = function () {
   const document = "recipes";
@@ -8,7 +8,7 @@ const RecipesStorage = function () {
    * @returns Array of items
    */
   this.getAll = async function () {
-    let recipes = await dbGetDoc(document);
+    let recipes = await dbGetAll(document);
     return recipes;
   };
 
