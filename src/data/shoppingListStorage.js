@@ -2,9 +2,23 @@ import * as firestore from "./firestore";
 import * as localstore from "./localstore";
 import { sortByOrder } from "../modules/utils";
 
+const document = "shopping_list";
+
+// If firestore api key is not found -> use local storage as database
 const store = process.env.REACT_APP_apiKey && false ? firestore : localstore;
 
-const document = "shopping_list";
+/**
+ * Get all ShoppingListItems from storage
+ * @returns Array of items
+ */
+export async function getAll() {
+  let shoppingList = await store.dbGetAll(document);
+  //shoppingList = addLocalProperties(shoppingList);
+
+  // sort by order desc
+  shoppingList.sort((a, b) => (a.order < b.order ? 1 : -1));
+  return shoppingList;
+}
 
 /**
  * Add ShoppingListItem item/items to storage
@@ -18,8 +32,10 @@ export async function add(item) {
 }
 
 /**
- *
- * @param
+ * Listen to live changes in the database
+ * @param {function(Object)} getShoppingList
+ * @param {function(Object)} setShoppingList
+ * @returns Unsubscribe method
  */
 export function subscribe(getShoppingList, setShoppingList) {
   const handleChanges = function (snapshot) {
@@ -36,7 +52,7 @@ export function subscribe(getShoppingList, setShoppingList) {
       }
       if (change.type === "modified") {
         let item = shoppingListCpy.find((item) => item.id === data.id);
-        item = Object.assign(item, data);
+        Object.assign(item, data);
       }
       if (change.type === "removed") {
         shoppingListCpy = shoppingListCpy.filter(function (item) {
@@ -49,19 +65,6 @@ export function subscribe(getShoppingList, setShoppingList) {
   };
 
   return store.dbLiveUpdates(document, handleChanges);
-}
-
-/**
- * Get all ShoppingListItems from storage
- * @returns Array of items
- */
-export async function getAll() {
-  let shoppingList = await store.dbGetAll(document);
-  //shoppingList = addLocalProperties(shoppingList);
-
-  // sort by order desc
-  shoppingList.sort((a, b) => (a.order < b.order ? 1 : -1));
-  return shoppingList;
 }
 
 /**
@@ -78,7 +81,6 @@ export async function deleteItem(item) {
 /**
  * Update item properties in storage. Accepts item or array of items.
  * @param {Object|Object[]} item item or items to update
- * @param {String|String[]} propertyName Property name or names to update
  */
 export async function update(item) {
   // Convert single item to array

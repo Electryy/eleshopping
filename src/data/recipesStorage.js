@@ -3,8 +3,7 @@ import * as localstore from "./localstore";
 
 const document = "recipes";
 
-const jotai = false;
-
+// If firestore api key is not found -> use local storage as database
 const store = process.env.REACT_APP_apiKey && false ? firestore : localstore;
 
 /**
@@ -21,6 +20,7 @@ export async function getAll() {
  * @param {Object} item item to add
  */
 export async function add(item) {
+  // Convert item to array
   await store.dbAdd(document, [item]);
 }
 
@@ -29,10 +29,8 @@ export async function add(item) {
  * @param {Object} item item to update
  */
 export async function update(item) {
-  // Convert single item to array
-  const items = Array.isArray(item) ? item : [item];
-
-  await store.dbUpdateBatch(document, items);
+  // Convert item to array
+  await store.dbUpdateBatch(document, [item]);
 }
 
 /**
@@ -40,8 +38,6 @@ export async function update(item) {
  * @param {Object} item item to delete
  */
 export async function deleteItem(item) {
-  // Convert single item to array
-  const items = Array.isArray(item) ? item : [item];
-
-  await store.dbDeleteBatch(document, items);
+  // Convert item to array
+  await store.dbDeleteBatch(document, [item]);
 }

@@ -2,7 +2,7 @@ console.log("Using local storage as database");
 
 /**
  * Get database items from local storage or return empty array
- * @param {string} document
+ * @param {String} document
  * @returns Object[]
  */
 export async function dbGetAll(document) {
@@ -15,7 +15,7 @@ export async function dbGetAll(document) {
 
 /**
  * Add new items to old data and save
- * @param {string} document
+ * @param {String} document
  * @param {Object[]} items
  */
 export async function dbAdd(document, items) {
@@ -27,7 +27,7 @@ export async function dbAdd(document, items) {
 
 /**
  * Update items
- * @param {string} document
+ * @param {String} document
  * @param {Object[]} items
  */
 export async function dbUpdateBatch(document, items) {
@@ -42,7 +42,7 @@ export async function dbUpdateBatch(document, items) {
 
 /**
  * Delete items
- * @param {string} document
+ * @param {String} document
  * @param {Object[]} items
  */
 export async function dbDeleteBatch(document, items) {
@@ -54,7 +54,7 @@ export async function dbDeleteBatch(document, items) {
 
 /**
  * Live updates not in use in local storage
- * @param {string} document
- * @param {function} handleChanges
+ * @param {String} document
+ * @param {function()} handleChanges
  */
 export function dbLiveUpdates(document, handleChanges) {}
