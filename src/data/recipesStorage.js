@@ -4,7 +4,7 @@ import * as localstore from "./localstore";
 const document = "recipes";
 
 // If firestore api key is not found -> use local storage as database
-const store = process.env.REACT_APP_apiKey && false ? firestore : localstore;
+const store = process.env.REACT_APP_apiKey ? firestore : localstore;
 
 /**
  * Get all Recipes from storage
