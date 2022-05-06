@@ -1,4 +1,10 @@
-console.log("Using local storage as database");
+/**
+ * Uses local storage as simlated database. Nothing is stored permanently.
+ */
+
+if (!process.env.REACT_APP_apiKey) {
+  console.info("Using local storage as database");
+}
 
 /**
  * Get database items from local storage or return empty array
