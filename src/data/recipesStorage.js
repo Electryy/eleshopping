@@ -40,5 +40,8 @@ export async function update(item) {
  * @param {Object} item item to delete
  */
 export async function deleteItem(item) {
-  await store.dbDelete(document, item.id, item);
+  // Convert single item to array
+  const items = Array.isArray(item) ? item : [item];
+
+  await store.dbDeleteBatch(document, items);
 }

@@ -71,14 +71,10 @@ export async function getAll() {
  * @param {Obect|Object[]} item item or items
  */
 export async function deleteItem(item) {
-  // convert to array
-  let items = Array.isArray(item) ? item : [item];
+  // Convert single item to array
+  const items = Array.isArray(item) ? item : [item];
 
-  // Get ids
-  let data = items.map((item) => {
-    return item.id;
-  });
-  await store.dbDeleteBatch(document, data);
+  await store.dbDeleteBatch(document, items);
 }
 
 /**

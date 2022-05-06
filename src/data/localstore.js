@@ -30,8 +30,7 @@ export async function dbUpdateBatch(document, items) {
 
 export async function dbDeleteBatch(document, items) {
   const data = await dbGetAll(document);
-  const remaining = data.filter((i) => !items.includes(i.id));
+  const ids = items.map((i) => i.id);
+  const remaining = data.filter((i) => !ids.includes(i.id));
   localStorage.setItem(document, JSON.stringify(remaining));
 }
-export async function dbDelete(document, id) {}
-export async function dbUpdate(document, id, data) {}

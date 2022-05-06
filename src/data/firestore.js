@@ -51,16 +51,10 @@ export async function dbUpdateBatch(document, data) {
   await batch.commit();
 }
 
-export async function dbDeleteBatch(document, items) {
+export async function dbDeleteBatch(document, data) {
   const batch = writeBatch(db);
-  items.forEach((id) => {
-    batch.delete(doc(db, document, id));
+  data.forEach((item) => {
+    batch.delete(doc(db, document, item.id), item);
   });
   await batch.commit();
-}
-export async function dbDelete(document, id) {
-  await deleteDoc(doc(db, document, id));
-}
-export async function dbUpdate(document, id, data) {
-  await updateDoc(doc(db, document, id), data);
 }
