@@ -43,7 +43,7 @@ export async function dbGetAll(document) {
   return data;
 }
 
-export async function update(document, data) {
+export async function dbUpdate(document, data) {
   const batch = writeBatch(db);
   data.forEach((item) => {
     batch.update(doc(db, document, item.id), item);
@@ -51,7 +51,7 @@ export async function update(document, data) {
   await batch.commit();
 }
 
-export async function remove(document, data) {
+export async function dbRemove(document, data) {
   const batch = writeBatch(db);
   data.forEach((item) => {
     batch.delete(doc(db, document, item.id), item);
