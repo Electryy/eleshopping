@@ -29,7 +29,10 @@ export async function add(item) {
  * @param {Object} item item to update
  */
 export async function update(item) {
-  await store.dbUpdate(document, item.id, item);
+  // Convert single item to array
+  const items = Array.isArray(item) ? item : [item];
+
+  await store.dbUpdateBatch(document, items);
 }
 
 /**

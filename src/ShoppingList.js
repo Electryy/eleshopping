@@ -18,7 +18,7 @@ function ShoppingList(props) {
 
   function saveItem(item) {
     if (shoppingList.some((itm) => itm.id === item.id)) {
-      shoppingListStorage.update(item, "text");
+      shoppingListStorage.update(item);
     }
   }
 
@@ -26,7 +26,7 @@ function ShoppingList(props) {
     let item = shoppingList.find((item) => item.id === id);
     item.checked = !item.checked;
     parentCall.setShoppingList(shoppingList);
-    shoppingListStorage.update(item, "checked");
+    shoppingListStorage.update(item);
   }
 
   function deleteItem(id) {
@@ -60,7 +60,7 @@ function ShoppingList(props) {
     });
 
     parentCall.setShoppingList(ordered);
-    shoppingListStorage.update(shoppingList, "order");
+    shoppingListStorage.update(shoppingList);
   }
 
   return (

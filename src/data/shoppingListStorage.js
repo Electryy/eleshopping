@@ -2,7 +2,7 @@ import * as firestore from "./firestore";
 import * as localstore from "./localstore";
 import { sortByOrder } from "../modules/utils";
 
-const jotai = true;
+const jotai = false;
 
 const store = jotai ? firestore : localstore;
 
@@ -86,7 +86,7 @@ export async function deleteItem(item) {
  * @param {Object|Object[]} item item or items to update
  * @param {String|String[]} propertyName Property name or names to update
  */
-export async function update(item, propertyName) {
+export async function update(item) {
   // Convert single item to array
   const items = Array.isArray(item) ? item : [item];
 
