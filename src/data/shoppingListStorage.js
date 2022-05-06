@@ -2,9 +2,7 @@ import * as firestore from "./firestore";
 import * as localstore from "./localstore";
 import { sortByOrder } from "../modules/utils";
 
-const jotai = false;
-
-const store = jotai ? firestore : localstore;
+const store = process.env.REACT_APP_apiKey && false ? firestore : localstore;
 
 const document = "shopping_list";
 

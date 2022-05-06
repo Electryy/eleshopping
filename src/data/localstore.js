@@ -1,6 +1,5 @@
-export function dbLiveUpdates(document, handleChanges) {
-  console.log("using something elsse");
-}
+console.log("Using local storage as database");
+export function dbLiveUpdates(document, handleChanges) {}
 
 export async function dbAdd(document, items) {
   let data = await dbGetAll(document);

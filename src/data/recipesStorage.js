@@ -5,7 +5,7 @@ const document = "recipes";
 
 const jotai = false;
 
-const store = jotai ? firestore : localstore;
+const store = process.env.REACT_APP_apiKey && false ? firestore : localstore;
 
 /**
  * Get all Recipes from storage
