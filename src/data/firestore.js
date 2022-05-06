@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore, serverTimestamp } from "firebase/firestore";
-import { collection, doc, query, orderBy, getDocs, setDoc, deleteDoc, writeBatch, updateDoc, onSnapshot } from "firebase/firestore";
+import { collection, doc, query, orderBy, getDocs, writeBatch, onSnapshot } from "firebase/firestore";
 
 const firebaseApp = initializeApp({
   apiKey: process.env.REACT_APP_apiKey,
