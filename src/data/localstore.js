@@ -30,7 +30,7 @@ export async function dbAdd(document, items) {
  * @param {String} document
  * @param {Object[]} items
  */
-export async function dbUpdateBatch(document, items) {
+export async function update(document, items) {
   const data = await dbGetAll(document);
   items.forEach((item) => {
     // Find item that needs to be updated
@@ -45,7 +45,7 @@ export async function dbUpdateBatch(document, items) {
  * @param {String} document
  * @param {Object[]} items
  */
-export async function dbDeleteBatch(document, items) {
+export async function remove(document, items) {
   const data = await dbGetAll(document);
   const ids = items.map((i) => i.id); // Get ids to be deleted
   const remaining = data.filter((i) => !ids.includes(i.id));

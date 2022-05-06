@@ -30,7 +30,7 @@ export async function add(item) {
  */
 export async function update(item) {
   // Convert item to array
-  await store.dbUpdateBatch(document, [item]);
+  await store.update(document, [item]);
 }
 
 /**
@@ -39,5 +39,5 @@ export async function update(item) {
  */
 export async function deleteItem(item) {
   // Convert item to array
-  await store.dbDeleteBatch(document, [item]);
+  await store.remove(document, [item]);
 }
