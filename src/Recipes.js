@@ -78,7 +78,7 @@ function Recipes(props) {
     <div>
       <div className="relative">
         <input type="text" placeholder="Filter" className="input input-lg input-bordered grow w-full mb-6 pr-20" value={filterString} onChange={filterRecipes} />
-        <button className={`btn btn-ghost absolute right-2 top-2 ${filterString ? "" : "opacity-0"}`} onClick={() => setFilterString("")}>
+        <button className={`btn btn-ghost absolute right-2 top-2 ${filterString ? "" : "hidden"}`} onClick={() => setFilterString("")}>
           CLEAR
         </button>
       </div>
