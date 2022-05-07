@@ -9,3 +9,7 @@ export const reorder = (list, startIndex, endIndex) => {
 export const sortByOrder = (shoppingList) => {
   shoppingList.sort((a, b) => b.order - a.order);
 };
+
+export const removeSpacesAndLowerCaseString = (string) => {
+  return string.toLowerCase().split(" ").join("");
+};

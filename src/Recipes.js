@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import { PencilAltIcon } from "@heroicons/react/solid";
+import React, { useState, useEffect } from "react";
+import { XCircleIcon } from "@heroicons/react/solid";
+import { removeSpacesAndLowerCaseString } from "./modules/utils";
 import RecipeModal from "./RecipeModal";
 import Recipe from "./Recipe";
 import * as recipesStorage from "./data/recipesStorage";
@@ -8,6 +9,7 @@ import { v4 as uuid } from "uuid";
 
 function Recipes(props) {
   const [modalItem, setModalItem] = useState(null);
+  const [filterString, setFilterString] = useState("");
   const { parentCall } = { ...props };
   const addItems = parentCall.addItems;
   let recipes = JSON.parse(JSON.stringify(props.recipes));
@@ -55,10 +57,34 @@ function Recipes(props) {
     setModalItem(newItem);
   }
 
+  function filterRecipes(e) {
+    setFilterString(e.target.value);
+    return recipes;
+  }
+
+  function filteredRecipes() {
+    if (!filterString) {
+      return recipes;
+    }
+    const result = recipes.filter((i) => {
+      const recipeName = removeSpacesAndLowerCaseString(i.name);
+      const search = removeSpacesAndLowerCaseString(filterString);
+      return recipeName.includes(search);
+    });
+    return result;
+  }
+
   return (
     <div>
+      <div className="relative">
+        <input type="text" placeholder="Filter" className="input input-lg input-bordered grow w-full mb-6 pr-20" value={filterString} onChange={filterRecipes} />
+        <button className={`btn btn-ghost absolute right-2 top-2 ${filterString ? "" : "opacity-0"}`} onClick={() => setFilterString("")}>
+          CLEAR
+        </button>
+      </div>
+
       <div className="">
-        {recipes.map((item, index) => (
+        {filteredRecipes().map((item, index) => (
           <Recipe key={index} item={item} parentCall={{ openModal, addItems }} />
         ))}
         <div className="card shadow-2xl bg-zinc-800">
