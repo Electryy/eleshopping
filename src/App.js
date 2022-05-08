@@ -14,6 +14,7 @@ let shoppingListState = [];
 function App() {
   let [shoppingList, setShoppingList] = useState([]);
   let [recipes, setRecipes] = useState([]);
+  let [tagCloud, setTagCloud] = useState([]);
   const [dataIsLoading, setDataIsLoading] = useState(true);
 
   useEffect(() => {
@@ -22,6 +23,7 @@ function App() {
       const recipes = await recipesStorage.getAll();
       setShoppingList(shoppingList);
       setRecipes(recipes);
+
       setDataIsLoading(false);
     };
     fetchData();
@@ -30,9 +32,25 @@ function App() {
 
   useEffect(() => {
     console.log("shoppingList", shoppingList);
-    console.log("recipes", recipes);
     shoppingListState = shoppingList;
-  });
+  }, [shoppingList]);
+
+  useEffect(() => {
+    console.log("recipes", recipes);
+    buildAllTags();
+  }, [recipes]);
+
+  function buildAllTags() {
+    let tags = [];
+    recipes.forEach((item) => {
+      item.tags.forEach((tag) => {
+        if (!tags.includes(tag)) {
+          tags.push(tag);
+        }
+      });
+    });
+    setTagCloud(tags);
+  }
 
   async function addItems(values) {
     let valuesArr = Array.isArray(values) ? values : [values];
@@ -55,7 +73,7 @@ function App() {
       <Routes>
         <Route path="/" element={<MainLayout />}>
           <Route index element={<ShoppingList parentCall={{ addItems, setShoppingList }} shoppingList={shoppingList} />} />
-          <Route path="recipes" element={<Recipes parentCall={{ addItems, setRecipes }} recipes={recipes} />} />
+          <Route path="recipes" element={<Recipes parentCall={{ addItems, setRecipes }} recipes={recipes} tagCloud={tagCloud} />} />
         </Route>
       </Routes>
       <LoadingScreen dataIsLoading={dataIsLoading} />

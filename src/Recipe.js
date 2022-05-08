@@ -8,6 +8,8 @@ function Recipe(props) {
   const copyTextRef = React.createRef();
   const copiedTextRef = React.createRef();
 
+  console.log(item.tags);
+
   useEffect(() => {
     if (copyingAnimation) {
       // Add little transition to animate copied text
@@ -76,15 +78,11 @@ function Recipe(props) {
         )}
 
         <div className="flex flex-wrap gap-2">
-          <div class="badge badge-secondary">primary</div>
-          <div class="badge badge-secondary">primary</div>
-          <div class="badge badge-secondary">primary</div>
-          <div class="badge badge-secondary">primary</div>
-          <div class="badge badge-secondary">primary</div>
-          <div class="badge badge-secondary">primary</div>
-          <div class="badge badge-secondary">primary</div>
-          <div class="badge badge-secondary">primary</div>
-          <div class="badge badge-secondary">primary</div>
+          {item.tags.map((tag, index) => (
+            <div key={index} className="badge badge-secondary">
+              {tag}
+            </div>
+          ))}
         </div>
 
         <div className="card-actions justify-end">

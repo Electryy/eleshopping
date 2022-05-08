@@ -13,6 +13,7 @@ function Recipes(props) {
   const { parentCall } = { ...props };
   const addItems = parentCall.addItems;
   let recipes = JSON.parse(JSON.stringify(props.recipes));
+  let tagCloud = [...props.tagCloud];
 
   function openModal(id) {
     let item = recipes.find((item) => item.id === id);
@@ -85,7 +86,7 @@ function Recipes(props) {
 
       <div className="">
         {filteredRecipes().map((item, index) => (
-          <Recipe key={index} item={item} parentCall={{ openModal, addItems }} />
+          <Recipe key={index} item={item} parentCall={{ openModal, addItems }} tagCloud={tagCloud} />
         ))}
         <div className="card shadow-2xl bg-zinc-800">
           <div className="card-body">
@@ -95,7 +96,7 @@ function Recipes(props) {
           </div>
         </div>
       </div>
-      <RecipeModal modalItem={modalItem} parentCall={{ deleteItem, saveItem, setModalItem }} />
+      <RecipeModal modalItem={modalItem} tagCloud={tagCloud} parentCall={{ deleteItem, saveItem, setModalItem }} />
     </div>
   );
 }

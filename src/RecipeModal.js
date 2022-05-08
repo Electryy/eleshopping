@@ -75,13 +75,17 @@ function RecipeModal(props) {
               <PlusIcon className="w-6 top-3 left-0" />
             </button>
           </div>
-          <div className="form-control">
+          <div className="form-control mb-6">
             <label className="label">
               <span className="label-text">Notes</span>
             </label>
             <textarea rows="8" id="notes" value={modalItem.notes} onChange={itemChanged} className="textarea textarea-bordered  min-w-full" />
           </div>
 
+          <h5 className="mb-2">Tags</h5>
+          <div className="flex flex-wrap gap-2">
+            <button className="btn btn-xs btn-secondary btn-outline">Pasta</button>
+          </div>
           <div className="divider"></div>
           <div className="modal-action justify-between ">
             <label htmlFor="recipeModal" className="btn" onClick={parentCall.deleteItem}>
