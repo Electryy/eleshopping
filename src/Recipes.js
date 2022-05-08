@@ -10,6 +10,7 @@ import { v4 as uuid } from "uuid";
 function Recipes(props) {
   const [modalItem, setModalItem] = useState(null);
   const [filterString, setFilterString] = useState("");
+  const [filterTags, setFilterTags] = useState([]);
   const { parentCall } = { ...props };
   const addItems = parentCall.addItems;
   let recipes = JSON.parse(JSON.stringify(props.recipes));
@@ -69,15 +70,42 @@ function Recipes(props) {
   }
 
   function filteredRecipes() {
-    if (!filterString) {
+    if (!filterString && !filterTags.length) {
       return recipes;
     }
-    const result = recipes.filter((i) => {
-      const recipeName = removeSpacesAndLowerCaseString(i.name);
-      const search = removeSpacesAndLowerCaseString(filterString);
-      return recipeName.includes(search);
-    });
+    const result = recipes.filter((i) => isWordSearchMatch(i.name, filterString) && isFilterTagsFound(i.tags));
     return result;
+  }
+
+  function isFilterTagsFound(tags) {
+    for (const i of filterTags) {
+      if (!tags.includes(i)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  function isWordSearchMatch(target, search) {
+    const recipeName = removeSpacesAndLowerCaseString(target);
+    const find = removeSpacesAndLowerCaseString(search);
+    return recipeName.includes(find);
+  }
+
+  function tagClick(e) {
+    const clickTag = e.target.textContent;
+    let filterTagsCpy = [...filterTags];
+    if (filterTagsCpy.includes(clickTag)) {
+      filterTagsCpy = filterTagsCpy.filter((i) => i !== clickTag);
+    } else {
+      filterTagsCpy.push(clickTag);
+    }
+
+    setFilterTags(filterTagsCpy);
+  }
+
+  function isTagged(tag) {
+    return filterTags.includes(tag);
   }
 
   return (
@@ -87,6 +115,14 @@ function Recipes(props) {
         <button className={`btn btn-ghost absolute right-2 top-2 ${filterString ? "" : "hidden"}`} onClick={() => setFilterString("")}>
           CLEAR
         </button>
+      </div>
+
+      <div className="flex flex-wrap gap-2 mb-6">
+        {tagCloud.map((tag, index) => (
+          <button key={index} className={`btn btn-sm btn-secondary ${isTagged(tag) ? "" : "btn-outline"} `} onClick={tagClick}>
+            {tag}
+          </button>
+        ))}
       </div>
 
       <div className="">
