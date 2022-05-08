@@ -15,6 +15,10 @@ function Recipes(props) {
   let recipes = JSON.parse(JSON.stringify(props.recipes));
   let tagCloud = [...props.tagCloud];
 
+  useEffect(() => {
+    console.log("modalItem", modalItem);
+  }, [modalItem]);
+
   function openModal(id) {
     let item = recipes.find((item) => item.id === id);
     let modalItemCopy = JSON.parse(JSON.stringify(item));

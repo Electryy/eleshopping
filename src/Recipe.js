@@ -8,8 +8,6 @@ function Recipe(props) {
   const copyTextRef = React.createRef();
   const copiedTextRef = React.createRef();
 
-  console.log(item.tags);
-
   useEffect(() => {
     if (copyingAnimation) {
       // Add little transition to animate copied text

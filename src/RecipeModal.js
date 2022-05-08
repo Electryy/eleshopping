@@ -1,9 +1,15 @@
 import { PlusIcon, TrashIcon } from "@heroicons/react/solid";
+import React, { useState, useEffect } from "react";
 
 function RecipeModal(props) {
   const { parentCall } = { ...props };
+  let [newTag, setNewTag] = useState("");
   let modalItem = JSON.parse(JSON.stringify(props.modalItem));
   let tagCloud = [...props.tagCloud];
+
+  useEffect(() => {
+    console.log("FOOOKKKKK", modalItem);
+  }, []);
 
   function itemChanged(e) {
     modalItem[e.target.id] = e.target.value;
@@ -43,6 +49,21 @@ function RecipeModal(props) {
       modalItem.tags.push(tag);
     }
     parentCall.setModalItem(modalItem);
+  }
+
+  function handleNewTag(e) {
+    setNewTag(e.target.value.toLowerCase());
+  }
+
+  function addNewTag() {
+    const tag = newTag.trim();
+    modalItem.tags.push(tag);
+    parentCall.setModalItem(modalItem);
+    setNewTag("");
+  }
+
+  function unTagged() {
+    return tagCloud.filter((tag) => !modalItem.tags.includes(tag));
   }
 
   if (!modalItem) {
@@ -103,11 +124,22 @@ function RecipeModal(props) {
 
           <h5 className="mb-2">Tags</h5>
           <div className="flex flex-wrap gap-2">
-            {tagCloud.map((tag, index) => (
-              <button key={index} data-tagged={isTagged(tag)} className={`btn btn-xs btn-secondary ${isTagged(tag) ? "" : "btn-outline"}`} onClick={tagClick}>
+            {modalItem.tags.map((tag, index) => (
+              <button key={index} className={`btn btn-xs btn-secondary `} onClick={tagClick}>
                 {tag}
               </button>
             ))}
+            {unTagged().map((tag, index) => (
+              <button key={index} className={`btn btn-xs btn-secondary btn-outline`} onClick={tagClick}>
+                {tag}
+              </button>
+            ))}
+            <div className="flex">
+              <input type="text" placeholder="New tag" value={newTag} className="input input-bordered input-xs w-32 input-secondary" onChange={handleNewTag} />
+              <button className="btn btn-square btn-xs btn-secondary -ml-0.5" onClick={addNewTag}>
+                <PlusIcon />
+              </button>
+            </div>
           </div>
           <div className="divider"></div>
           <div className="modal-action justify-between ">
