@@ -18,6 +18,7 @@ function Recipes(props) {
   function openModal(id) {
     let item = recipes.find((item) => item.id === id);
     let modalItemCopy = JSON.parse(JSON.stringify(item));
+
     setModalItem(modalItemCopy);
   }
 

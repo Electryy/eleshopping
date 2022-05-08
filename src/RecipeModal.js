@@ -3,19 +3,23 @@ import { PlusIcon, TrashIcon } from "@heroicons/react/solid";
 function RecipeModal(props) {
   const { parentCall } = { ...props };
   let modalItem = JSON.parse(JSON.stringify(props.modalItem));
+  let tagCloud = [...props.tagCloud];
 
   function itemChanged(e) {
     modalItem[e.target.id] = e.target.value;
     parentCall.setModalItem(modalItem);
   }
+
   function ingredientChanged(e, index) {
     modalItem.ingredients[index] = e.target.value;
     parentCall.setModalItem(modalItem);
   }
+
   function removeIngredient(index) {
     modalItem.ingredients.splice(index, 1);
     parentCall.setModalItem(modalItem);
   }
+
   function addIngredient() {
     modalItem.ingredients.push("");
     parentCall.setModalItem(modalItem);
@@ -26,6 +30,21 @@ function RecipeModal(props) {
       ingredientInputs[ingredientInputs.length - 1].focus();
     });
   }
+
+  function isTagged(tag) {
+    return modalItem.tags.includes(tag);
+  }
+
+  function tagClick(e) {
+    const tag = e.target.textContent;
+    if (isTagged(tag)) {
+      modalItem.tags = modalItem.tags.filter((i) => i !== tag);
+    } else {
+      modalItem.tags.push(tag);
+    }
+    parentCall.setModalItem(modalItem);
+  }
+
   if (!modalItem) {
     return null;
   }
@@ -84,7 +103,11 @@ function RecipeModal(props) {
 
           <h5 className="mb-2">Tags</h5>
           <div className="flex flex-wrap gap-2">
-            <button className="btn btn-xs btn-secondary btn-outline">Pasta</button>
+            {tagCloud.map((tag, index) => (
+              <button key={index} data-tagged={isTagged(tag)} className={`btn btn-xs btn-secondary ${isTagged(tag) ? "" : "btn-outline"}`} onClick={tagClick}>
+                {tag}
+              </button>
+            ))}
           </div>
           <div className="divider"></div>
           <div className="modal-action justify-between ">
