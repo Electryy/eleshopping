@@ -41,6 +41,17 @@ function Recipe(props) {
 
   return (
     <div className="card shadow-2xl bg-zinc-800 mb-4">
+      <div className="p-4 relative">
+        <h2 className="card-title">
+          <a href={item.url}>
+            {item.name} <ExternalLinkIcon className="w-4 inline" />
+          </a>
+        </h2>
+        <label htmlFor="recipeModal" className="btn btn-circle absolute top-1 right-1 modal-button btn-ghost" onClick={() => parentCall.openModal(item.id)}>
+          <PencilAltIcon className="w-6" />
+        </label>
+      </div>
+
       {item.img && (
         <figure className="bg-slate-600">
           <img className="h-52 w-full object-cover" src={item.img} alt={item.name} />
@@ -48,14 +59,6 @@ function Recipe(props) {
       )}
 
       <div className="card-body">
-        <label htmlFor="recipeModal" className="btn btn-circle absolute top-1 right-1 modal-button btn-ghost" onClick={() => parentCall.openModal(item.id)}>
-          <PencilAltIcon className="w-6" />
-        </label>
-        <h2 className="card-title">
-          <a href={item.url}>
-            {item.name} <ExternalLinkIcon className="w-4 inline" />
-          </a>
-        </h2>
         <ul className="list-disc list-inside mb-4">
           {item.ingredients.map((item, index) => (
             <li key={index}>{item}</li>
@@ -71,6 +74,18 @@ function Recipe(props) {
             </button>
           </div>
         )}
+
+        <div className="flex flex-wrap gap-2">
+          <div class="badge badge-secondary">primary</div>
+          <div class="badge badge-secondary">primary</div>
+          <div class="badge badge-secondary">primary</div>
+          <div class="badge badge-secondary">primary</div>
+          <div class="badge badge-secondary">primary</div>
+          <div class="badge badge-secondary">primary</div>
+          <div class="badge badge-secondary">primary</div>
+          <div class="badge badge-secondary">primary</div>
+          <div class="badge badge-secondary">primary</div>
+        </div>
 
         <div className="card-actions justify-end">
           <button className="relative btn btn-primary text-center" onClick={copyToShoppingList}>
