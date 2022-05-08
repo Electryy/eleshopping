@@ -49,6 +49,7 @@ function RecipeModal(props) {
       modalItem.tags.push(tag);
     }
     parentCall.setModalItem(modalItem);
+    dirtyMobileHoverBackgroundColorIssueFix();
   }
 
   function handleNewTag(e) {
@@ -66,6 +67,13 @@ function RecipeModal(props) {
     return tagCloud.filter((tag) => !modalItem.tags.includes(tag));
   }
 
+  function dirtyMobileHoverBackgroundColorIssueFix() {
+    const tagCloudSave = [...tagCloud];
+    parentCall.setTagCloud([]);
+    window.requestAnimationFrame(() => {
+      parentCall.setTagCloud(tagCloudSave);
+    });
+  }
   if (!modalItem) {
     return null;
   }
@@ -125,12 +133,12 @@ function RecipeModal(props) {
           <h5 className="mb-2">Tags</h5>
           <div className="flex flex-wrap gap-2">
             {modalItem.tags.map((tag, index) => (
-              <button key={index} className={`btn btn-xs btn-secondary `} onClick={tagClick}>
+              <button key={index} className={`btn btn-xs btn-secondary transition-none animate-none `} onClick={tagClick}>
                 {tag}
               </button>
             ))}
             {unTagged().map((tag, index) => (
-              <button key={index} className={`btn btn-xs btn-secondary btn-outline`} onClick={tagClick}>
+              <button key={index} className={`btn btn-xs btn-secondary transition-none animate-none btn-outline`} onClick={tagClick}>
                 {tag}
               </button>
             ))}

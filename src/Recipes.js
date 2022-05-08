@@ -11,14 +11,32 @@ function Recipes(props) {
   const [modalItem, setModalItem] = useState(null);
   const [filterString, setFilterString] = useState("");
   const [filterTags, setFilterTags] = useState([]);
+  let [tagCloud, setTagCloud] = useState([]);
   const { parentCall } = { ...props };
   const addItems = parentCall.addItems;
   let recipes = JSON.parse(JSON.stringify(props.recipes));
-  let tagCloud = [...props.tagCloud];
+  const tagCloudWrapperRef = React.createRef();
 
   useEffect(() => {
     console.log("modalItem", modalItem);
   }, [modalItem]);
+
+  useEffect(() => {
+    buildAllTags();
+  }, [props.recipes]);
+
+  function buildAllTags() {
+    let tags = [];
+    recipes.forEach((item) => {
+      item.tags.forEach((tag) => {
+        if (!tags.includes(tag)) {
+          tags.push(tag);
+        }
+      });
+    });
+    setTagCloud(tags);
+    console.log("tagggiii");
+  }
 
   function openModal(id) {
     let item = recipes.find((item) => item.id === id);
@@ -94,14 +112,23 @@ function Recipes(props) {
 
   function tagClick(e) {
     const clickTag = e.target.textContent;
+
     let filterTagsCpy = [...filterTags];
     if (filterTagsCpy.includes(clickTag)) {
       filterTagsCpy = filterTagsCpy.filter((i) => i !== clickTag);
     } else {
       filterTagsCpy.push(clickTag);
     }
-
     setFilterTags(filterTagsCpy);
+    dirtyMobileHoverBackgroundColorIssueFix();
+  }
+
+  function dirtyMobileHoverBackgroundColorIssueFix() {
+    const tagCloudSave = [...tagCloud];
+    setTagCloud([]);
+    window.requestAnimationFrame(() => {
+      setTagCloud(tagCloudSave);
+    });
   }
 
   function isTagged(tag) {
@@ -117,9 +144,9 @@ function Recipes(props) {
         </button>
       </div>
 
-      <div className="flex flex-wrap gap-2 mb-6">
+      <div ref={tagCloudWrapperRef} className="flex flex-wrap gap-2 mb-6">
         {tagCloud.map((tag, index) => (
-          <button key={index} className={`btn btn-sm btn-secondary ${isTagged(tag) ? "" : "btn-outline"} `} onClick={tagClick}>
+          <button key={index} className={`btn btn-sm btn-secondary transition-none animate-none ${isTagged(tag) ? "" : "btn-outline"} `} onClick={tagClick}>
             {tag}
           </button>
         ))}
@@ -137,7 +164,7 @@ function Recipes(props) {
           </div>
         </div>
       </div>
-      <RecipeModal modalItem={modalItem} tagCloud={tagCloud} parentCall={{ deleteItem, saveItem, setModalItem }} />
+      <RecipeModal modalItem={modalItem} tagCloud={tagCloud} parentCall={{ deleteItem, saveItem, setModalItem, setTagCloud }} />
     </div>
   );
 }
