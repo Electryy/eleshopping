@@ -8,8 +8,8 @@ function RecipeModal(props) {
   let tagCloud = [...props.tagCloud];
 
   useEffect(() => {
-    console.log("FOOOKKKKK", modalItem);
-  }, []);
+    suggestTags();
+  }, [modalItem?.name]);
 
   function itemChanged(e) {
     modalItem[e.target.id] = e.target.value;
@@ -37,23 +37,34 @@ function RecipeModal(props) {
     });
   }
 
-  function isTagged(tag) {
+  function suggestTags() {
+    if (!modalItem) {
+      return;
+    }
+    const searchString = modalItem.name.toLowerCase();
+    tagCloud.forEach((tag) => {
+      // Tag found in name and not already added to item
+      if (searchString.includes(tag) && !itemHasTag(tag)) {
+        modalItem.tags.push(tag);
+        parentCall.setModalItem(modalItem);
+      }
+    });
+  }
+
+  function itemHasTag(tag) {
     return modalItem.tags.includes(tag);
   }
 
   function tagClick(e) {
-    const tag = e.target.textContent;
-    if (isTagged(tag)) {
+    const tag = e.target.dataset.tagname;
+    // If tagged already, remove from modalItem.tags. If not -> add it
+    if (itemHasTag(tag)) {
       modalItem.tags = modalItem.tags.filter((i) => i !== tag);
     } else {
       modalItem.tags.push(tag);
     }
     parentCall.setModalItem(modalItem);
-    parentCall.dirtyMobileHoverBackgroundColorIssueFix();
-  }
-
-  function handleNewTag(e) {
-    setNewTag(e.target.value.toLowerCase());
+    parentCall.refreshTagCloud();
   }
 
   function handleEnter(e) {
@@ -132,12 +143,12 @@ function RecipeModal(props) {
           <h5 className="mb-2">Tags</h5>
           <div className="flex flex-wrap gap-2">
             {modalItem.tags.map((tag, index) => (
-              <button key={index} className={`btn btn-xs btn-secondary transition-none animate-none `} onClick={tagClick}>
+              <button key={index} data-tagname={tag} className={`btn btn-xs btn-secondary transition-none animate-none `} onClick={tagClick}>
                 {tag}
               </button>
             ))}
             {unTagged().map((tag, index) => (
-              <button key={index} className={`btn btn-xs btn-secondary transition-none animate-none btn-outline`} onClick={tagClick}>
+              <button key={index} data-tagname={tag} className={`btn btn-xs btn-secondary transition-none animate-none btn-outline`} onClick={tagClick}>
                 {tag}
               </button>
             ))}
@@ -147,7 +158,7 @@ function RecipeModal(props) {
                 placeholder="New tag"
                 value={newTag}
                 className="input input-bordered input-xs w-32 input-primary pr-7"
-                onChange={handleNewTag}
+                onChange={(e) => setNewTag(e.target.value.toLowerCase())}
                 onKeyDown={handleEnter}
               />
               <button className="absolute right-0 top-0.5 btn btn-square btn-xs btn-primary -ml-0.5" onClick={addNewTag}>

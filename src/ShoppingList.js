@@ -64,11 +64,13 @@ function ShoppingList(props) {
   }
 
   return (
-    <div className="form-control">
+    <div>
       <AddItemControls parentCall={{ addItems }} />
-      <button className={`btn btn-link self-end text-white -mr-4`} onClick={clearList}>
-        Clear all
-      </button>
+      <div className="flex justify-end">
+        <button className={`block link link-accent link-hover uppercase mb-4 text-sm mt-4`} onClick={clearList}>
+          clear list
+        </button>
+      </div>
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="fix">
           {(provided) => (

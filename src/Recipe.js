@@ -75,7 +75,8 @@ function Recipe(props) {
           <div className="mb-4">
             {!readMore && <p>{getSnippet()}...</p>}
             {readMore && <p dangerouslySetInnerHTML={{ __html: getFullText() }}></p>}
-            <button className="uppercase mt-2 text-accent" onClick={toggleReadMore}>
+
+            <button className="block link link-accent link-hover uppercase mt-4" onClick={toggleReadMore}>
               {!readMore && "Read more"}
               {readMore && "Show less"}
             </button>
