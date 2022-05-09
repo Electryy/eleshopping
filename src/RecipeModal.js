@@ -49,11 +49,17 @@ function RecipeModal(props) {
       modalItem.tags.push(tag);
     }
     parentCall.setModalItem(modalItem);
-    dirtyMobileHoverBackgroundColorIssueFix();
+    parentCall.dirtyMobileHoverBackgroundColorIssueFix();
   }
 
   function handleNewTag(e) {
     setNewTag(e.target.value.toLowerCase());
+  }
+
+  function handleEnter(e) {
+    if (e.key === "Enter") {
+      addNewTag();
+    }
   }
 
   function addNewTag() {
@@ -67,13 +73,6 @@ function RecipeModal(props) {
     return tagCloud.filter((tag) => !modalItem.tags.includes(tag));
   }
 
-  function dirtyMobileHoverBackgroundColorIssueFix() {
-    const tagCloudSave = [...tagCloud];
-    parentCall.setTagCloud([]);
-    window.requestAnimationFrame(() => {
-      parentCall.setTagCloud(tagCloudSave);
-    });
-  }
   if (!modalItem) {
     return null;
   }
@@ -142,9 +141,16 @@ function RecipeModal(props) {
                 {tag}
               </button>
             ))}
-            <div className="flex">
-              <input type="text" placeholder="New tag" value={newTag} className="input input-bordered input-xs w-32 input-secondary" onChange={handleNewTag} />
-              <button className="btn btn-square btn-xs btn-secondary -ml-0.5" onClick={addNewTag}>
+            <div className="relative">
+              <input
+                type="text"
+                placeholder="New tag"
+                value={newTag}
+                className="input input-bordered input-xs w-32 input-primary pr-7"
+                onChange={handleNewTag}
+                onKeyDown={handleEnter}
+              />
+              <button className="absolute right-0 top-0.5 btn btn-square btn-xs btn-primary -ml-0.5" onClick={addNewTag}>
                 <PlusIcon />
               </button>
             </div>

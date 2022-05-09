@@ -28,3 +28,4 @@ credentials/*
 # Local Netlify folder
 .netlify
 
+/backups*

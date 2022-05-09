@@ -164,7 +164,7 @@ function Recipes(props) {
           </div>
         </div>
       </div>
-      <RecipeModal modalItem={modalItem} tagCloud={tagCloud} parentCall={{ deleteItem, saveItem, setModalItem, setTagCloud }} />
+      <RecipeModal modalItem={modalItem} tagCloud={tagCloud} parentCall={{ deleteItem, saveItem, setModalItem, dirtyMobileHoverBackgroundColorIssueFix }} />
     </div>
   );
 }

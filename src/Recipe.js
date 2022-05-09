@@ -54,18 +54,25 @@ function Recipe(props) {
 
       {item.img && (
         <figure className="bg-slate-600">
-          <img className="h-52 w-full object-cover" src={item.img} alt={item.name} />
+          <img className="h-52 max-h-[40vw] w-full object-cover" src={item.img} alt={item.name} />
         </figure>
       )}
 
       <div className="card-body">
+        <div className="flex flex-wrap gap-2 mb-4">
+          {item.tags.map((tag, index) => (
+            <div key={index} className="badge badge-secondary">
+              {tag}
+            </div>
+          ))}
+        </div>
         <ul className="list-disc list-inside mb-4">
           {item.ingredients.map((item, index) => (
             <li key={index}>{item}</li>
           ))}
         </ul>
         {item.notes && (
-          <div>
+          <div className="mb-4">
             {!readMore && <p>{getSnippet()}...</p>}
             {readMore && <p dangerouslySetInnerHTML={{ __html: getFullText() }}></p>}
             <button className="uppercase mt-2 text-accent" onClick={toggleReadMore}>
@@ -75,15 +82,7 @@ function Recipe(props) {
           </div>
         )}
 
-        <div className="flex flex-wrap gap-2">
-          {item.tags.map((tag, index) => (
-            <div key={index} className="badge badge-secondary">
-              {tag}
-            </div>
-          ))}
-        </div>
-
-        <div className="card-actions justify-end">
+        <div className="card-actions">
           <button className="relative btn btn-primary text-center" onClick={copyToShoppingList}>
             <span ref={copyTextRef}>Copy to Shopping list</span>
             <span ref={copiedTextRef} className="absolute opacity-0 duration-0">
