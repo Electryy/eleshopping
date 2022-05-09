@@ -8,7 +8,7 @@ const document = "shopping_list";
 const store = process.env.REACT_APP_apiKey ? firestore : localstore;
 
 // Do we want demo data to play with? Change this in .env file
-const shouldCreateDemoData = process.env.REACT_APP_useDemoData;
+const shouldCreateDemoData = process.env.REACT_APP_useDemoData === "true";
 
 /**
  * Get all ShoppingListItems from storage
@@ -18,7 +18,7 @@ export async function getAll() {
   let shoppingList = await store.dbGetAll(document);
 
   // If we have no data saved and want to create demodata -> do it
-  if (!shoppingList.length && shouldCreateDemoData) {
+  if (shoppingList.length === 0 && shouldCreateDemoData) {
     shoppingList = await createDemoData();
   }
 
@@ -103,6 +103,7 @@ export async function update(item) {
  * @returns Array of items
  */
 async function createDemoData() {
+  console.log("wtfds");
   const demodata = require("./demodata/shoppingList.json");
   await add(demodata);
   return demodata;
