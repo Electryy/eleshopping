@@ -1,70 +1,65 @@
-# Getting Started with Create React App
+# Grocery Shopping App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is my personal project done to fit my needs. Project was started mainly to learn reactjs from scratch. Also I needed a recipe / shopping list app and there just weren't any that fit exactly my needs :P
 
-## Available Scripts
+The app can be bundled as a single html file and hosted anywhere and it doesn't require a backend. The whole app is encrypted with [staticrypt](https://github.com/robinmoisson/staticrypt) so your database keys are secured at least from bots.
 
-In the project directory, you can run:
+Note this is not _really_ secure but secure enough for personal needs.
+
+## Features
+
+- Add / Toggle shopping list items (basic todo list functionality)
+- Sort shopping list items
+- Add recipes
+- Copy recipe ingredients to the shopping list
+- Tag recipes to find them easily
+- Data is synced live accross all devices (supports multiple users)
+
+## Demo
+
+Here is an online demo to tinker with. Note that the demo uses dummy data and only uses local storage as database. Live updates accross devices require firestore configuration.
+
+## How to run
+
+### `npm install`
+
+Install the required packages.
 
 ### `npm start`
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+The page will reload when you make changes.
 
-### `npm test`
+## Configuration
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+All configurations can be found in `.env.example`. Just rename it to `.env` and set your own values. Here are some settings worth mentioning.
+
+```
+REACT_APP_useDemoData=true
+```
+
+By default we use demodata for tinkering. If you deploy the app just set it to false
+
+```
+STATICRYPT_PW=""
+```
+
+If you want to deploy encrypted version of the app, set your own password for staticrypt. This will encrypt the whole app in the deployment phase.
+
+## NPM Commands
 
 ### `npm run build`
 
 Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+It is not recommended to deploy this build to public internet as all your database keys are bundled in and visible.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### `npm run contain`
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Builds the **encrypted** app. First inlines all the app code to single `index.html` and then runs staticrypt to encrypt the whole app. See `.env` to change the encryption password.
 
-### `npm run eject`
+### `npm run netlify-deploy`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Just a helper to run `netlify deploy --prod --dir build`\
+See more documentation on netlify here. https://docs.netlify.com/
