@@ -1,30 +1,27 @@
 import { PencilAltIcon, ExternalLinkIcon } from "@heroicons/react/solid";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 function Recipe(props) {
   const { item, parentCall } = { ...props };
-  const [copyingAnimation, setCopyingAnimation] = useState(false);
   const [readMore, setReadMore] = useState(false);
-  const copyTextRef = React.createRef();
-  const copiedTextRef = React.createRef();
 
-  useEffect(() => {
-    if (copyingAnimation) {
-      // Add little transition to animate copied text
-      const copiedTextClasses = ["opacity-100", "transition-opacity", "duration-300"];
-      copyTextRef.current.classList.add("opacity-0");
-      copiedTextRef.current.classList.add(...copiedTextClasses);
-      setTimeout(() => {
-        copiedTextRef.current?.classList.remove(...copiedTextClasses);
-        copyTextRef.current?.classList.remove("opacity-0");
-
-        setCopyingAnimation(false);
-      }, 1000);
-    }
-  });
-  function copyToShoppingList() {
-    setCopyingAnimation(true);
+  function copyToShoppingList(e) {
     parentCall.addItems(item.ingredients);
+    doCopiedTextAnimation(e.target);
+  }
+
+  function doCopiedTextAnimation(target) {
+    const copyTextElm = target.children[0]; // <-- "Copy to shopping list"
+    const copiedTextElm = target.children[1]; // <-- "Copied"
+    const copiedTextClasses = ["opacity-100", "transition-opacity", "duration-300"];
+
+    copyTextElm.classList.add("opacity-0"); // Hide one
+    copiedTextElm.classList.add(...copiedTextClasses); // animate in the other
+
+    setTimeout(() => {
+      copiedTextElm.classList.remove(...copiedTextClasses); // Reset styles
+      copyTextElm.classList.remove("opacity-0"); // Reset styles
+    }, 1000);
   }
 
   function getFullText() {
@@ -33,10 +30,6 @@ function Recipe(props) {
 
   function getSnippet() {
     return item.notes.slice(0, 120);
-  }
-
-  function toggleReadMore() {
-    setReadMore(!readMore);
   }
 
   return (
@@ -76,7 +69,7 @@ function Recipe(props) {
             {!readMore && <p>{getSnippet()}...</p>}
             {readMore && <p dangerouslySetInnerHTML={{ __html: getFullText() }}></p>}
 
-            <button className="block link link-accent link-hover uppercase mt-4" onClick={toggleReadMore}>
+            <button className="block link link-accent link-hover uppercase mt-4" onClick={() => setReadMore(!readMore)}>
               {!readMore && "Read more"}
               {readMore && "Show less"}
             </button>
@@ -85,10 +78,8 @@ function Recipe(props) {
 
         <div className="card-actions">
           <button className="relative btn btn-primary text-center" onClick={copyToShoppingList}>
-            <span ref={copyTextRef}>Copy to Shopping list</span>
-            <span ref={copiedTextRef} className="absolute opacity-0 duration-0">
-              Copied
-            </span>
+            <span className="pointer-events-none">Copy to Shopping list</span>
+            <span className="pointer-events-none absolute opacity-0 duration-0">Copied</span>
           </button>
         </div>
       </div>
