@@ -1,23 +1,59 @@
 [
     {
-        "id": "ff1f68ee-7398-429b-a039-98a3e7a1a297",
-        "name": "Wiskey Sour",
-        "url": "https://www.liquor.com/recipes/whiskey-sour/",
-        "img": "https://assets.epicurious.com/photos/605b5501ca1ffc178a2d26d3/4:3/w_3108,h_2331,c_limit/Editorial_04_WhiskeySour-v4-6x4.jpg",
+        "url": "https://www.bbcgoodfood.com/recipes/red-lentil-chorizo-soup",
         "ingredients": [
-            "2 ounces bourbon",
-            "3/4 ounce lemon juice, freshly squeezed",
-            "1/2 ounce simple syrup",
-            "1/2 ounce egg white (optional)",
-            "Garnish: Angostura bitters"
+            "1 tbsp olive oil",
+            "200g cooking chorizo",
+            "1 large onion",
+            "2 carrots",
+            "cumin seeds",
+            "3 garlic cloves",
+            "1 tsp smoked paprika",
+            "pinch of golden caster sugar",
+            "small splash red wine vinegar",
+            "250g red lentil",
+            "2 x 400g cans chopped tomato",
+            "850ml chicken stock",
+            "plain yogurt"
         ],
-        "notes": "Add bourbon, lemon juice, simple syrup and egg white, if using, to a shaker and dry-shake for 30 seconds without ice.\n\nAdd ice and shake again until well-chilled.\n\nStrain into a coupe glass.\n\nGarnish with 3 or 4 drops of Angostura bitters."
+        "tags": [
+            "soup",
+            "chorizo"
+        ],
+        "img": "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/recipe-image-legacy-id-1253451_8-885b77b.jpg?quality=90&webp=true&resize=300,272",
+        "notes": "STEP 1\nHeat the oil in a large pan. Add the chorizo and cook until crisp and it has released its oils. Remove with a slotted spoon into a bowl, leaving the fat in the pan. Fry the onion, carrots and cumin seeds for 10 mins until soft and glistening, then add the garlic and fry for 1 min more. Scatter over the paprika and sugar, cook for 1 min, then splash in the vinegar. Simmer for a moment, then stir in the lentils, and pour over the tomatoes and chicken stock.\n\nSTEP 2\nGive it a good stir, then simmer for 30 mins or until the lentils are tender. Blitz with a hand blender until smooth-ish but still chunky. Can be made several days ahead or frozen for 6 months at this point. Serve in bowls, drizzled with yogurt and olive oil, scattered with the chorizo and a sprinkling of paprika.",
+        "id": "d0e73d22-1124-45a3-bfe5-bf98b0531c04",
+        "name": "Red lentil & chorizo soup"
     },
     {
-        "id": "914012e7-8183-440a-8221-55896ce6c8db",
+        "img": "https://www.saltandlavender.com/wp-content/uploads/2019/03/easy-chorizo-pasta-recipe-4-768x1152.jpg",
+        "notes": "Boil a large, salted pot of water for the pasta. Cook it until al dente according to package directions.\n\nPrep your chorizo and onion.\n\nMeanwhile, in a skillet over medium-high heat, add the olive oil and chorizo and fry it until it starts to get crispy (around 7 minutes).\n\nAdd the onion and cook it until it's softened (about 5 minutes).\n\nStir in the garlic, tomatoes, and cream. Let the sauce cook for another 5 minutes or so, or until the sauce is reduced to your liking. Taste and season with salt & pepper as needed.\n\nToss with the pasta and serve with freshly grated parmesan cheese if desired.",
+        "ingredients": [
+            "8 ounces uncooked pasta",
+            "1/2 tablespoon olive oil",
+            "1 (8.8 ounce) coil Spanish chorizo sausage",
+            "1/2 small onion",
+            "3 cloves garlic",
+            "1 (14 fluid ounce) can diced tomatoes",
+            "1/2 cup heavy/whipping cream",
+            "Salt & pepper",
+            "Freshly grated parmesan cheese"
+        ],
+        "url": "https://www.saltandlavender.com/easy-chorizo-pasta/",
+        "id": "20eb8556-feeb-411b-b1fe-46e38b65655a",
+        "name": "Chorizo Pasta",
+        "tags": [
+            "pasta",
+            "chorizo"
+        ]
+    },
+    {
+        "notes": "Cook the pasta according to the package instructions.\n\nMelt the butter in a large skillet over medium high heat. Add the garlic and cook for 30 seconds, or until fragrant.\n\nPour in the milk and cream. Stir consistently to avoid burning on the bottom of the pan until the mixture comes to a boil. Turn the heat down to medium, and mix in the parmesan cheese, salt, and pepper. Adjust the seasoning to your own taste.\n\nRemove the pan from the heat and mix in the cooked pasta until the sauce begins to thicken. Garnish with parsley, and serve.",
+        "tags": [
+            "pasta"
+        ],
         "name": "Pasta Alfredo",
-        "url": "https://cravinghomecooked.com/easy-pasta-alfredo/",
-        "img": "https://cravinghomecooked.com/wp-content/uploads/2018/08/alfredo-pasta-1-5.jpg",
+        "id": "914012e7-8183-440a-8221-55896ce6c8db",
         "ingredients": [
             "8 ounce pasta",
             "4 tablespoon butter",
@@ -29,6 +65,25 @@
             "1/4 teaspoon pepper",
             "2 tablespoon fresh parsley"
         ],
-        "notes": "Cook the pasta according to the package instructions.\n\nMelt the butter in a large skillet over medium high heat. Add the garlic and cook for 30 seconds, or until fragrant.\n\nPour in the milk and cream. Stir consistently to avoid burning on the bottom of the pan until the mixture comes to a boil. Turn the heat down to medium, and mix in the parmesan cheese, salt, and pepper. Adjust the seasoning to your own taste.\n\nRemove the pan from the heat and mix in the cooked pasta until the sauce begins to thicken. Garnish with parsley, and serve."
+        "url": "https://cravinghomecooked.com/easy-pasta-alfredo/",
+        "img": "https://cravinghomecooked.com/wp-content/uploads/2018/08/alfredo-pasta-1-5.jpg",
+    },
+    {
+        "name": "Wiskey Sour",
+        "notes": "Add bourbon, lemon juice, simple syrup and egg white, if using, to a shaker and dry-shake for 30 seconds without ice.\n\nAdd ice and shake again until well-chilled.\n\nStrain into a coupe glass.\n\nGarnish with 3 or 4 drops of Angostura bitters.",
+        "img": "https://assets.epicurious.com/photos/605b5501ca1ffc178a2d26d3/4:3/w_3108,h_2331,c_limit/Editorial_04_WhiskeySour-v4-6x4.jpg",
+        "tags": [
+            "wiskey",
+            "drink"
+        ],
+        "id": "ff1f68ee-7398-429b-a039-98a3e7a1a297",
+        "ingredients": [
+            "2 ounces bourbon",
+            "3/4 ounce lemon juice, freshly squeezed",
+            "1/2 ounce simple syrup",
+            "1/2 ounce egg white (optional)",
+            "Garnish: Angostura bitters"
+        ],
+        "url": "https://www.liquor.com/recipes/whiskey-sour/",
     }
 ]
