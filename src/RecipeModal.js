@@ -90,7 +90,7 @@ function RecipeModal(props) {
   return (
     <div>
       <input type="checkbox" id="recipeModal" className="modal-toggle" />
-      <div className="modal">
+      <div className="modal modal-bottom sm:modal-middle">
         <div className="modal-box">
           <label htmlFor="recipeModal" className="btn btn-sm btn-circle absolute right-2 top-2" onClick={() => parentCall.setModalItem(null)}>
             ✕

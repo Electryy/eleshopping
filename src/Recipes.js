@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { XCircleIcon } from "@heroicons/react/solid";
+import { PlusIcon } from "@heroicons/react/solid";
 import { removeSpacesAndLowerCaseString } from "./modules/utils";
 import RecipeModal from "./RecipeModal";
 import Recipe from "./Recipe";
@@ -78,7 +78,7 @@ function Recipes(props) {
     recipesStorage.deleteItem(modalItem);
   }
   function addRecipe() {
-    const newItem = { id: uuid(), name: "", url: "", img: "", ingredients: [], notes: "" };
+    const newItem = { id: uuid(), name: "", url: "", img: "", ingredients: [], notes: "", tags: [] };
     setModalItem(newItem);
   }
 
@@ -150,7 +150,7 @@ function Recipes(props) {
   }
 
   return (
-    <div>
+    <div className="relative">
       <div className="relative">
         <input type="text" placeholder="Filter" className="input input-lg input-bordered grow w-full mb-6" value={filterString} onChange={filterRecipes} />
       </div>
@@ -172,15 +172,11 @@ function Recipes(props) {
         {filteredRecipes().map((item, index) => (
           <Recipe key={index} item={item} parentCall={{ openModal, addItems }} tagCloud={tagCloud} />
         ))}
-        <div className="card shadow-2xl bg-zinc-800">
-          <div className="card-body">
-            <label htmlFor="recipeModal" className="btn btn-outline" onClick={addRecipe}>
-              Add recipe
-            </label>
-          </div>
-        </div>
       </div>
       <RecipeModal modalItem={modalItem} tagCloud={tagCloud} parentCall={{ deleteItem, saveItem, setModalItem, refreshTagCloud }} />
+      <label htmlFor="recipeModal" className="btn btn-circle btn-primary fixed bottom-2 right-2 drop-shadow-lg" onClick={addRecipe}>
+        <PlusIcon className="w-6" />
+      </label>
     </div>
   );
 }
