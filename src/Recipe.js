@@ -32,6 +32,10 @@ function Recipe(props) {
     return item.notes.slice(0, 120);
   }
 
+  function hideImg(e) {
+    e.target.remove();
+  }
+
   return (
     <div className="card shadow-2xl bg-zinc-800 mb-4">
       <div className="p-4 relative">
@@ -47,7 +51,7 @@ function Recipe(props) {
 
       {item.img && (
         <figure className="bg-slate-600">
-          <img className="h-52 max-h-[40vw] w-full object-cover" src={item.img} alt={item.name} />
+          <img className="h-52 max-h-[40vw] w-full object-cover" src={item.img} alt={item.name} onError={hideImg} />
         </figure>
       )}
 
