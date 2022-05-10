@@ -9,8 +9,10 @@ function RecipeFilters(props) {
 
   function tagClick(e) {
     const clickTag = e.target.textContent;
-
     let filterTagsCpy = [...filterTags];
+
+    // if clicked tag is already clicked -> unclick it
+    // else add it to filters
     if (filterTagsCpy.includes(clickTag)) {
       filterTagsCpy = filterTagsCpy.filter((i) => i !== clickTag);
     } else {
@@ -20,11 +22,12 @@ function RecipeFilters(props) {
     parentCall.refreshTagCloud();
   }
 
-  function isTagged(tag) {
+  function isTagInEffect(tag) {
     return filterTags.includes(tag);
   }
 
   function hideClearBtn() {
+    // If both filters are empty
     return filterTags.length === 0 && filterString.length === 0;
   }
 
@@ -41,7 +44,7 @@ function RecipeFilters(props) {
 
       <div className="flex flex-wrap gap-2 mb-4">
         {tagCloud.map((tag, index) => (
-          <button key={index} className={`btn btn-sm btn-secondary transition-none animate-none ${isTagged(tag) ? "" : "btn-outline"} `} onClick={tagClick}>
+          <button key={index} className={`btn btn-sm btn-secondary transition-none animate-none ${isTagInEffect(tag) ? "" : "btn-outline"} `} onClick={tagClick}>
             {tag}
           </button>
         ))}

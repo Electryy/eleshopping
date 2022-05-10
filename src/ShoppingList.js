@@ -8,7 +8,6 @@ import { reorder } from "./modules/utils";
 function ShoppingList(props) {
   let { parentCall } = { ...props };
   let shoppingList = [...props.shoppingList];
-  let addItems = parentCall.addItems;
 
   function inputChanged(id, value) {
     let item = shoppingList.find((item) => item.id === id);
@@ -65,7 +64,7 @@ function ShoppingList(props) {
 
   return (
     <div>
-      <AddItemControls parentCall={{ addItems }} />
+      <AddItemControls parentCall={{ addItems: parentCall.addItems }} />
       <div className="flex justify-end">
         <button className={`block link link-accent link-hover uppercase mb-4 text-sm mt-4`} onClick={clearList}>
           clear list

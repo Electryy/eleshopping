@@ -8,6 +8,7 @@ function RecipeModal(props) {
   let tagCloud = [...props.tagCloud];
 
   useEffect(() => {
+    // Auto suggest tags
     suggestTags();
   }, [modalItem?.name]);
 
@@ -37,6 +38,10 @@ function RecipeModal(props) {
     });
   }
 
+  /**
+   * Automatically enable tags if the tag is found from the
+   * name of the recipe
+   */
   function suggestTags() {
     if (!modalItem) {
       return;

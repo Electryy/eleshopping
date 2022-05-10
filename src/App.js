@@ -9,6 +9,7 @@ import { v4 as uuid } from "uuid";
 import * as shoppingListStorage from "./data/shoppingListStorage";
 import * as recipesStorage from "./data/recipesStorage";
 
+// Needed for live database update callback
 let shoppingListState = [];
 
 function App() {
@@ -26,11 +27,15 @@ function App() {
       setDataIsLoading(false);
     };
     fetchData();
-    const unsub = shoppingListStorage.subscribe(() => shoppingListState, setShoppingList);
+
+    // Database listener. Passing shoppingList state getter and setter
+    shoppingListStorage.subscribe(() => shoppingListState, setShoppingList);
   }, []);
 
   useEffect(() => {
     console.log("shoppingList", shoppingList);
+
+    // Have to update this as the database listener needs the access
     shoppingListState = shoppingList;
   }, [shoppingList]);
 
@@ -39,16 +44,22 @@ function App() {
   }, [recipes]);
 
   async function addItems(values) {
+    // Make it to array
     let valuesArr = Array.isArray(values) ? values : [values];
     let shoppingListCopy = [...shoppingList];
     let order = shoppingListCopy.length;
     let newItems = [];
+
+    // Loop new items and add them to newItems array. Also keep in track of the order number.
     for (const value of valuesArr) {
       const newItem = { id: uuid(), text: value, checked: false, order: order };
       newItems.push(newItem);
       order++;
     }
+
     newItems.reverse();
+
+    // Combine old an new items
     let newList = [...newItems, ...shoppingList];
     setShoppingList(newList);
     await shoppingListStorage.add(newItems);
