@@ -1,7 +1,7 @@
 import React from "react";
 
 function RecipeFilters(props) {
-  const { parentCall, filterString, filterTags, tagCloud } = { ...props };
+  const { parentCall, filterString, tagCloud } = { ...props };
 
   function filterRecipes(e) {
     parentCall.setFilterString(e.target.value);
@@ -9,31 +9,25 @@ function RecipeFilters(props) {
 
   function tagClick(e) {
     const clickTag = e.target.textContent;
-    let filterTagsCpy = [...filterTags];
-
-    // if clicked tag is already clicked -> unclick it
-    // else add it to filters
-    if (filterTagsCpy.includes(clickTag)) {
-      filterTagsCpy = filterTagsCpy.filter((i) => i !== clickTag);
-    } else {
-      filterTagsCpy.push(clickTag);
-    }
-    parentCall.setFilterTags(filterTagsCpy);
+    let tag = tagCloud.find((i) => i.name === clickTag);
+    tag.filterOn = !tag.filterOn;
     parentCall.refreshTagCloud();
-  }
-
-  function isTagInEffect(tag) {
-    return filterTags.includes(tag);
   }
 
   function hideClearBtn() {
     // If both filters are empty
+    const filterTags = tagCloud.filter((i) => i.filterOn);
     return filterTags.length === 0 && filterString.length === 0;
   }
 
   function clearFilters() {
     parentCall.setFilterString("");
-    parentCall.setFilterTags([]);
+
+    const tagCloudReseted = tagCloud.map((i) => {
+      i.filterOn = false;
+      return i;
+    });
+    parentCall.setTagCloud(tagCloudReseted);
   }
 
   return (
@@ -44,8 +38,8 @@ function RecipeFilters(props) {
 
       <div className="flex flex-wrap gap-2 mb-4">
         {tagCloud.map((tag, index) => (
-          <button key={index} className={`btn btn-sm btn-secondary transition-none animate-none ${isTagInEffect(tag) ? "" : "btn-outline"} `} onClick={tagClick}>
-            {tag}
+          <button key={index} className={`btn btn-sm btn-secondary transition-none animate-none ${tag.filterOn ? "" : "btn-outline"} `} onClick={tagClick}>
+            {tag.name}
           </button>
         ))}
       </div>

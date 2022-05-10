@@ -10,7 +10,6 @@ import { v4 as uuid } from "uuid";
 function Recipes(props) {
   const [modalItem, setModalItem] = useState(null);
   const [filterString, setFilterString] = useState("");
-  const [filterTags, setFilterTags] = useState([]);
   let [tagCloud, setTagCloud] = useState([]);
   const { parentCall } = { ...props };
   const addItems = parentCall.addItems;
@@ -24,15 +23,26 @@ function Recipes(props) {
    * Get all tags from all recipes and remove dublicates
    */
   function buildAllTags() {
-    let tags = [];
+    let justTags = [];
+    let tagData = [];
 
-    // get all tags
+    // just get all tags
     recipes.forEach((item) => {
-      tags = [...tags, ...item.tags];
+      justTags = [...justTags, ...item.tags];
     });
 
-    tags = [...new Set(tags)]; // remove dublicates
-    setTagCloud(tags);
+    // Count how many occurances of a tag eg. [pasta: 2, soup: 1]
+    for (const tag of justTags) {
+      let item = tagData.find((i) => i.name === tag);
+      if (!item) {
+        tagData.push({ name: tag, count: 1, filterOn: false });
+      } else {
+        item.count++;
+      }
+    }
+    tagData.sort((a, b) => b.count - a.count);
+    console.log(tagData);
+    setTagCloud(tagData);
   }
 
   function openModal(id) {
@@ -81,24 +91,30 @@ function Recipes(props) {
   }
 
   function filteredRecipes() {
-    function isFilterTagsFound(tags) {
+    const filterTags = tagCloud.filter((i) => i.filterOn);
+
+    // If the item tags are found in filter tags
+    function isFilterTagsFound(recipeTags, filterTags) {
       for (const i of filterTags) {
-        if (!tags.includes(i)) {
+        if (!recipeTags.includes(i.name)) {
           return false;
         }
       }
       return true;
     }
 
-    function isFilterWordFound(target, search) {
-      return target.toLowerCase().includes(search.toLowerCase());
+    // Check if filter word is found in the name
+    function isFilterWordFound(recipeName, filterString) {
+      return recipeName.toLowerCase().includes(filterString.toLowerCase());
     }
 
+    // No filters return all items
     if (!filterString && !filterTags.length) {
       return recipes;
     }
-    const result = recipes.filter((i) => isFilterWordFound(i.name, filterString) && isFilterTagsFound(i.tags));
-    return result;
+
+    // Filter items that match the search word or selected tags
+    return recipes.filter((i) => isFilterWordFound(i.name, filterString) && isFilterTagsFound(i.tags, filterTags));
   }
 
   /**
@@ -116,7 +132,7 @@ function Recipes(props) {
 
   return (
     <div className="relative">
-      <RecipeFilters parentCall={{ setFilterString, setFilterTags, refreshTagCloud }} {...{ filterString, filterTags, tagCloud }} />
+      <RecipeFilters parentCall={{ setFilterString, refreshTagCloud, setTagCloud }} {...{ filterString, tagCloud }} />
 
       <div>
         {filteredRecipes().map((item, index) => (
