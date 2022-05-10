@@ -8,7 +8,7 @@ function RecipeFilters(props) {
   }
 
   function tagClick(e) {
-    const clickTag = e.target.textContent;
+    const clickTag = e.target.dataset.tagname;
     let tag = tagCloud.find((i) => i.name === clickTag);
     tag.filterOn = !tag.filterOn;
     parentCall.refreshTagCloud();
@@ -38,8 +38,8 @@ function RecipeFilters(props) {
 
       <div className="flex flex-wrap gap-2 mb-4">
         {tagCloud.map((tag, index) => (
-          <button key={index} className={`btn btn-sm btn-secondary transition-none animate-none ${tag.filterOn ? "" : "btn-outline"} `} onClick={tagClick}>
-            {tag.name}
+          <button key={index} data-tagname={tag.name} className={`btn btn-sm btn-secondary transition-none animate-none ${tag.filterOn ? "" : "btn-outline"} `} onClick={tagClick}>
+            {tag.name} {tag.count}
           </button>
         ))}
       </div>
