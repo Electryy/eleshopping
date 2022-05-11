@@ -49,8 +49,8 @@ function RecipeModal(props) {
     const searchString = modalItem.name.toLowerCase();
     tagCloud.forEach((tag) => {
       // Tag found in name and not already added to item
-      if (searchString.includes(tag) && !itemHasTag(tag)) {
-        modalItem.tags.push(tag);
+      if (searchString.includes(tag.name) && !itemHasTag(tag.name)) {
+        modalItem.tags.push(tag.name);
         parentCall.setModalItem(modalItem);
       }
     });

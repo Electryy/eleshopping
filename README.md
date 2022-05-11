@@ -1,15 +1,15 @@
 # Grocery Shopping App
 
-This is my personal project done to fit my needs. Project was started mainly to learn reactjs from scratch. Also I needed a recipe / shopping list app and there just weren't any that fit exactly my needs :P
+This is my personal project done to fit my needs. The project was started mainly to learn reactjs and tailwind from scratch. Also I needed a recipe / shopping list app and there just weren't any that fit exactly my needs :P
 
-The app can be bundled as a single html file and hosted anywhere and it doesn't require a backend. The whole app is encrypted with [staticrypt](https://github.com/robinmoisson/staticrypt) so your database keys are secured at least from bots.
+The app can be bundled as a single html file and hosted anywhere and it doesn't require a backend. Configured to use firebase as the database. The whole app is encrypted with [staticrypt](https://github.com/robinmoisson/staticrypt) so your database keys are secured at least from bots.
 
 Note this is not _really_ secure but secure enough for personal needs.
 
 ## Features
 
 - Add / Toggle shopping list items (basic todo list functionality)
-- Sort shopping list items
+- Sort shopping list items by dragging
 - Add recipes
 - Copy recipe ingredients to the shopping list
 - Tag recipes to find them easily
