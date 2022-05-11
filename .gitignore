@@ -31,3 +31,4 @@ credentials/*
 
 /backups*
 
+.staticrypt.json
