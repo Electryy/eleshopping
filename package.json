@@ -7,22 +7,23 @@
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
+    "autoprefixer": "^10.4.2",
+    "daisyui": "^2.14.3",
     "dotenv": "^16.0.0",
     "firebase": "^9.6.4",
+    "postcss": "^8.4.5",
     "react": "^17.0.2",
     "react-beautiful-dnd": "^13.1.0",
     "react-dom": "^17.0.2",
     "react-router-dom": "^6.2.1",
     "react-scripts": "5.0.0",
+    "tailwindcss": "^3.0.15",
     "uuid": "^8.3.2",
-    "web-vitals": "^2.1.3",
-    "daisyui": "^2.14.3",
-    "autoprefixer": "^10.4.2",
-    "postcss": "^8.4.5",
-    "tailwindcss": "^3.0.15"
+    "web-vitals": "^2.1.3"
   },
   "devDependencies": {
     "del": "^6.0.0",
+    "dotenv-cli": "^5.1.0",
     "gulp": "^4.0.2",
     "gulp-inline-source": "^4.0.0",
     "gulp-replace": "^1.1.3",
@@ -31,13 +32,11 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "build:dev": "dotenv -e .env.development react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "contain": "npm run build && npm run contain-move-scripts && npm run contain-inline-scripts && npm run contain-encrypt",
-    "contain-move-scripts": "node deploymentScripts/moveScripts.js",
-    "contain-inline-scripts": "gulp inline && gulp clean",
-    "contain-encrypt": "node deploymentScripts/staticrypt.js",
-    "netlify-deploy": "netlify deploy --prod --dir build"
+    "encrypt": "node deploymentScripts/moveScripts.js && gulp inline && gulp clean && node deploymentScripts/staticrypt.js",
+    "predeploy": "npm run build && npm run encrypt"
   },
   "eslintConfig": {
     "extends": [

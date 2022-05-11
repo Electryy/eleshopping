@@ -8,6 +8,12 @@ require("dotenv").config();
 
 const pw = process.env.STATICRYPT_PW;
 
+if (pw.length === 0) {
+  console.log("No STATICRYPT_PW set for staticrypt. Please set your password in .env");
+  console.log("Skipping encryption.");
+  process.exit();
+}
+
 exec(`staticrypt build/index.html ${pw} -o build/index.html -r`, (error, stdout, stderr) => {
   if (error) {
     console.log(`error: ${error.message}`);
