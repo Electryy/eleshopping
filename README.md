@@ -17,7 +17,7 @@ Note this is not _really_ secure but secure enough for personal needs.
 
 ## Demo
 
-Here is an online demo to tinker with. Note that the demo uses dummy data and only uses local storage as database. Live updates accross devices require firestore configuration.
+Here is an online demo to tinker with. https://eleshopping-demo.netlify.app/ Note that the demo uses dummy data and only uses local storage as database. Live updates accross devices require firestore configuration.
 
 ## How to run
 
