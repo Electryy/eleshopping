@@ -86,7 +86,7 @@ function RecipeModal(props) {
   }
 
   function unTagged() {
-    return tagCloud.filter((tag) => !modalItem.tags.includes(tag));
+    return tagCloud.filter((tag) => !modalItem.tags.includes(tag.name));
   }
 
   if (!modalItem) {
@@ -153,8 +153,8 @@ function RecipeModal(props) {
               </button>
             ))}
             {unTagged().map((tag, index) => (
-              <button key={index} data-tagname={tag} className={`btn btn-xs btn-secondary transition-none animate-none btn-outline`} onClick={tagClick}>
-                {tag}
+              <button key={index} data-tagname={tag.name} className={`btn btn-xs btn-secondary transition-none animate-none btn-outline`} onClick={tagClick}>
+                {tag.name}
               </button>
             ))}
             <div className="relative">
