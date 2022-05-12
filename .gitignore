@@ -32,3 +32,4 @@ credentials/*
 /backups*
 
 .staticrypt.json
+s.js
