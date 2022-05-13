@@ -7,15 +7,11 @@ gulp.task("inline", () => {
   return gulp
     .src("./build/*.html")
     .pipe(replace('.js"></script>', '.js" inline></script>'))
-    .pipe(
-      inlinesource({
-        compress: false,
-        ignore: ["png"],
-      })
-    )
+    .pipe(replace('rel="stylesheet">', 'rel="stylesheet" inline>'))
+    .pipe(inlinesource({ compress: false }))
     .pipe(gulp.dest("./build"));
 });
 
 gulp.task("clean", function () {
-  return del("build/static/js/*.js", { force: true });
+  return del("build/static/", { force: true });
 });

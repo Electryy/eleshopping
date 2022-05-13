@@ -37,8 +37,7 @@
     "eject": "react-scripts eject",
     "contain": "node deploymentScripts/moveScripts.js && gulp inline && gulp clean",
     "encrypt": "node deploymentScripts/staticrypt.js",
-    "predeploy": "npm run build && npm run contain && npm run encrypt",
-    "netlify-deploy": "netlify deploy --prod --dir build"
+    "predeploy": "npm run build && npm run contain && npm run encrypt"
   },
   "eslintConfig": {
     "extends": [
