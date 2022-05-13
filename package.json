@@ -1,6 +1,6 @@
 {
-  "name": "grocery_shopping",
-  "version": "0.1.0",
+  "name": "eleshopping",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
     "@heroicons/react": "^1.0.5",
