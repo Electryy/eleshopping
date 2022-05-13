@@ -7,7 +7,7 @@ const document = "recipes";
 const store = process.env.REACT_APP_apiKey ? firestore : localstore;
 
 // Do we want demo data to play with? Change this in .env file
-const shouldCreateDemoData = process.env.REACT_APP_useDemoData.toLowerCase() === "true";
+const shouldCreateDemoData = process.env.REACT_APP_useDemoData && process.env.REACT_APP_useDemoData.toLowerCase() === "true";
 
 /**
  * Get all Recipes from storage
