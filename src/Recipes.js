@@ -16,33 +16,32 @@ function Recipes(props) {
   let recipes = JSON.parse(JSON.stringify(props.recipes));
 
   useEffect(() => {
+    /**
+     * Get all tags from all recipes and build tag cloud
+     */
+    function buildAllTags() {
+      let allTagsInRecipes = [];
+      let tagData = [];
+
+      // just get all tags
+      props.recipes.forEach((item) => {
+        allTagsInRecipes = [...allTagsInRecipes, ...item.tags];
+      });
+
+      // Count how many occurances of a tag eg. [pasta: 2, soup: 1]
+      for (const tag of allTagsInRecipes) {
+        let item = tagData.find((i) => i.name === tag);
+        if (!item) {
+          tagData.push({ name: tag, count: 1, filterOn: false });
+        } else {
+          item.count++;
+        }
+      }
+      tagData.sort((a, b) => b.count - a.count);
+      setTagCloud(tagData);
+    }
     buildAllTags();
   }, [props.recipes]);
-
-  /**
-   * Get all tags from all recipes and remove dublicates
-   */
-  function buildAllTags() {
-    let justTags = [];
-    let tagData = [];
-
-    // just get all tags
-    recipes.forEach((item) => {
-      justTags = [...justTags, ...item.tags];
-    });
-
-    // Count how many occurances of a tag eg. [pasta: 2, soup: 1]
-    for (const tag of justTags) {
-      let item = tagData.find((i) => i.name === tag);
-      if (!item) {
-        tagData.push({ name: tag, count: 1, filterOn: false });
-      } else {
-        item.count++;
-      }
-    }
-    tagData.sort((a, b) => b.count - a.count);
-    setTagCloud(tagData);
-  }
 
   function openModal(id) {
     let item = recipes.find((item) => item.id === id);

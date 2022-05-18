@@ -9,6 +9,7 @@ function RecipeFilters(props) {
 
   function tagClick(e) {
     const clickTag = e.target.dataset.tagname;
+    console.log("jeppis");
     let tag = tagCloud.find((i) => i.name === clickTag);
     tag.filterOn = !tag.filterOn;
     parentCall.refreshTagCloud();

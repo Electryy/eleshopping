@@ -22,7 +22,7 @@ function ShoppingListItem(props) {
         parentCall.deleteItem(item.id);
       }, transDuration);
     }
-  });
+  }, [item, parentCall]);
 
   function focus() {
     setIsEditing(true);

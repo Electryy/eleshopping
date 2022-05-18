@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import ShoppingListItem from "./ShoppingListItem";
 import AddItemControls from "./AddItemControls";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
