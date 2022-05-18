@@ -1,4 +1,4 @@
-# Grocery Shopping App
+# Eleshopping App
 
 This is my personal project done to fit my needs. The project was started mainly to learn reactjs and tailwind from scratch. Also I needed a recipe / shopping list app and there just weren't any that fit exactly my needs :P
 
