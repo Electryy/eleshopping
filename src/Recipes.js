@@ -41,7 +41,6 @@ function Recipes(props) {
       }
     }
     tagData.sort((a, b) => b.count - a.count);
-    console.log(tagData);
     setTagCloud(tagData);
   }
 

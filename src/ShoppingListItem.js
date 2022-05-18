@@ -27,18 +27,25 @@ function ShoppingListItem(props) {
   function focus() {
     setIsEditing(true);
   }
-  function blur() {
-    textInputRef.current.setSelectionRange(0, 0); // "Scroll" back to start of the string on long lines
-    setIsEditing(false);
-    parentCall.saveItem(item);
-  }
   function handleKeyPress(e) {
     if (e.key === "Enter") {
-      e.target.current.blur();
+      saveItem();
     }
   }
   function onChange(e) {
     parentCall.inputChanged(item.id, e.target.value);
+  }
+
+  function saveItem() {
+    textInputRef.current.setSelectionRange(0, 0); // "Scroll" back to start of the string on long lines
+    textInputRef.current.blur();
+    setIsEditing(false);
+    parentCall.saveItem(item);
+  }
+
+  function submit(e) {
+    e.preventDefault();
+    saveItem();
   }
 
   return (
@@ -51,7 +58,7 @@ function ShoppingListItem(props) {
         <DotsVerticalIcon className="absolute w-6 top-3 left-0" />
         <DotsVerticalIcon className="absolute w-6 top-3 left-2" />
       </div>
-      <div className="grow flex justify-end mr-2">
+      <form className="grow flex justify-end mr-2" onSubmit={submit}>
         <input
           ref={textInputRef}
           name={item.id}
@@ -59,14 +66,14 @@ function ShoppingListItem(props) {
           type="text"
           className={`input w-full grow input-ghost p-0 text-xl focus:bg-slate-600 ${deleteAnimation ? "line-through italic" : ""}`}
           onFocus={focus}
-          onBlur={blur}
+          onBlur={saveItem}
           onKeyPress={handleKeyPress}
           onChange={onChange}
         ></input>
-        <button className={`btn mt-2 ml-2 btn-sm btn-primary ${isEditing ? "" : "hidden"}`}>
+        <button type="submit" className={`btn mt-2 ml-2 btn-sm btn-primary ${isEditing ? "" : "hidden"}`}>
           <CheckIcon className="w-4" />
         </button>
-      </div>
+      </form>
 
       <input name={item.id} type="checkbox" className="checkbox checkbox-lg shrink-0 mt-2" checked={item.checked} onChange={() => parentCall.checkboxClicked(item.id)} />
     </div>

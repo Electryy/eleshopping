@@ -103,7 +103,6 @@ export async function update(item) {
  * @returns Array of items
  */
 async function createDemoData() {
-  console.log("wtfds");
   const demodata = require("./demodata/shoppingList.json");
   await add(demodata);
   return demodata;
