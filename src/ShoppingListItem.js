@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { DotsVerticalIcon, TrashIcon, CheckIcon, PencilIcon } from "@heroicons/react/solid";
+import { DotsVerticalIcon, CheckIcon } from "@heroicons/react/solid";
 
 function ShoppingListItem(props) {
   const { item, parentCall } = { ...props };

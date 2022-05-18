@@ -2,7 +2,7 @@ import { initializeApp } from "firebase/app";
 import { getFirestore, serverTimestamp } from "firebase/firestore";
 import { collection, doc, query, orderBy, getDocs, writeBatch, onSnapshot } from "firebase/firestore";
 
-const firebaseApp = initializeApp({
+initializeApp({
   apiKey: process.env.REACT_APP_apiKey,
   authDomain: process.env.REACT_APP_authDomain,
   projectId: process.env.REACT_APP_projectId,
