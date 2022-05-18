@@ -57,9 +57,12 @@ It is not recommended to deploy this build to public internet as all your databa
 
 ### `npm run contain`
 
-Builds the **encrypted** app. First inlines all the app code to single `index.html` and then runs staticrypt to encrypt the whole app. See `.env` to change the encryption password.
+Inlines js and css to `index.html`. Use this after build to create self contained index.html.
 
-### `npm run netlify-deploy`
+### `npm run encrypt`
 
-Just a helper to run `netlify deploy --prod --dir build`\
-See more documentation on netlify here. https://docs.netlify.com/
+Encrypts `index.html` in `build` folder with [staticrypt](https://github.com/robinmoisson/staticrypt). Now index.html is encrypted and ready to be deployed anywhere. See `.env` to set a secure password for staticrypt.
+
+### `npm run predeploy`
+
+Builds the app, inlines scripts and encrypts index.html
