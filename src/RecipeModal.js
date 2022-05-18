@@ -1,5 +1,5 @@
 import { PlusIcon, TrashIcon } from "@heroicons/react/solid";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 function RecipeModal(props) {
   const { parentCall } = { ...props };
@@ -7,14 +7,13 @@ function RecipeModal(props) {
   let modalItem = JSON.parse(JSON.stringify(props.modalItem));
   let tagCloud = [...props.tagCloud];
 
-  useEffect(() => {
-    // Auto suggest tags
-    suggestTags();
-  }, [modalItem?.name]);
-
   function itemChanged(e) {
     modalItem[e.target.id] = e.target.value;
     parentCall.setModalItem(modalItem);
+    if (e.target.id === "name") {
+      // Suggest new tags from existing
+      suggestTags();
+    }
   }
 
   function ingredientChanged(e, index) {
