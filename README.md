@@ -53,7 +53,7 @@ If you want to deploy encrypted version of the app, set your own password for st
 ### `npm run build`
 
 Builds the app for production to the `build` folder.\
-It is not recommended to deploy this build to public internet as all your database keys are bundled in and visible.
+If you are using firestore I do not recommend deploying to public internet as all your database keys are bundled in and visible.
 
 ### `npm run contain`
 
